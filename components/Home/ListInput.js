@@ -6,7 +6,8 @@ const ListInput = ({ initialArray, onArrayChange }) => {
 	const [arrayElement, setArrayElement] = useState(array.at(-1) + 1 || 1);
 
 	// call event on every render, because 'array' only changes after the next render when calling setArray
-	useEffect(() => onArrayChange(array), [onArrayChange, array]);
+	// onArrayChange must not be in the dependency array
+	useEffect(() => onArrayChange(array), [array]);
 
 	let addToArray = async () => {
 		// add element to array

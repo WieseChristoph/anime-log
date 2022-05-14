@@ -27,17 +27,23 @@ export default withApiAuthRequired(async (req, res) => {
 			}
 			break;
 		case "PATCH":
-			// set lastUpdate to undefined, so the database generates it
-			body.lastUpdate = undefined;
 			try {
-				const updatedEntry = await prisma.anime.updateMany({
+				const result = await prisma.anime.updateMany({
 					data: {
 						...body,
 						userId: user.sub,
+						lastUpdate: undefined,
 					},
 					where: {
 						id: body.id,
 						userId: user.sub,
+					},
+				});
+
+				// get updated entry because updateMany doesn't do it
+				const updatedEntry = await prisma.anime.findUnique({
+					where: {
+						id: body.id,
 					},
 				});
 
@@ -51,14 +57,14 @@ export default withApiAuthRequired(async (req, res) => {
 			break;
 		case "DELETE":
 			try {
-				const deletedEntry = await prisma.anime.deleteMany({
+				const result = await prisma.anime.deleteMany({
 					where: {
 						id: body.id,
 						userId: user.sub,
 					},
 				});
 
-				return res.status(200).json(deletedEntry);
+				return res.status(200).json(result);
 			} catch (error) {
 				console.error("Request error", error);
 				res.status(500).json({

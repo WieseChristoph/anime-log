@@ -126,9 +126,10 @@ const Log = ({ shareId }) => {
 				if (!res.ok) throw new Error("HTTP status: " + res.status);
 				return res.json();
 			})
-			.then((data) =>
-				mutate(entries.filter((anime) => anime !== data.id))
-			)
+			.then((data) => {
+				if (data.count > 0)
+					mutate(entries.filter((anime) => anime.id !== entry.id));
+			})
 			.catch((error) => console.error(error.message));
 	};
 
