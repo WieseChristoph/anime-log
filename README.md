@@ -35,3 +35,21 @@ docker run chwiese/anime-log-client -p "3000:3000"
 ```
 
 The Server will listen on `localhost:3000`.
+
+# API Routes
+
+| Action and Path              | Description                           |
+| ---------------------------- | ------------------------------------- |
+| GET /api/log                 | Get Log by user.                      |
+| PUT /api/log/anime           | Add Anime with Anime-Data in body.    |
+| PATCH /api/log/anime         | Update Anime with Anime-Data in body. |
+| DELETE /api/log/anime        | Delete Anime with Anime-Data in body. |
+| GET /api/sharedLog/getId     | Get Shared-Log-Id by user.            |
+| GET /api/sharedLog/getLog    | Get Shared-Log by id.                 |
+| GET /api/sharedLog/getUserId | Get User-Id by Share-Id.              |
+| PUT /api/sharedLog           | Add Shared-Log by user.               |
+| DELETE /api/sharedLog        | Delete Shared-Log by user.            |
+
+# TODO
+
+-   When updating an Anime, the lastUpdated date won't update in the Card (LogEntry) but in the array in Log. So it requires a refresh to show.
