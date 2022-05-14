@@ -27,8 +27,8 @@ export default withApiAuthRequired(async (req, res) => {
 			}
 			break;
 		case "PATCH":
-			// set lastUpdate to null, so the database generates it
-			body.lastUpdate = null;
+			// set lastUpdate to undefined, so the database generates it
+			body.lastUpdate = undefined;
 			try {
 				const updatedEntry = await prisma.anime.updateMany({
 					data: {
