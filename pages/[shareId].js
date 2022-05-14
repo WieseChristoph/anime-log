@@ -1,15 +1,17 @@
 import { useUser } from "@auth0/nextjs-auth0";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import Header from "../components/Home/Header";
 import Log from "../components/Home/Log";
 
-function Home() {
-	const { user } = useUser();
+function SharedLog() {
+	const router = useRouter();
+	const { shareId } = router.query;
 
 	return (
 		<div>
 			<Head>
-				<title>Home | Anime Log</title>
+				<title>Shared Log | Anime Log</title>
 				<meta
 					name="description"
 					content="Manage and share your watched Anime!"
@@ -19,17 +21,9 @@ function Home() {
 
 			<Header />
 
-			{user ? (
-				<Log />
-			) : (
-				<div className="position-absolute top-50 start-50 translate-middle">
-					<h1 className="border border-light text-white p-3">
-						Login to track your Anime!
-					</h1>
-				</div>
-			)}
+			<Log shareId={shareId} />
 		</div>
 	);
 }
 
-export default Home;
+export default SharedLog;

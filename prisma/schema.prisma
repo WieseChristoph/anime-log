@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Anime {
+  id         String    @id @default(uuid()) @db.Uuid
+  userId     String    @db.VarChar(250)
+  title      String    @db.Text
+  season     Int[]
+  movie      Int[]
+  ova        Int[]
+  rating     Int
+  link       String?   @db.VarChar(500)
+  note       String?   @db.Text
+  startDate  DateTime?
+  lastUpdate DateTime  @updatedAt
+}
+
+model SharedLog {
+  userId  String @id @db.VarChar(250)
+  shareId String @default(uuid()) @db.Uuid
+}
