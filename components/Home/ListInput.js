@@ -7,6 +7,7 @@ const ListInput = ({ initialArray, onArrayChange }) => {
 
 	// call event on every render, because 'array' only changes after the next render when calling setArray
 	// onArrayChange must not be in the dependency array
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(() => onArrayChange(array), [array]);
 
 	let addToArray = async () => {
