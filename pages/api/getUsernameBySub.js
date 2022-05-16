@@ -1,3 +1,4 @@
+// PATH: /api/getUsernameBySub
 export default async function handler(req, res) {
 	if (req.method == "GET") {
 		const sub = req.query.sub;

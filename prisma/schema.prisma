@@ -25,6 +25,7 @@ model Anime {
 }
 
 model SharedLog {
-  userId  String @id @db.VarChar(250)
-  shareId String @default(uuid()) @db.Uuid
+  userId  String   @id @db.VarChar(250)
+  shareId String   @unique @default(uuid()) @db.Uuid
+  savedBy String[]
 }

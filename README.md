@@ -16,6 +16,10 @@ AUTH0_CLIENT_SECRET='YOUR_CLIENT_SECRET'
 
 Set Environment Variable `DATABASE_URL` with an postgres Database URL string.
 
+## Discord
+
+Set Environment Variable `DISCORD_BOT_TOKEN` with an discord bot token.
+
 # Developement Run
 
 ```
@@ -49,6 +53,10 @@ The Server will listen on `localhost:3000`.
 | GET /api/sharedLog/getUserId | Get User-Id by Share-Id.              |
 | PUT /api/sharedLog           | Add Shared-Log by user.               |
 | DELETE /api/sharedLog        | Delete Shared-Log by user.            |
+| GET /api/getUsernameBySub    | Get discord-username by sub.          |
+| GET /api/savedSharedLogs     | Get all saved logs by user.           |
+| PUT /api/savedSharedLogs     | Add user to shared log by id.         |
+| DELETE /api/savedSharedLogs  | Delete user from shared log by id.    |
 
 # TODO
 

@@ -18,7 +18,7 @@ function SharedLog() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<Header />
+			<Header urlShareId={shareId} />
 
 			<Log shareId={shareId} />
 		</div>

@@ -5,10 +5,15 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faToriiGate } from "@fortawesome/free-solid-svg-icons";
 
-const Header = () => {
+const Header = ({ urlShareId }) => {
 	const { user } = useUser();
 
-	const { data: shareId, mutate } = useSWR("/api/sharedLog/getId");
+	const { data: shareId, mutate: mutateShareId } = useSWR(
+		"/api/sharedLog/getId"
+	);
+	const { data: savedSharedLogs, mutate: mutateSavedSharedLogs } = useSWR(
+		"/api/savedSharedLogs"
+	);
 
 	const shareLinkToClipboard = () => {
 		// if shareId is set, put link with shareId in clipboard
@@ -24,7 +29,7 @@ const Header = () => {
 				if (!res.ok) throw new Error("HTTP status: " + res.status);
 				return res.json();
 			})
-			.then((data) => mutate(data))
+			.then((data) => mutateShareId(data))
 			.catch((error) => console.error(error.message));
 	};
 
@@ -37,7 +42,39 @@ const Header = () => {
 				if (!res.ok) throw new Error("HTTP status: " + res.status);
 				return res.json();
 			})
-			.then(() => mutate(null))
+			.then(() => mutateShareId(null))
+			.catch((error) => console.error(error.message));
+	};
+
+	const addSavedSharedLog = () => {
+		fetch("/api/savedSharedLogs", {
+			method: "PUT",
+			body: JSON.stringify({ shareId: urlShareId }),
+		})
+			.then((res) => {
+				if (!res.ok) throw new Error("HTTP status: " + res.status);
+				return res.json();
+			})
+			.then((data) => mutateSavedSharedLogs([...savedSharedLogs, data]))
+			.catch((error) => console.error(error.message));
+	};
+
+	const deleteSavedSharedLog = () => {
+		fetch("/api/savedSharedLogs", {
+			method: "DELETE",
+			body: JSON.stringify({ shareId: urlShareId }),
+		})
+			.then((res) => {
+				if (!res.ok) throw new Error("HTTP status: " + res.status);
+				return res.json();
+			})
+			.then((data) => {
+				mutateSavedSharedLogs(
+					savedSharedLogs.filter(
+						(sharedLog) => sharedLog.shareId !== data.shareId
+					)
+				);
+			})
 			.catch((error) => console.error(error.message));
 	};
 
@@ -57,7 +94,89 @@ const Header = () => {
 					<h4 className="my-auto">Anime Log</h4>
 
 					{/* Navigation items */}
-					<ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"></ul>
+					<ul className="navbar-nav col-12 col-lg-auto me-lg-auto justify-content-center ms-5">
+						{user ? (
+							// Saved Logs dropdown
+							<li className="nav-item dropdown">
+								<a
+									className="nav-link text-light dropdown-toggle"
+									href="#"
+									id="savedLogsDropdown"
+									role="button"
+									data-bs-toggle="dropdown"
+									aria-expanded="false"
+								>
+									Saved Logs
+								</a>
+								<ul
+									className="dropdown-menu dropdown-menu-dark"
+									aria-labelledby="savedLogsDropdown"
+								>
+									{/* List of saved shared logs */}
+									{savedSharedLogs &&
+									savedSharedLogs.length > 0 ? (
+										savedSharedLogs.map((sharedLog) => (
+											<li key={sharedLog.shareId}>
+												<Link
+													href={
+														"/" + sharedLog.shareId
+													}
+												>
+													<a className="dropdown-item">
+														{sharedLog.username}
+													</a>
+												</Link>
+											</li>
+										))
+									) : (
+										<li key="noSavedLogs">
+											<span className="dropdown-item">
+												{" "}
+												No saved logs
+											</span>
+										</li>
+									)}
+
+									<li key="divider">
+										<hr className="dropdown-divider" />
+									</li>
+
+									{/* Add or delete saved shared log buttons */}
+									{urlShareId && savedSharedLogs ? (
+										<li key="buttons">
+											{savedSharedLogs.find(
+												(sharedLog) =>
+													sharedLog.shareId ===
+													urlShareId
+											) ? (
+												<button
+													className="dropdown-item"
+													onClick={() =>
+														deleteSavedSharedLog()
+													}
+												>
+													Delete current log
+												</button>
+											) : (
+												<button
+													className="dropdown-item"
+													onClick={() =>
+														addSavedSharedLog()
+													}
+												>
+													Save current log
+												</button>
+											)}
+										</li>
+									) : (
+										""
+									)}
+								</ul>
+							</li>
+						) : (
+							""
+						)}
+					</ul>
 
 					{/* Dropdown or login button */}
 					{user ? (
