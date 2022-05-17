@@ -12,7 +12,7 @@ const LogEntry = ({
 	isSharedLog = false,
 }) => {
 	const [edit, setEdit] = useState(lockEdit);
-	const [entry, setEntry] = useState(initialEntry);
+	const [entry, setEntry] = useState(initialEntry || {});
 
 	let updateArray = (arrayName, array) => {
 		setEntry({
@@ -36,12 +36,10 @@ const LogEntry = ({
 			>
 				<div className="card-header border-light">
 					{/* Rating badge */}
-					{!edit ? (
+					{!edit && (
 						<span className="badge bg-primary float-end">
 							Rating: {entry.rating} / 10
 						</span>
-					) : (
-						""
 					)}
 
 					<h5 className="card-title">
@@ -50,7 +48,7 @@ const LogEntry = ({
 							<a
 								className="text-decoration-none text-reset"
 								target="_blank"
-								{...(entry.link ? { href: entry.link } : {})}
+								{...(entry.link && { href: entry.link })}
 							>
 								{entry.title}
 							</a>
@@ -60,7 +58,7 @@ const LogEntry = ({
 									type="text"
 									className="form-control"
 									placeholder="Title"
-									defaultValue={entry.title}
+									defaultValue={entry.title || ""}
 									required
 									maxLength="250"
 									onChange={(e) =>
@@ -74,7 +72,7 @@ const LogEntry = ({
 									type="text"
 									className="form-control mt-1"
 									placeholder="Link to e.g. Crunchyroll"
-									defaultValue={entry.link}
+									defaultValue={entry.link || ""}
 									maxLength="500"
 									onChange={(e) =>
 										setEntry({
@@ -91,7 +89,7 @@ const LogEntry = ({
 						<span className="text-muted">
 							{/* Startdate or input for startdate */}
 							{!edit ? (
-								entry.startDate ? (
+								entry?.startDate ? (
 									moment(entry.startDate).format("DD.MM.yyyy")
 								) : (
 									"-"
@@ -102,9 +100,13 @@ const LogEntry = ({
 										type="date"
 										id="startDateInput"
 										className="form-control"
-										defaultValue={moment(
+										defaultValue={
 											entry.startDate
-										).format("yyyy-MM-DD")}
+												? moment(
+														entry.startDate
+												  ).format("yyyy-MM-DD")
+												: null
+										}
 										onChange={(e) =>
 											setEntry({
 												...entry,
@@ -123,13 +125,13 @@ const LogEntry = ({
 					</h6>
 
 					{/* Rating input */}
-					{edit ? (
+					{edit && (
 						<div className="input-group mt-auto">
 							<label className="input-group-text">Rating</label>
 							<input
 								type="number"
 								className="form-control"
-								defaultValue={entry.rating}
+								defaultValue={entry.rating || 0}
 								required
 								min="0"
 								max="11"
@@ -141,8 +143,6 @@ const LogEntry = ({
 								}
 							></input>
 						</div>
-					) : (
-						""
 					)}
 				</div>
 
@@ -151,10 +151,10 @@ const LogEntry = ({
 					<li className="list-group-item bg-dark text-light border-light">
 						<h6>Season:</h6>
 						{!edit ? (
-							entry.season.join(", ")
+							entry.season?.join(", ")
 						) : (
 							<ListInput
-								initialArray={entry.season}
+								initialArray={entry.season || []}
 								onArrayChange={(a) => updateArray("season", a)}
 							/>
 						)}
@@ -162,10 +162,10 @@ const LogEntry = ({
 					<li className="list-group-item bg-dark text-light border-light">
 						<h6>Movie:</h6>
 						{!edit ? (
-							entry.movie.join(", ")
+							entry.movie?.join(", ")
 						) : (
 							<ListInput
-								initialArray={entry.movie}
+								initialArray={entry.movie || []}
 								onArrayChange={(a) => updateArray("movie", a)}
 							/>
 						)}
@@ -173,10 +173,10 @@ const LogEntry = ({
 					<li className="list-group-item bg-dark text-light">
 						<h6>OVA:</h6>
 						{!edit ? (
-							entry.ova.join(", ")
+							entry.ova?.join(", ")
 						) : (
 							<ListInput
-								initialArray={entry.ova}
+								initialArray={entry.ova || []}
 								onArrayChange={(a) => updateArray("ova", a)}
 							/>
 						)}
@@ -198,7 +198,7 @@ const LogEntry = ({
 							<textarea
 								className="form-control mb-2"
 								placeholder="Note"
-								defaultValue={entry.note}
+								defaultValue={entry.note || ""}
 								maxLength="1000"
 								onChange={(e) =>
 									setEntry({
@@ -231,9 +231,9 @@ const LogEntry = ({
 				</div>
 
 				{/* Last updated and edit, delete buttons */}
-				{!edit ? (
+				{!edit && (
 					<div className="card-footer mt-auto">
-						{!isSharedLog ? (
+						{!isSharedLog && (
 							<div className="text-center my-1">
 								<div className="btn-group" role="group">
 									<button
@@ -249,17 +249,13 @@ const LogEntry = ({
 										onClick={() =>
 											window.confirm(
 												"Delete " + entry.title + "?"
-											)
-												? onDeleteButtonClick(entry)
-												: ""
+											) && onDeleteButtonClick(entry)
 										}
 									>
 										Delete
 									</button>
 								</div>
 							</div>
-						) : (
-							""
 						)}
 						<small className="text-muted">
 							Last updated:
@@ -268,8 +264,6 @@ const LogEntry = ({
 							)}
 						</small>
 					</div>
-				) : (
-					""
 				)}
 			</div>
 		</form>
@@ -277,7 +271,7 @@ const LogEntry = ({
 };
 
 LogEntry.propTypes = {
-	initialEntry: PropTypes.object.isRequired,
+	initialEntry: PropTypes.object,
 	onDeleteButtonClick: PropTypes.func,
 	onSaveButtonClick: PropTypes.func,
 	onCancelButtonClick: PropTypes.func,

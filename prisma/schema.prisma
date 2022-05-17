@@ -17,7 +17,7 @@ model Anime {
   season     Int[]
   movie      Int[]
   ova        Int[]
-  rating     Int
+  rating     Int       @default(0)
   link       String?   @db.VarChar(500)
   note       String?   @db.Text
   startDate  DateTime?

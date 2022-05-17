@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Header from "../components/Home/Header";
-import Log from "../components/Home/Log";
+import Header from "../components/Header";
+import Log from "../components/Log";
 
 function SharedLog() {
 	const router = useRouter();

@@ -1,7 +1,7 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Head from "next/head";
-import Header from "../components/Home/Header";
-import Log from "../components/Home/Log";
+import Header from "../components/Header";
+import Log from "../components/Log";
 
 function Home() {
 	const { user } = useUser();
