@@ -17,10 +17,7 @@ const SavedLogsDropdown = ({ urlShareId }) => {
 			>
 				Saved Logs
 			</a>
-			<ul
-				className="dropdown-menu dropdown-menu-dark"
-				aria-labelledby="savedLogsDropdown"
-			>
+			<ul className="dropdown-menu" aria-labelledby="savedLogsDropdown">
 				{/* List of saved shared logs */}
 				{savedSharedLogs?.length > 0 ? (
 					savedSharedLogs.map((sharedLog) => (
