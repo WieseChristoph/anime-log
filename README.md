@@ -5,11 +5,11 @@
 Set Environment Variables:
 
 ```bash
-AUTH0_SECRET='use [openssl rand -hex 32] to generate a 32 bytes value'
-AUTH0_BASE_URL='http://YOUR_DOMAIN'
-AUTH0_ISSUER_BASE_URL='https://AUTH0_DOMAIN'
-AUTH0_CLIENT_ID='YOUR_CLIENT_ID'
-AUTH0_CLIENT_SECRET='YOUR_CLIENT_SECRET'
+AUTH0_SECRET=<use [openssl rand -hex 32] to generate a 32 bytes value>
+AUTH0_BASE_URL=<http://YOUR_DOMAIN>
+AUTH0_ISSUER_BASE_URL=<https://AUTH0_DOMAIN>
+AUTH0_CLIENT_ID=<YOUR_CLIENT_ID>
+AUTH0_CLIENT_SECRET=<YOUR_CLIENT_SECRET>
 ```
 
 ## Database Connection
