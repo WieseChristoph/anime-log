@@ -1,5 +1,6 @@
 import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
 import { PrismaClient } from "@prisma/client";
+import { getIdByTitle } from "../../../lib/kitsu";
 
 const prisma = new PrismaClient();
 
@@ -14,6 +15,7 @@ export default withApiAuthRequired(async (req, res) => {
 				const newEntry = await prisma.anime.create({
 					data: {
 						...body,
+						kitsuId: await getIdByTitle(body.title),
 						userId: user.sub,
 					},
 				});
@@ -31,6 +33,7 @@ export default withApiAuthRequired(async (req, res) => {
 				const result = await prisma.anime.updateMany({
 					data: {
 						...body,
+						kitsuId: await getIdByTitle(body.title),
 						userId: user.sub,
 						lastUpdate: undefined,
 					},

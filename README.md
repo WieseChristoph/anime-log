@@ -42,21 +42,22 @@ The Server will listen on `localhost:3000`.
 
 # API Routes
 
-| Action and Path              | Description                           |
-| ---------------------------- | ------------------------------------- |
-| GET /api/log                 | Get Log by user.                      |
-| PUT /api/log/anime           | Add Anime with Anime-Data in body.    |
-| PATCH /api/log/anime         | Update Anime with Anime-Data in body. |
-| DELETE /api/log/anime        | Delete Anime with Anime-Data in body. |
-| GET /api/sharedLog/getId     | Get Shared-Log-Id by user.            |
-| GET /api/sharedLog/getLog    | Get Shared-Log by id.                 |
-| GET /api/sharedLog/getUserId | Get User-Id by Share-Id.              |
-| PUT /api/sharedLog           | Add Shared-Log by user.               |
-| DELETE /api/sharedLog        | Delete Shared-Log by user.            |
-| GET /api/getUsernameBySub    | Get discord-username by sub.          |
-| GET /api/savedSharedLogs     | Get all saved logs by user.           |
-| PUT /api/savedSharedLogs     | Add user to shared log by id.         |
-| DELETE /api/savedSharedLogs  | Delete user from shared log by id.    |
+| Action and Path                   | Description                           |
+| --------------------------------- | ------------------------------------- |
+| GET /api/log                      | Get Log by user.                      |
+| PUT /api/log/anime                | Add Anime with Anime-Data in body.    |
+| PATCH /api/log/anime              | Update Anime with Anime-Data in body. |
+| DELETE /api/log/anime             | Delete Anime with Anime-Data in body. |
+| GET /api/sharedLog/getId          | Get Shared-Log-Id by user.            |
+| GET /api/sharedLog/getLog         | Get Shared-Log by id.                 |
+| GET /api/sharedLog/getUserId      | Get User-Id by Share-Id.              |
+| PUT /api/sharedLog                | Add Shared-Log by user.               |
+| DELETE /api/sharedLog             | Delete Shared-Log by user.            |
+| GET /api/discord/getUsernameBySub | Get discord-username by sub.          |
+| GET /api/savedSharedLogs          | Get all saved logs by user.           |
+| PUT /api/savedSharedLogs          | Add user to shared log by id.         |
+| DELETE /api/savedSharedLogs       | Delete user from shared log by id.    |
+| GET /api/kitsu/getIdByTitle       | Get Kitsu Id by Title.                |
 
 # TODO
 

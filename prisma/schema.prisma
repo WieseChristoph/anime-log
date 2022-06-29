@@ -12,6 +12,7 @@ datasource db {
 
 model Anime {
   id         String    @id @default(uuid()) @db.Uuid
+  kitsuId    Int       @default(-1)
   userId     String    @db.VarChar(250)
   title      String    @db.Text
   season     Int[]
