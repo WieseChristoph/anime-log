@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Header from "../components/Header";
-import Log from "../components/Log";
+import Navbar from "../components/Navbar/Navbar";
+import Log from "../components/Log/Log";
 
 function SharedLog() {
 	const router = useRouter();
@@ -18,7 +18,7 @@ function SharedLog() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<Header urlShareId={shareId} />
+			<Navbar urlShareId={shareId} />
 
 			<Log shareId={shareId} />
 		</div>
