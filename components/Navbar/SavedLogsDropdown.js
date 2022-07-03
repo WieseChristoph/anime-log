@@ -36,13 +36,20 @@ const SavedLogsDropdown = ({ urlShareId }) => {
 				<div className="px-1 py-1">
 					{savedSharedLogs?.length > 0 ? (
 						savedSharedLogs.map((sharedLog) => (
-							<Menu.Item key={sharedLog.shareId}>
-								<Link href={`/${sharedLog.shareId}`}>
-									<a className="flex px-2 py-2 text-sm hover:underline">
+							<Link
+								href={`/${sharedLog.shareId}`}
+								passHref
+								key={sharedLog.shareId}
+							>
+								<Menu.Item>
+									<a
+										href={`/${sharedLog.shareId}`}
+										className="flex px-2 py-2 text-sm hover:underline"
+									>
 										{sharedLog.username}
 									</a>
-								</Link>
-							</Menu.Item>
+								</Menu.Item>
+							</Link>
 						))
 					) : (
 						<Menu.Item key="noSavedLogs">
