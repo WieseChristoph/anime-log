@@ -2,79 +2,144 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import Image from "next/image";
+import { MdEdit, MdDelete } from "react-icons/md";
+import LogEntryEdit from "./LogEntryEdit";
+
+const IMAGE_HEIGHT = 210;
+const IMAGE_WIDTH = 150;
 
 const LogEntry = ({
 	initialEntry,
-	onDeleteButtonClick,
-	onSaveButtonClick,
-	onCancelButtonClick,
-	lockEdit = false,
+	deleteFunc,
+	saveFunc,
 	isSharedLog = false,
 }) => {
-	const [edit, setEdit] = useState(lockEdit);
+	const [edit, setEdit] = useState(false);
 	const [entry, setEntry] = useState(initialEntry || {});
+
+	// Edit entry
+	if (edit) {
+		return (
+			<LogEntryEdit
+				initialEntry={entry}
+				onSaveButtonClick={(updatedEntry) => {
+					saveFunc(updatedEntry);
+					setEntry(updatedEntry);
+					setEdit(false);
+				}}
+				onCancelButtonClick={() => setEdit(false)}
+			/>
+		);
+	}
 
 	return (
 		<div
-			className="grid grid-cols-[150px_auto_35%] h-[210px] rounded-md overflow-hidden
+			className={`relative rounded-md
             bg-slate-200 dark:bg-slate-900 text-black dark:text-white
-			shadow-sm shadow-gray-800 dark:shadow-slate-500"
+			shadow-sm shadow-gray-800 dark:shadow-slate-500`}
 		>
-			{/* Column 1 */}
-			<a
-				className="shadow-md shadow-black dark:shadow-gray-400"
-				target="_blank"
-				{...(entry.link && { href: entry.link })}
-			>
-				<Image
-					src={`https://media.kitsu.io/anime/poster_images/${entry.kitsuId}/small.jpg`}
-					alt={entry.title}
-					layout="fixed"
-					width={150}
-					height={210}
-				/>
-			</a>
-			{/* Column 2 */}
-			<div className="grid grid-rows-[auto_80%] px-3 pt-2 overflow-auto">
-				<div>
-					<span className="float-right font-bold bg-gradient-to-br from-pink-500 to-orange-400 text-white text-sm mr-2 px-2.5 py-0.5 rounded">
-						{entry.rating} / 10
-					</span>
-					<h2 className="font-bold">{entry.title}</h2>
-					<hr className="border-black dark:border-white my-2" />
+			<div className="flex flex-col sm:flex-row">
+				{/* Image */}
+				<a
+					className="flex-none self-center block shadow-md shadow-black dark:shadow-gray-400 h-[210px] w-[150px]"
+					target="_blank"
+					{...(entry.link && { href: entry.link })}
+				>
+					<Image
+						src={`https://media.kitsu.io/anime/poster_images/${entry.kitsuId}/small.jpg`}
+						alt={entry.title}
+						layout="intrinsic"
+						height={IMAGE_HEIGHT}
+						width={IMAGE_WIDTH}
+					/>
+				</a>
+
+				<div
+					className={`flex-1 grid grid-rows-2 grid-cols-1 sm:grid-rows-1 sm:grid-cols-2 py-2 h-[${IMAGE_HEIGHT}px]`}
+				>
+					{/* Title, rating and notes */}
+					<div className="flex flex-col px-2 overflow-hidden">
+						<div>
+							<span className="float-right font-bold bg-gradient-to-br from-pink-500 to-orange-400 text-white text-sm mr-2 px-2.5 py-0.5 rounded">
+								{entry.rating} / 10
+							</span>
+							<div className="font-bold">{entry.title}</div>
+							<div className="text-sm dark:text-slate-300">
+								{entry.startDate
+									? moment(entry.startDate).format(
+											"DD.MM.yyyy"
+									  )
+									: "-"}
+							</div>
+							<div className="text-xs dark:text-slate-300">
+								Last updated:
+								{entry.lastUpdate
+									? moment(entry.lastUpdate).format(
+											" DD.MM.yyyy"
+									  )
+									: " -"}
+							</div>
+							<hr className="border-black dark:border-white" />
+						</div>
+						<div className="pt-1 overflow-y-auto">
+							<span className="break-words">{entry.note}</span>
+						</div>
+					</div>
+
+					{/* Season, Movie, OVA */}
+					<div className="flex flex-col border-l border-black dark:border-white px-2">
+						<div className="basis-1/3">
+							<div className="font-semibold">Season</div>
+							<div className="whitespace-nowrap overflow-x-auto">
+								{entry.season?.join(", ")}
+							</div>
+						</div>
+						<div className="basis-1/3">
+							<hr className="border-black dark:border-white" />
+							<div className="font-semibold">Movie</div>
+							<div className="whitespace-nowrap overflow-x-auto">
+								{entry.movie?.join(", ")}
+							</div>
+						</div>
+						<div className="basis-1/3">
+							<hr className="border-black dark:border-white" />
+							<div className="font-semibold">OVA</div>
+							<div className="whitespace-nowrap overflow-x-auto">
+								{entry.ova?.join(", ")}
+							</div>
+						</div>
+					</div>
 				</div>
-				<span>{entry.note}</span>
 			</div>
-			{/* Column 3 */}
-			<div className="grid grid-rows-3 border-l border-black dark:border-white pl-2">
-				<div className="overflow-x-auto">
-					<h2 className="font-semibold">Season</h2>
-					<div className="line">{entry.season?.join(", ")}</div>
+
+			{/* Edit and Delete Button */}
+			{!isSharedLog && (
+				<div className="columns-1 absolute top-1 right-1">
+					<button
+						onClick={() => setEdit(true)}
+						className="h-[24px] w-[24px] flex justify-center items-center text-white bg-gradient-to-br from-pink-500 to-orange-400 text-sm hover:text-md rounded-full"
+					>
+						<MdEdit />
+					</button>
+					<button
+						onClick={() =>
+							window.confirm("Delete " + entry.title + "?") &&
+							deleteFunc(entry)
+						}
+						className="my-1 h-[24px] w-[24px] flex justify-center items-center text-white bg-gradient-to-br from-pink-500 to-orange-400 text-sm hover:text-md rounded-full"
+					>
+						<MdDelete />
+					</button>
 				</div>
-				<div className="overflow-x-auto">
-					<hr className="border-black dark:border-white" />
-					<h2 className="font-semibold">Movie</h2>
-					<span>{entry.movie?.join(", ")}</span>
-				</div>
-				<div className="overflow-x-auto">
-					<hr className="border-black dark:border-white" />
-					<h2 className="font-semibold">OVA</h2>
-					<span>
-						{entry.ova?.join(", ")}1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2,
-						3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9
-					</span>
-				</div>
-			</div>
+			)}
 		</div>
 	);
 };
 
 LogEntry.propTypes = {
-	initialEntry: PropTypes.object,
-	onDeleteButtonClick: PropTypes.func,
-	onSaveButtonClick: PropTypes.func,
-	onCancelButtonClick: PropTypes.func,
-	lockEdit: PropTypes.bool,
+	initialEntry: PropTypes.object.isRequired,
+	deleteFunc: PropTypes.func,
+	saveFunc: PropTypes.func,
 	isSharedLog: PropTypes.bool,
 };
 

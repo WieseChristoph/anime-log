@@ -7,6 +7,17 @@
   body {
     @apply bg-white dark:bg-slate-800;
   }
+
+  ::-webkit-scrollbar {
+    @apply bg-slate-300 dark:bg-slate-700;
+    width: 7px;
+    height: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-500 dark:bg-slate-300;
+    border-radius: 50px;
+  }
 }
 
 html, body {
@@ -19,16 +30,4 @@ html, body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-::-webkit-scrollbar {
-  background-color: transparent;
-  background-color: rgba(255, 255, 255, 0.075);
-  width: 7px;
-  height: 3px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: white;
-  border-radius: 50px;
 }

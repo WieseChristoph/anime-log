@@ -6,6 +6,8 @@ import moment from "moment";
 import useLog from "../../hooks/useLog";
 import ErrorAlert from "./ErrorAlert";
 import LogEntry from "./LogEntry/LogEntry";
+import LogEntryEdit from "./LogEntry/LogEntryEdit";
+import { FaPlus } from "react-icons/fa";
 
 const Log = ({ shareId }) => {
 	const [order, setOrder] = useState(orderBy.title);
@@ -79,26 +81,49 @@ const Log = ({ shareId }) => {
 		);
 
 	return (
-		<div className="container mx-auto px-5 py-3">
+		<div className="container mx-auto px-5 py-4">
 			<SortAndSearch
 				currentOrder={order}
 				onOrderChange={setOrder}
 				onSearchChange={setSearchTerm}
 			/>
-			<div className="my-4">
-				<span className="font-bold bg-gradient-to-br from-pink-500 to-orange-400 text-white text-sm mr-2 px-2.5 py-0.5 rounded">
+
+			<div className="my-4 flex flex-row items-center">
+				{/* Anime count */}
+				<div className="font-bold bg-gradient-to-br from-pink-500 to-orange-400 text-white text-sm mr-2 px-2.5 py-0.5 rounded">
 					Showing {entries.length} Anime
-				</span>
+				</div>
+				{/* Add new Anime button */}
+				{shareId === undefined && (
+					<button
+						type="button"
+						onClick={() => setShowEmptyEntry(!showEmptyEntry)}
+						className="ml-auto font-medium rounded-full text-lg p-2 text-center text-white bg-gradient-to-br from-pink-500 to-orange-400"
+					>
+						<FaPlus />
+					</button>
+				)}
 			</div>
 
+			{/* Main log grid */}
 			<div className="grid grid-cols-1 xl:grid-cols-2 gap-4 justify-start">
+				{/* Empty entry for new Anime */}
+				{showEmptyEntry && (
+					<LogEntryEdit
+						onCancelButtonClick={() => setShowEmptyEntry(false)}
+						onSaveButtonClick={(newEntry) => {
+							createEntry(newEntry);
+							setShowEmptyEntry(false);
+						}}
+					/>
+				)}
 				{/* All entries */}
 				{entries.map((entry) => (
 					<LogEntry
 						key={entry.id}
 						initialEntry={entry}
-						onDeleteButtonClick={deleteEntry}
-						onSaveButtonClick={updateEntry}
+						deleteFunc={deleteEntry}
+						saveFunc={updateEntry}
 						isSharedLog={shareId !== undefined}
 					/>
 				))}
