@@ -61,23 +61,21 @@ const LogEntryEdit = ({
 						<div>
 							<div className="flex">
 								{/* Title */}
-								<div className="w-full">
-									<input
-										type="text"
-										id="title"
-										className="text-sm w-full rounded-md p-1.5 bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-										placeholder="Title"
-										defaultValue={entry.title || ""}
-										maxLength="250"
-										required
-										onChange={(e) =>
-											setEntry({
-												...entry,
-												title: e.target.value,
-											})
-										}
-									/>
-								</div>
+								<input
+									type="text"
+									id="title"
+									className="text-sm w-full rounded-md p-1.5 bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+									placeholder="Title"
+									defaultValue={entry.title || ""}
+									maxLength="250"
+									required
+									onChange={(e) =>
+										setEntry({
+											...entry,
+											title: e.target.value,
+										})
+									}
+								/>
 								{/* Rating */}
 								<div className="font-bold bg-gradient-to-br from-pink-500 to-orange-400 text-white text-sm mx-2 px-2.5 py-0.5 rounded whitespace-nowrap">
 									<input
@@ -100,6 +98,22 @@ const LogEntryEdit = ({
 									/ 10
 								</div>
 							</div>
+							{/* Link */}
+							<input
+								type="text"
+								id="link"
+								className="text-sm w-full mt-1 rounded-md p-1.5 bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+								placeholder="Link to e.g. Crunchyroll"
+								defaultValue={entry.link || ""}
+								maxLength="500"
+								required
+								onChange={(e) =>
+									setEntry({
+										...entry,
+										link: e.target.value,
+									})
+								}
+							/>
 							{/* Start date */}
 							<div className="flex flex-row items-center mt-1">
 								<label
@@ -144,6 +158,7 @@ const LogEntryEdit = ({
 								placeholder="Notes"
 								defaultValue={entry.note || ""}
 								maxLength="1000"
+								rows="1"
 								onChange={(e) =>
 									setEntry({
 										...entry,
