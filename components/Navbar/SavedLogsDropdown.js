@@ -2,6 +2,7 @@ import useSavedSharedLog from "../../hooks/useSavedSharedLog";
 import PropTypes from "prop-types";
 import Link from "next/link";
 import { Menu } from "@headlessui/react";
+import { FaChevronDown } from "react-icons/fa";
 
 const SavedLogsDropdown = ({ urlShareId }) => {
 	const { savedSharedLogs, addSavedSharedLog, deleteSavedSharedLog } =
@@ -11,20 +12,7 @@ const SavedLogsDropdown = ({ urlShareId }) => {
 		<Menu as="div" className="relative inline-block text-left">
 			<Menu.Button className="flex items-center">
 				Saved Logs
-				<svg
-					className="w-4 h-4 ml-2"
-					fill="none"
-					stroke="currentColor"
-					viewBox="0 0 24 24"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						strokeWidth="2"
-						d="M19 9l-7 7-7-7"
-					></path>
-				</svg>
+				<FaChevronDown className="ml-1 text-sm" />
 			</Menu.Button>
 
 			{/* Dropdown menu */}

@@ -11,6 +11,7 @@ import { FaPlus } from "react-icons/fa";
 
 const Log = ({ shareId }) => {
 	const [order, setOrder] = useState(orderBy.title);
+	const [ascending, setAscending] = useState(true);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [showEmptyEntry, setShowEmptyEntry] = useState(false);
 	const { entries, createEntry, updateEntry, deleteEntry } = useLog(shareId);
@@ -48,26 +49,35 @@ const Log = ({ shareId }) => {
 		switch (order) {
 			case orderBy.title:
 				entries = entries.sort((a, b) =>
-					a.title.localeCompare(b.title)
+					ascending
+						? a.title.localeCompare(b.title)
+						: b.title.localeCompare(a.title)
 				);
 				break;
 			case orderBy.startDate:
-				// order by start date asc, if not set its at the bottom
+				// order by start date, if not set its at the bottom
 				entries = entries.sort((a, b) =>
 					b.startDate
-						? moment(b.startDate).valueOf() -
-						  moment(a.startDate).valueOf()
+						? ascending
+							? moment(b.startDate).valueOf() -
+							  moment(a.startDate).valueOf()
+							: moment(a.startDate).valueOf() -
+							  moment(b.startDate).valueOf()
 						: -1
 				);
 				break;
 			case orderBy.rating:
-				entries = entries.sort((a, b) => b.rating - a.rating);
+				entries = entries.sort((a, b) =>
+					ascending ? b.rating - a.rating : a.rating - b.rating
+				);
 				break;
 			case orderBy.lastUpdate:
-				entries = entries.sort(
-					(a, b) =>
-						moment(b.lastUpdate).valueOf() -
-						moment(a.lastUpdate).valueOf()
+				entries = entries.sort((a, b) =>
+					ascending
+						? moment(b.lastUpdate).valueOf() -
+						  moment(a.lastUpdate).valueOf()
+						: moment(a.lastUpdate).valueOf() -
+						  moment(b.lastUpdate).valueOf()
 				);
 				break;
 			default:
@@ -84,8 +94,10 @@ const Log = ({ shareId }) => {
 		<div className="container mx-auto px-5 py-4">
 			<SortAndSearch
 				currentOrder={order}
+				ascending={ascending}
 				onOrderChange={setOrder}
 				onSearchChange={setSearchTerm}
+				onAscendingChange={setAscending}
 			/>
 
 			<div className="my-4 flex flex-row items-center">

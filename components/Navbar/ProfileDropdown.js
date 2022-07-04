@@ -69,10 +69,8 @@ const ProfileDropdown = ({ user }) => {
 				</div>
 				<div className="px-1 py-1">
 					<Link href="/api/auth/logout" passHref>
-						<Menu.Item className="py-3 px-4">
-							<a className="flex px-2 py-2 text-sm hover:underline">
-								Sign out
-							</a>
+						<Menu.Item className="px-2 hover:underline text-sm">
+							<a>Sign out</a>
 						</Menu.Item>
 					</Link>
 				</div>
