@@ -4,6 +4,7 @@ import moment from "moment";
 import Image from "next/image";
 import { MdEdit, MdDelete } from "react-icons/md";
 import LogEntryEdit from "./LogEntryEdit";
+import placeholderImage from "../../../public/placeholder.jpg";
 
 const IMAGE_HEIGHT = 210;
 const IMAGE_WIDTH = 150;
@@ -46,7 +47,7 @@ const LogEntry = ({
 					{...(entry.link && { href: entry.link })}
 				>
 					<Image
-						src={`https://media.kitsu.io/anime/poster_images/${entry.kitsuId}/small.jpg`}
+						src={entry.image ? entry.image : placeholderImage}
 						alt={entry.title}
 						layout="intrinsic"
 						height={IMAGE_HEIGHT}

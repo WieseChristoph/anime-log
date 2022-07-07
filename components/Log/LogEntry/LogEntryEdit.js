@@ -41,11 +41,7 @@ const LogEntryEdit = ({
 					{...(entry.link && { href: entry.link })}
 				>
 					<Image
-						src={
-							entry.kitsuId
-								? `https://media.kitsu.io/anime/poster_images/${entry.kitsuId}/small.jpg`
-								: placeholderImage
-						}
+						src={entry.image ? entry.image : placeholderImage}
 						alt={entry.title}
 						layout="intrinsic"
 						height={IMAGE_HEIGHT}
