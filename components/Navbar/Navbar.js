@@ -6,7 +6,7 @@ import LoginButton from "./LoginButton";
 import SavedLogsDropdown from "./SavedLogsDropdown";
 import DarkModeToggle from "./DarkModeToggle";
 
-const Navbar = () => {
+const Navbar = ({ urlShareId }) => {
 	const { user } = useUser();
 
 	return (
@@ -26,7 +26,7 @@ const Navbar = () => {
 					</Link>
 
 					<ul className="mr-auto">
-						<SavedLogsDropdown />
+						<SavedLogsDropdown urlShareId={urlShareId} />
 					</ul>
 
 					<div className="flex items-center">
