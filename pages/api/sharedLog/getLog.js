@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../../../lib/db";
 import { isValidUUID } from "../../../lib/uuid";
-
-const prisma = new PrismaClient();
 
 // PATH: /api/sharedLog/getLog
 export default async function handler(req, res) {

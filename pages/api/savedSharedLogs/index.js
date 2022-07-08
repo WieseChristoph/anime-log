@@ -1,8 +1,6 @@
 import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../../../lib/db";
 import { getUsernameBySub } from "../../../lib/discord";
-
-const prisma = new PrismaClient();
 
 // PATH: /api/savedSharedLogs
 export default withApiAuthRequired(async (req, res) => {
