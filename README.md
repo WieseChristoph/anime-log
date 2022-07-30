@@ -20,6 +20,10 @@ Set Environment Variable `DATABASE_URL` with an postgres Database URL string.
 
 Set Environment Variable `DISCORD_BOT_TOKEN` with an discord bot token.
 
+## Redis
+
+Set Environment Variables `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD`.
+
 # Developement Run
 
 ```
