@@ -2,6 +2,7 @@ import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../lib/prisma";
 import { getUsernameBySub } from "../../../lib/discord";
+import { getOrSetCache } from "../../../lib/redis";
 
 // PATH: /api/savedSharedLogs
 export default withApiAuthRequired(
@@ -30,9 +31,11 @@ export default withApiAuthRequired(
 					let savedSharedLogsUsername = await Promise.all(
 						savedSharedLogs.map(async (savedSharedLog) => ({
 							shareId: savedSharedLog.shareId,
-							username: await getUsernameBySub(
-								savedSharedLog.userId
-							),
+							// get username from cache or from discord api
+							username: (await getOrSetCache(
+								`discord_username:${savedSharedLog.userId}`,
+								() => getUsernameBySub(savedSharedLog.userId)
+							)) as string,
 						}))
 					);
 
@@ -94,7 +97,9 @@ export default withApiAuthRequired(
 					const deletedSharedLog = await prisma.sharedLog.update({
 						data: {
 							savedBy: {
-								set: result.savedBy.filter((sub) => sub !== user.sub),
+								set: result.savedBy.filter(
+									(sub) => sub !== user.sub
+								),
 							},
 						},
 						where: {
