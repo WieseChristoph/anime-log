@@ -22,7 +22,7 @@ Set Environment Variable `DISCORD_BOT_TOKEN` with an discord bot token.
 
 ## Redis
 
-Set Environment Variables `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD`.
+Set Environment Variables `REDIS_URL` (redis://username:password@host:port).
 
 # Developement Run
 
