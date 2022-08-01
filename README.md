@@ -1,3 +1,7 @@
+# Anime Log
+Website to log watched anime.
+![Screenshot](https://user-images.githubusercontent.com/32820890/182124207-211c84aa-98ad-45fc-97bc-ccbea44cc1df.png)
+
 # Configuration
 
 ## Auth0 Data
