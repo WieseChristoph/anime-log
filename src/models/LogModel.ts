@@ -28,22 +28,11 @@ const AnimeSchema = new Schema<Anime>({
 	note: String,
 });
 
-const SavedSharedLogSchema = new Schema<SavedSharedLog>({
-	shareId: {
-		type: String,
-		required: true,
-	},
-	username: {
-		type: String,
-		required: true,
-	},
-});
-
 const LogSchema = new Schema<Log>({
 	_id: String,
 	shareId: String,
 	anime: [AnimeSchema],
-	savedSharedLogs: [SavedSharedLogSchema],
+	savedSharedLogs: [String],
 });
 
 const LogModel = models.Log || model<Log>("Log", LogSchema);

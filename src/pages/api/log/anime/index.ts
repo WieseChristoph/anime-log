@@ -18,7 +18,10 @@ export default withApiAuthRequired(
 		const { user }: { user: UserProfile } = getSession(req, res);
 		await dbConnect();
 
-		const body: Anime = req.body ? await JSON.parse(req.body) : null;
+		const body: Anime =
+			req.body && typeof req.body === "string"
+				? await JSON.parse(req.body)
+				: null;
 
 		switch (req.method) {
 			case "GET":
