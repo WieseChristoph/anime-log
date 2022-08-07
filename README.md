@@ -1,4 +1,5 @@
 # Anime Log
+
 Website to log watched anime.
 ![Screenshot](https://user-images.githubusercontent.com/32820890/182124207-211c84aa-98ad-45fc-97bc-ccbea44cc1df.png)
 
@@ -18,7 +19,7 @@ AUTH0_CLIENT_SECRET=<YOUR_CLIENT_SECRET>
 
 ## Database Connection
 
-Set Environment Variable `DATABASE_URL` with an postgres Database URL string.
+Set Environment Variable `MONGODB_URI` with an Mongo DB URL string.
 
 ## Discord
 
@@ -50,22 +51,22 @@ The Server will listen on `localhost:3000`.
 
 # API Routes
 
-| Action and Path                   | Description                           |
-| --------------------------------- | ------------------------------------- |
-| GET /api/log                      | Get Log by user.                      |
-| PUT /api/log/anime                | Add Anime with Anime-Data in body.    |
-| PATCH /api/log/anime              | Update Anime with Anime-Data in body. |
-| DELETE /api/log/anime             | Delete Anime with Anime-Data in body. |
-| GET /api/sharedLog/getId          | Get Shared-Log-Id by user.            |
-| GET /api/sharedLog/getLog         | Get Shared-Log by id.                 |
-| GET /api/sharedLog/getUserId      | Get User-Id by Share-Id.              |
-| PUT /api/sharedLog                | Add Shared-Log by user.               |
-| DELETE /api/sharedLog             | Delete Shared-Log by user.            |
-| GET /api/discord/getUsernameBySub | Get discord-username by sub.          |
-| GET /api/savedSharedLogs          | Get all saved logs by user.           |
-| PUT /api/savedSharedLogs          | Add user to shared log by id.         |
-| DELETE /api/savedSharedLogs       | Delete user from shared log by id.    |
-| GET /api/kitsu/getIdByTitle       | Get Kitsu Id by Title.                |
+| Action and Path                   | Description                                     |
+| --------------------------------- | ----------------------------------------------- |
+| GET /api/log                      | Get Log by user.                                |
+| GET /api/log/anime                | Get Anime by user.                              |
+| PUT /api/log/anime                | Add Anime with Anime-Data in body.              |
+| PATCH /api/log/anime              | Update Anime with Anime-Data in body.           |
+| DELETE /api/log/anime             | Delete Anime with Anime-Data in body.           |
+| GET /api/log/shared               | Get Shared-Log-Id by user.                      |
+| PUT /api/log/shared               | Create Shared-Log-Id by user.                   |
+| DELETE /api/log/shared            | Delete Shared-Log-Id by user.                   |
+| GET /api/log/shared/anime         | Get Shared-Log Anime by share-id.               |
+| GET /api/log/shared/saved         | Get saved Shared-Logs by user.                  |
+| PUT /api/log/shared/saved         | Add saved Shared-Logs with share-id in body.    |
+| DELETE /api/log/shared/saved      | Delete saved Shared-Logs with share-id in body. |
+| GET /api/discord/getUsernameBySub | Get discord-username by sub.                    |
+| GET /api/kitsu/getIdByTitle       | Get Kitsu Id by Title.                          |
 
 # TODO
 
