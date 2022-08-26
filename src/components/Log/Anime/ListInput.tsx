@@ -17,7 +17,7 @@ const ListInput = ({ initialArray, onArrayChange }: Props) => {
 	// call event on every render, because 'array' only changes after the next render when calling setArray
 	useEffect(() => onArrayChangeRef.current(array), [onArrayChangeRef, array]);
 
-	let addToArray = async () => {
+	const addToArray = async () => {
 		// add element to array
 		await setArray(
 			array.includes(arrayElement)
@@ -28,7 +28,7 @@ const ListInput = ({ initialArray, onArrayChange }: Props) => {
 		setArrayElement(arrayElement + 1);
 	};
 
-	let removeFromArray = () => {
+	const removeFromArray = () => {
 		// remove element
 		setArray(array.filter((s) => s !== arrayElement));
 

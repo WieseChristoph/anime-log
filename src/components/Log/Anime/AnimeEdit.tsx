@@ -23,7 +23,7 @@ const AnimeEdit = ({
 }: Props) => {
 	const [anime, setAnime] = useState(initialAnime);
 
-	let updateArray = (arrayName: string, array: any[]) => {
+	const updateArray = (arrayName: string, array: any[]) => {
 		setAnime((prevAnime) => ({
 			...prevAnime,
 			[arrayName]: array,
