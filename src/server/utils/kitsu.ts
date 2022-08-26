@@ -11,9 +11,9 @@ async function kitsuRequest(url: string) {
 	return null;
 }
 
-export const getImageByTitle = async (
+export async function getImageByTitle(
 	title: string
-): Promise<string | undefined> => {
+): Promise<string | undefined> {
 	// check for anime Image
 	let result = await kitsuRequest(
 		`https://kitsu.io/api/edge/anime?fields[anime]=posterImage&page[limit]=1&filter[text]=${encodeURI(
@@ -35,4 +35,4 @@ export const getImageByTitle = async (
 		let imageUrl = result.data[0].attributes.posterImage.small as string;
 		return imageUrl;
 	}
-};
+}

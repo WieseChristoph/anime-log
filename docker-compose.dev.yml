@@ -1,6 +1,5 @@
 services:
     db:
-        image: mysql
-        command: --default-authentication-plugin=mysql_native_password
+        image: postgres
         environment:
-            MYSQL_ROOT_PASSWORD: test
+            POSTGRES_PASSWORD: test
