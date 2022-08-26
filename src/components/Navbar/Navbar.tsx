@@ -35,13 +35,14 @@ const Navbar = ({ urlShareId }: Props) => {
 				<div className="flex items-center">
 					<DarkModeToggle />
 
-					{status === "authenticated" ? (
-						<ProfileDropdown
-							user={session.user as DiscordProfile}
-						/>
-					) : (
-						<LoginButton />
-					)}
+					{status !== "loading" &&
+						(status === "authenticated" ? (
+							<ProfileDropdown
+								user={session.user as DiscordProfile}
+							/>
+						) : (
+							<LoginButton />
+						))}
 				</div>
 			</div>
 		</nav>
