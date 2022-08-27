@@ -70,7 +70,6 @@ export const animeRouter = createProtectedRouter()
 	.mutation("update", {
 		input: animeValidator,
 		resolve: async ({ ctx, input }) => {
-			console.log("update");
 			return await ctx.prisma.anime.update({
 				where: { id: input.id },
 				data: {

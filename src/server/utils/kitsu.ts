@@ -1,11 +1,11 @@
 async function kitsuRequest(url: string) {
-	let response = await fetch(url, {
+	const response = await fetch(url, {
 		headers: {
 			Accept: `application/vnd.api+json`,
 		},
 	});
 	if (response.ok) {
-		let result = await response.json();
+		const result = await response.json();
 		return result;
 	}
 	return null;
@@ -32,7 +32,7 @@ export async function getImageByTitle(
 	// if no result for manga or anime, return with error. Else return image
 	if (!result || result.meta.count == 0) return undefined;
 	else {
-		let imageUrl = result.data[0].attributes.posterImage.small as string;
+		const imageUrl = result.data[0].attributes.posterImage.small as string;
 		return imageUrl;
 	}
 }

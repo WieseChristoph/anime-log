@@ -15,7 +15,6 @@ export const userRouter = createProtectedRouter()
 	})
 	.mutation("add-shareId", {
 		resolve: async ({ ctx }) => {
-			console.log("add");
 			return await ctx.prisma.user.update({
 				where: {
 					id: ctx.session.user.id,
