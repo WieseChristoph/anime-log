@@ -63,6 +63,7 @@ export const animeRouter = createProtectedRouter()
 					...input,
 					user: { connect: { id: ctx.session.user.id } },
 					imageUrl: await getImageByTitle(input.title),
+					updatedAt: undefined,
 				},
 			});
 		},
@@ -76,6 +77,7 @@ export const animeRouter = createProtectedRouter()
 					...input,
 					user: { connect: { id: ctx.session.user.id } },
 					imageUrl: await getImageByTitle(input.title),
+					updatedAt: undefined,
 				},
 			});
 		},
