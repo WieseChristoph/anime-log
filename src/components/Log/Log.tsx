@@ -22,9 +22,10 @@ const Log = ({ shareId }: Props) => {
 
 	const utils = trpc.useContext();
 
-	const getUserByShareId = shareId
-		? trpc.useQuery(["user.get-byShareId", { shareId: shareId }])
-		: undefined;
+	const getUserByShareId = trpc.useQuery(
+		["user.get-byShareId", { shareId: shareId as string }],
+		{ enabled: !!shareId }
+	);
 
 	const getAnime = trpc.useQuery(["anime.get-all", { shareId: shareId }]);
 
