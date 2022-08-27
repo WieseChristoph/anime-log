@@ -56,51 +56,44 @@ const ProfileDropdown = ({ user }: Props) => {
 			divide-y divide-black dark:divide-white rounded-md text-dark dark:text-white
 			bg-white dark:bg-slate-700 shadow-lg"
 			>
-				<div className="px-1 py-1">
-					{getShareId.data?.shareId ? (
-						<>
-							<Menu.Item>
-								<button
-									className="px-2 py-2 text-sm hover:underline"
-									onClick={() =>
-										window.confirm(
-											"Are you sure you want to delete your Share-Link?"
-										) && deleteShareId.mutate()
-									}
-								>
-									Delete Share-Link
-								</button>
-							</Menu.Item>
-							<Menu.Item>
-								<button
-									className="px-2 py-2 text-sm hover:underline"
-									onClick={() => shareLinkToClipboard()}
-								>
-									Copy Share-Link
-								</button>
-							</Menu.Item>
-						</>
-					) : (
-						<Menu.Item>
-							<button
-								className="px-2 py-2 text-sm hover:underline"
-								onClick={() => addShareId.mutate()}
-							>
-								Create Share-Link
-							</button>
-						</Menu.Item>
-					)}
-				</div>
-				<div className="px-1 py-1">
-					<Menu.Item>
-						<button
-							className="px-2 hover:underline text-sm"
-							onClick={() => signOut()}
+				{getShareId.data?.shareId ? (
+					<>
+						<Menu.Item
+							as="button"
+							className="w-full px-2 py-2 text-sm hover:underline"
+							onClick={() =>
+								window.confirm(
+									"Are you sure you want to delete your Share-Link?"
+								) && deleteShareId.mutate()
+							}
 						>
-							Sign out
-						</button>
+							Delete Share-Link
+						</Menu.Item>
+						<Menu.Item
+							as="button"
+							className="w-full px-2 py-2 text-sm hover:underline"
+							onClick={() => shareLinkToClipboard()}
+						>
+							Copy Share-Link
+						</Menu.Item>
+					</>
+				) : (
+					<Menu.Item
+						as="button"
+						className="w-full px-2 py-2 text-sm hover:underline"
+						onClick={() => addShareId.mutate()}
+					>
+						Create Share-Link
 					</Menu.Item>
-				</div>
+				)}
+
+				<Menu.Item
+					as="button"
+					className="w-full px-2 py-2 hover:underline text-sm"
+					onClick={() => signOut()}
+				>
+					Sign out
+				</Menu.Item>
 			</Menu.Items>
 		</Menu>
 	);
