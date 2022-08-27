@@ -41,86 +41,77 @@ const SavedUsersDropdown = ({ urlShareId }: Props) => {
 			divide-y divide-black dark:divide-white rounded-md text-dark dark:text-white
 			bg-white dark:bg-slate-700 shadow-lg"
 			>
-				<div className="px-1 py-1">
-					{getSavedUsers.data ? (
-						getSavedUsers.data.map((savedUserEntry) => (
+				{getSavedUsers.data && getSavedUsers.data.length > 0 ? (
+					getSavedUsers.data.map((savedUserEntry) => (
+						<Menu.Item key={savedUserEntry.savedUser.shareId}>
 							<Link
 								href={`/${savedUserEntry.savedUser.shareId}`}
 								passHref
-								key={savedUserEntry.savedUser.shareId}
 							>
-								<Menu.Item>
-									<a
-										href={`/${savedUserEntry.savedUser.shareId}`}
-										className={`flex px-2 py-2 text-sm hover:underline gap-2 ${
-											urlShareId ===
-												savedUserEntry.savedUser
-													.shareId && "bg-slate-800"
-										}`}
-									>
-										<Image
-											className="rounded-full inline"
-											src={
-												savedUserEntry.savedUser
-													.image ||
-												"https://cdn.discordapp.com/embed/avatars/3.png"
-											}
-											alt={
-												savedUserEntry.savedUser.name ||
-												"-"
-											}
-											width="24"
-											height="24"
-										/>
-
-										<span>
-											{savedUserEntry.savedUser.name}
-										</span>
-									</a>
-								</Menu.Item>
+								<a
+									href={`/${savedUserEntry.savedUser.shareId}`}
+									className={`flex px-2 py-2 text-sm hover:underline gap-2 border-black dark:border-white ${
+										urlShareId ===
+											savedUserEntry.savedUser.shareId &&
+										"bg-gray-300 dark:bg-slate-800"
+									}`}
+								>
+									<Image
+										className="rounded-full inline"
+										src={
+											savedUserEntry.savedUser.image ||
+											"https://cdn.discordapp.com/embed/avatars/3.png"
+										}
+										alt={
+											savedUserEntry.savedUser.name || "-"
+										}
+										width="24"
+										height="24"
+									/>
+									<b>{savedUserEntry.savedUser.name}</b>
+								</a>
 							</Link>
-						))
-					) : (
-						<Menu.Item key="noSavedLogs">
-							<span className="flex px-2 py-2 text-sm hover:underline">
-								No saved logs
-							</span>
 						</Menu.Item>
-					)}
-				</div>
-				{urlShareId && getSavedUsers.data && (
-					<div className="px-1 py-1">
-						<Menu.Item>
-							{getSavedUsers.data.find(
-								(savedUserEntry) =>
-									savedUserEntry.savedUser.shareId ===
-									urlShareId
-							) ? (
-								<button
-									className="flex px-2 py-2 text-sm hover:underline"
-									onClick={() =>
-										deleteSavedUser.mutate({
-											shareId: urlShareId,
-										})
-									}
-								>
-									Delete current log
-								</button>
-							) : (
-								<button
-									className="flex px-2 py-2 text-sm hover:underline"
-									onClick={() =>
-										addSavedUser.mutate({
-											shareId: urlShareId,
-										})
-									}
-								>
-									Save current log
-								</button>
-							)}
-						</Menu.Item>
-					</div>
+					))
+				) : (
+					<Menu.Item
+						key="noSavedLogs"
+						as="div"
+						className="px-2 py-2 text-sm text-center hover:underline"
+					>
+						No saved logs
+					</Menu.Item>
 				)}
+				{urlShareId &&
+					getSavedUsers.data &&
+					(getSavedUsers.data.find(
+						(savedUserEntry) =>
+							savedUserEntry.savedUser.shareId === urlShareId
+					) ? (
+						<Menu.Item
+							as="button"
+							className="w-full px-2 py-2 text-sm hover:underline"
+							onClick={() =>
+								deleteSavedUser.mutate({
+									shareId: urlShareId,
+								})
+							}
+						>
+							Delete current log
+						</Menu.Item>
+					) : (
+						<Menu.Item
+							as="button"
+							className="w-full px-2 py-2 text-sm hover:underline"
+							onClick={() =>
+								addSavedUser.mutate({
+									shareId: urlShareId,
+								})
+							}
+						>
+							Save current log
+						</Menu.Item>
+					))}
 			</Menu.Items>
 		</Menu>
 	);
