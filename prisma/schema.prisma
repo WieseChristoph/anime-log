@@ -10,23 +10,81 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Anime {
-  id         String    @id @default(uuid()) @db.Uuid
-  userId     String    @db.VarChar(250)
-  title      String    @db.Text
-  season     Int[]
-  movie      Int[]
-  ova        Int[]
-  rating     Int       @default(0)
-  link       String?   @db.VarChar(500)
-  note       String?   @db.Text
-  image      String?   @db.VarChar(500)
-  startDate  DateTime?
-  lastUpdate DateTime  @updatedAt
+// next-auth stuff
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }
 
-model SharedLog {
-  userId  String   @id @db.VarChar(250)
-  shareId String   @unique @default(uuid()) @db.Uuid
-  savedBy String[]
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  anime        Anime[]
+  shareId      String?     @unique
+  savedUsers   SavedUser[] @relation("SavedUser_savedUser")
+  savedByUsers SavedUser[] @relation("SavedUser_savedByUser")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// anime-log stuff
+
+model Anime {
+  id        String    @id @default(cuid())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String
+  title     String    @db.Text
+  seasons   Int[]
+  movies    Int[]
+  ovas      Int[]
+  rating    Int       @default(0)
+  link      String?   @db.VarChar(512)
+  note      String?   @db.Text
+  imageUrl  String?   @db.VarChar(512)
+  startDate DateTime?
+  updatedAt DateTime  @updatedAt
+}
+
+model SavedUser {
+  id          String @id @default(cuid())
+  user        User   @relation("SavedUser_savedUser", fields: [userId], references: [id])
+  userId      String
+  savedUser   User   @relation("SavedUser_savedByUser", fields: [savedUserId], references: [id])
+  savedUserId String
+
+  @@unique([userId, savedUserId])
 }

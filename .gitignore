@@ -34,3 +34,6 @@ yarn-error.log*
 
 # docker-compose
 docker-compose.yml
+
+# typescript
+tsconfig.tsbuildinfo

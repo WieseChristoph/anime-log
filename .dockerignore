@@ -4,4 +4,5 @@ node_modules
 .env.local
 .git
 .gitignore
-docker-compose.yml
+docker-compose.dev.yml
+.github
