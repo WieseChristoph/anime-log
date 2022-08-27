@@ -47,7 +47,7 @@ export const userRouter = createProtectedRouter()
 	})
 	.query("get-byShareId", {
 		input: z.object({
-			shareId: z.string().cuid(),
+			shareId: z.string(),
 		}),
 		resolve: async ({ ctx, input }) => {
 			return await ctx.prisma.user.findUnique({

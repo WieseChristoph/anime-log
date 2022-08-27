@@ -7,7 +7,7 @@ export const animeRouter = createProtectedRouter()
 	.query("get-all", {
 		input: z
 			.object({
-				shareId: z.string().cuid().nullish(),
+				shareId: z.string().nullish(),
 			})
 			.nullish(),
 		resolve: async ({ ctx, input }) => {
