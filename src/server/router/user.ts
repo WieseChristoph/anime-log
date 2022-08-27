@@ -44,4 +44,14 @@ export const userRouter = createProtectedRouter()
 				},
 			});
 		},
+	})
+	.query("get-byShareId", {
+		input: z.object({
+			shareId: z.string().cuid(),
+		}),
+		resolve: async ({ ctx, input }) => {
+			return await ctx.prisma.user.findUnique({
+				where: { shareId: input.shareId },
+			});
+		},
 	});

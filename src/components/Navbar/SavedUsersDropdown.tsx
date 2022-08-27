@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
 import { trpc } from "@/utils/trpc";
@@ -51,9 +52,30 @@ const SavedUsersDropdown = ({ urlShareId }: Props) => {
 								<Menu.Item>
 									<a
 										href={`/${savedUserEntry.savedUser.shareId}`}
-										className="flex px-2 py-2 text-sm hover:underline"
+										className={`flex px-2 py-2 text-sm hover:underline gap-2 ${
+											urlShareId ===
+												savedUserEntry.savedUser
+													.shareId && "bg-slate-800"
+										}`}
 									>
-										{savedUserEntry.savedUser.name}
+										<Image
+											className="rounded-full inline"
+											src={
+												savedUserEntry.savedUser
+													.image ||
+												"https://cdn.discordapp.com/embed/avatars/3.png"
+											}
+											alt={
+												savedUserEntry.savedUser.name ||
+												"-"
+											}
+											width="24"
+											height="24"
+										/>
+
+										<span>
+											{savedUserEntry.savedUser.name}
+										</span>
 									</a>
 								</Menu.Item>
 							</Link>

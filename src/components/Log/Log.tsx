@@ -22,6 +22,10 @@ const Log = ({ shareId }: Props) => {
 
 	const utils = trpc.useContext();
 
+	const getUserByShareId = shareId
+		? trpc.useQuery(["user.get-byShareId", { shareId: shareId }])
+		: undefined;
+
 	const getAnime = trpc.useQuery(["anime.get-all", { shareId: shareId }]);
 
 	const addAnime = trpc.useMutation("anime.add", {
@@ -188,6 +192,13 @@ const Log = ({ shareId }: Props) => {
 				<div className="font-bold bg-gradient-to-br from-pink-500 to-orange-400 text-white text-sm mr-2 px-2.5 py-0.5 rounded">
 					Showing {processedLog.length} Anime
 				</div>
+				{/* Shared Log Username */}
+				{getUserByShareId && getUserByShareId.data && (
+					<div className="ml-auto font-bold bg-gradient-to-br from-pink-500 to-orange-400 text-white text-sm mr-2 px-2.5 py-0.5 rounded">
+						Log of
+						<b> {getUserByShareId.data.name}</b>
+					</div>
+				)}
 				{/* Add new Anime button */}
 				{shareId === undefined && (
 					<button
