@@ -50,7 +50,7 @@ const SavedUsersDropdown = ({ urlShareId }: Props) => {
 							>
 								<a
 									href={`/${savedUserEntry.savedUser.shareId}`}
-									className={`flex px-2 py-2 text-sm hover:underline gap-2 border-black dark:border-white ${
+									className={`flex px-2 py-2 text-sm hover:underline gap-2 ${
 										urlShareId ===
 											savedUserEntry.savedUser.shareId &&
 										"bg-gray-300 dark:bg-slate-800"
