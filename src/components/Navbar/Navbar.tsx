@@ -1,52 +1,57 @@
 import { useSession } from "next-auth/react";
-import Link from "next/link";
+import { DiscordProfile } from "next-auth/providers/discord";
 import { FaToriiGate } from "react-icons/fa";
+import PropTypes from "prop-types";
+import Link from "next/link";
 import ProfileDropdown from "./ProfileDropdown";
 import LoginButton from "./LoginButton";
 import SavedUsersDropdown from "./SavedUsersDropdown";
 import DarkModeToggle from "./DarkModeToggle";
-import { DiscordProfile } from "next-auth/providers/discord";
 
 interface Props {
-	urlShareId?: string;
+    urlShareId?: string;
 }
 
-const Navbar = ({ urlShareId }: Props) => {
-	const { data: session, status } = useSession();
+function Navbar({ urlShareId }: Props) {
+    const { data: session, status } = useSession();
 
-	return (
-		<nav className="bg-slate-200 dark:bg-slate-900 px-2 sm:px-4 py-2.5">
-			<div className="container flex flex-wrap items-center mx-auto">
-				<Link href="/">
-					<a className="flex items-center mr-8">
-						<FaToriiGate className="mr-3 text-2xl" />
-						<span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-							Anime Log
-						</span>
-					</a>
-				</Link>
+    return (
+        <nav className="bg-gray-200 px-2 py-2.5 dark:bg-slate-900 sm:px-4">
+            <div className="container mx-auto flex flex-wrap items-center">
+                <Link href="/">
+                    <a className="mr-8 flex items-center">
+                        <FaToriiGate className="mr-3 text-2xl" />
+                        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+                            Anime Log
+                        </span>
+                    </a>
+                </Link>
 
-				<ul className="mr-auto">
-					{status === "authenticated" && (
-						<SavedUsersDropdown urlShareId={urlShareId} />
-					)}
-				</ul>
+                <ul className="mr-auto">
+                    {status === "authenticated" && (
+                        <SavedUsersDropdown urlShareId={urlShareId} />
+                    )}
+                </ul>
 
-				<div className="flex items-center">
-					<DarkModeToggle />
+                <div className="flex items-center">
+                    <DarkModeToggle />
 
-					{status !== "loading" &&
-						(status === "authenticated" ? (
-							<ProfileDropdown
-								user={session.user as DiscordProfile}
-							/>
-						) : (
-							<LoginButton />
-						))}
-				</div>
-			</div>
-		</nav>
-	);
+                    {status !== "loading" &&
+                        (status === "authenticated" ? (
+                            <ProfileDropdown
+                                user={session.user as DiscordProfile}
+                            />
+                        ) : (
+                            <LoginButton />
+                        ))}
+                </div>
+            </div>
+        </nav>
+    );
+}
+
+Navbar.propTypes = {
+    urlShareId: PropTypes.string,
 };
 
 export default Navbar;

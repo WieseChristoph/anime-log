@@ -1,28 +1,28 @@
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Navbar from "../components/Navbar/Navbar";
-import Log from "../components/Log/Log";
+import Navbar from "@/components/Navbar/Navbar";
+import Log from "@/components/Log/Log";
 
-const SharedLog = () => {
-	const router = useRouter();
-	const shareId = router.query.shareId as string;
+function SharedLog() {
+    const router = useRouter();
+    const shareId = router.query.shareId as string;
 
-	return (
-		<div>
-			<Head>
-				<title>Shared Log | Anime Log</title>
-				<meta
-					name="description"
-					content="Manage and share your watched Anime!"
-				/>
-				<link rel="icon" href="/favicon.ico" />
-			</Head>
+    return (
+        <div>
+            <Head>
+                <title>Shared Log | Anime Log</title>
+                <meta
+                    name="description"
+                    content="Manage and share your watched Anime!"
+                />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
 
-			<Navbar urlShareId={shareId} />
+            <Navbar urlShareId={shareId} />
 
-			<Log shareId={shareId} />
-		</div>
-	);
-};
+            <Log shareId={shareId} />
+        </div>
+    );
+}
 
 export default SharedLog;
