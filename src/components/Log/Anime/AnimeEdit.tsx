@@ -9,7 +9,7 @@ import { trpc } from "@/utils/trpc";
 
 const IMAGE_HEIGHT = 315;
 const IMAGE_WIDTH = 225;
-const IMAGE_SEARCH_TIMEOUT = 1500;
+const IMAGE_SEARCH_TIMEOUT = 1000;
 
 interface Props {
     isOpen: boolean;
@@ -66,12 +66,12 @@ function AnimeEdit({
     }
 
     // wait without input in the title field before fetching new image
-    function handleImageSearchTimeout() {
+    function handleImageSearchTimeout(title: string) {
         if (searchForImage) {
             clearTimeout(imageSearchTimeout);
             setimageSearchTimeout(
                 setTimeout(
-                    () => anime.title && getImageByTitle.refetch(),
+                    () => title && getImageByTitle.refetch(),
                     IMAGE_SEARCH_TIMEOUT
                 )
             );
@@ -81,7 +81,12 @@ function AnimeEdit({
     return (
         // TODO: Transition
         <Transition show={isOpen} as={Fragment}>
-            <Dialog onClose={() => onCancelButtonClick()}>
+            <Dialog
+                onClose={() => {
+                    setAnime({} as Anime);
+                    onCancelButtonClick();
+                }}
+            >
                 {/* The backdrop, rendered as a fixed sibling to the panel container */}
                 <Transition.Child
                     as={Fragment}
@@ -118,7 +123,10 @@ function AnimeEdit({
                                 <button
                                     type="button"
                                     className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    onClick={() => onCancelButtonClick()}
+                                    onClick={() => {
+                                        setAnime({} as Anime);
+                                        onCancelButtonClick();
+                                    }}
                                 >
                                     <MdCancel className="text-xl" />
                                     <span className="sr-only">Close modal</span>
@@ -166,7 +174,9 @@ function AnimeEdit({
                                                         ...prevAnime,
                                                         title: e.target.value,
                                                     }));
-                                                    handleImageSearchTimeout();
+                                                    handleImageSearchTimeout(
+                                                        e.target.value
+                                                    );
                                                 }}
                                             />
                                         </div>

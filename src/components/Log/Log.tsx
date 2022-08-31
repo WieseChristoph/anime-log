@@ -228,7 +228,6 @@ function Log({ shareId }: Props) {
                     <button
                         type="button"
                         onClick={() => {
-                            setAnimeToEdit(undefined);
                             setShowEditAnime(!showEditAnime);
                         }}
                         className="ml-auto rounded-full bg-gradient-to-br from-pink-500 to-orange-400 p-2 text-center text-lg font-medium text-white"
@@ -243,10 +242,14 @@ function Log({ shareId }: Props) {
                 key={animeToEdit?.id}
                 isOpen={showEditAnime}
                 initialAnime={animeToEdit}
-                onCancelButtonClick={() => setShowEditAnime(false)}
+                onCancelButtonClick={() => {
+                    setShowEditAnime(false);
+                    setAnimeToEdit(undefined);
+                }}
                 onSaveButtonClick={(a) => {
                     a.id ? updateAnime.mutate(a) : addAnime.mutate(a);
                     setShowEditAnime(false);
+                    setAnimeToEdit(undefined);
                 }}
             />
 
