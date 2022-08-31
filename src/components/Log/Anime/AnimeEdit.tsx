@@ -186,26 +186,40 @@ function AnimeEdit({
                                                 htmlFor="rating"
                                                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300"
                                             >
-                                                Rating: {anime.rating ?? 5}
+                                                Rating:{" "}
+                                                <b>{anime.rating ?? 5}</b>
                                             </label>
-                                            <input
-                                                id="rating"
-                                                type="range"
-                                                className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-50 dark:bg-gray-700"
-                                                min="0"
-                                                max="11"
-                                                defaultValue={anime.rating ?? 5}
-                                                step="1"
-                                                required
-                                                onChange={(e) =>
-                                                    setAnime((prevAnime) => ({
-                                                        ...prevAnime,
-                                                        rating: parseInt(
-                                                            e.target.value
-                                                        ),
-                                                    }))
-                                                }
-                                            />
+                                            <div className="flex items-center">
+                                                <span className="text-sm font-semibold">
+                                                    0
+                                                </span>
+                                                <input
+                                                    id="rating"
+                                                    type="range"
+                                                    className="mx-2 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-50 dark:bg-gray-700"
+                                                    min="0"
+                                                    max="11"
+                                                    defaultValue={
+                                                        anime.rating ?? 5
+                                                    }
+                                                    step="1"
+                                                    required
+                                                    onChange={(e) =>
+                                                        setAnime(
+                                                            (prevAnime) => ({
+                                                                ...prevAnime,
+                                                                rating: parseInt(
+                                                                    e.target
+                                                                        .value
+                                                                ),
+                                                            })
+                                                        )
+                                                    }
+                                                />
+                                                <span className="text-sm font-semibold">
+                                                    11
+                                                </span>
+                                            </div>
                                         </div>
                                         {/* Automatic Image Search Toggle */}
                                         <Switch.Group>
