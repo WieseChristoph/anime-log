@@ -93,21 +93,21 @@ function Anime({
                     {/* Season, Movie, OVA */}
                     <div className="flex flex-col border-black px-2 dark:border-white sm:border-l">
                         <div className="basis-1/3">
-                            <div className="font-semibold">Season</div>
+                            <div className="font-semibold">Seasons</div>
                             <div className="overflow-x-auto whitespace-nowrap">
                                 {arrayToString(anime.seasons) || "-"}
                             </div>
                         </div>
                         <div className="basis-1/3">
                             <hr className="border-black dark:border-white" />
-                            <div className="font-semibold">Movie</div>
+                            <div className="font-semibold">Movies</div>
                             <div className="overflow-x-auto whitespace-nowrap">
                                 {arrayToString(anime.movies) || "-"}
                             </div>
                         </div>
                         <div className="basis-1/3">
                             <hr className="border-black dark:border-white" />
-                            <div className="font-semibold">OVA</div>
+                            <div className="font-semibold">OVAs</div>
                             <div className="overflow-x-auto whitespace-nowrap">
                                 {arrayToString(anime.ovas) || "-"}
                             </div>

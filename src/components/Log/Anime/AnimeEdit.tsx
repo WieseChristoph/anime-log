@@ -113,7 +113,7 @@ function AnimeEdit({
                 >
                     {/* Full-screen container to center the panel */}
                     <div className="fixed inset-0 grid place-items-center overflow-y-auto p-4">
-                        <Dialog.Panel className="w-4/5 rounded border border-black bg-gray-200 p-4 dark:border-white dark:bg-slate-900 md:w-3/5 lg:w-3/6">
+                        <Dialog.Panel className="w-4/5 rounded bg-gray-200 p-4 shadow-md shadow-gray-600  dark:bg-slate-900 md:w-3/5 lg:w-3/6">
                             <Dialog.Title className="flex items-start justify-between border-b border-black px-4 pb-2 dark:border-white">
                                 <span className="text-xl font-semibold">
                                     {initialAnime.id
@@ -366,7 +366,7 @@ function AnimeEdit({
                                 <div className="mb-4 flex flex-col divide-black dark:divide-white md:flex-row md:divide-x">
                                     <div className="basis-1/3 p-2">
                                         <div className="mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Season
+                                            Seasons
                                         </div>
                                         <ListInput
                                             initialArray={anime.seasons ?? []}
@@ -377,7 +377,7 @@ function AnimeEdit({
                                     </div>
                                     <div className="basis-1/3 p-2">
                                         <div className="mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Movie
+                                            Movies
                                         </div>
                                         <ListInput
                                             initialArray={anime.movies ?? []}
@@ -388,7 +388,7 @@ function AnimeEdit({
                                     </div>
                                     <div className="basis-1/3 p-2">
                                         <div className="mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            OVA
+                                            OVAs
                                         </div>
                                         <ListInput
                                             initialArray={anime.ovas ?? []}
