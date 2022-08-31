@@ -114,7 +114,7 @@ function AnimeEdit({
                     {/* Full-screen container to center the panel */}
                     <div className="fixed inset-0 grid place-items-center overflow-y-auto p-4">
                         <Dialog.Panel className="w-4/5 rounded border border-black bg-gray-200 p-4 dark:border-white dark:bg-slate-900 md:w-3/5 lg:w-3/6">
-                            <Dialog.Title className="flex items-start justify-between border-b border-black p-4 dark:border-white">
+                            <Dialog.Title className="flex items-start justify-between border-b border-black px-4 pb-2 dark:border-white">
                                 <span className="text-xl font-semibold">
                                     {initialAnime.id
                                         ? "Update Anime"
@@ -141,7 +141,7 @@ function AnimeEdit({
                                     setAnime({} as Anime);
                                 }}
                             >
-                                <section className="flex flex-col items-center gap-4 py-4 md:flex-row">
+                                <section className="flex flex-col items-center gap-4 pt-4 md:flex-row">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img
                                         className="shadow shadow-gray-400"
@@ -154,7 +154,7 @@ function AnimeEdit({
                                     />
                                     <div className="w-full">
                                         {/* Title */}
-                                        <div className="mb-6">
+                                        <div className="mb-4">
                                             <label
                                                 htmlFor="title"
                                                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -181,7 +181,7 @@ function AnimeEdit({
                                             />
                                         </div>
                                         {/* Rating */}
-                                        <div className="mb-6">
+                                        <div className="mb-4">
                                             <label
                                                 htmlFor="rating"
                                                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -209,7 +209,7 @@ function AnimeEdit({
                                         </div>
                                         {/* Automatic Image Search Toggle */}
                                         <Switch.Group>
-                                            <div className="mb-6 flex items-center">
+                                            <div className="mb-4 flex items-center">
                                                 <Switch.Label className="mr-4">
                                                     Automatic Image Search
                                                 </Switch.Label>
@@ -237,7 +237,7 @@ function AnimeEdit({
                                         {/* Image Url */}
                                         <Transition
                                             as="div"
-                                            className="mb-6"
+                                            className="mb-4"
                                             show={!searchForImage}
                                             enter="ease-out duration-200"
                                             enterFrom="opacity-0"
@@ -272,7 +272,7 @@ function AnimeEdit({
                                             />
                                         </Transition>
                                         {/* Link */}
-                                        <div className="mb-6">
+                                        <div className="mb-4">
                                             <label
                                                 htmlFor="link"
                                                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -295,7 +295,7 @@ function AnimeEdit({
                                             />
                                         </div>
                                         {/* Start Date */}
-                                        <div className="mb-6">
+                                        <div className="mb-4">
                                             <label
                                                 htmlFor="startDate"
                                                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -326,7 +326,7 @@ function AnimeEdit({
                                     </div>
                                 </section>
                                 {/* Notes */}
-                                <div className="mb-6">
+                                <div className="mb-4">
                                     <label
                                         htmlFor="notes"
                                         className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -349,7 +349,7 @@ function AnimeEdit({
                                     />
                                 </div>
                                 {/* Seasons, Movies ans OVAs input */}
-                                <div className="mb-6 flex flex-col divide-black dark:divide-white md:flex-row md:divide-x">
+                                <div className="mb-4 flex flex-col divide-black dark:divide-white md:flex-row md:divide-x">
                                     <div className="basis-1/3 p-2">
                                         <div className="mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                             Season
