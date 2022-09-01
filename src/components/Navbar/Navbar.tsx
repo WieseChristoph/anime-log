@@ -27,9 +27,11 @@ function Navbar({ urlShareId }: Props) {
                     </a>
                 </Link>
 
-                <ul className="mr-auto">
+                <ul className="mr-auto flex flex-col md:flex-row md:space-x-8 md:text-sm md:font-medium">
                     {status === "authenticated" && (
-                        <SavedUsersDropdown urlShareId={urlShareId} />
+                        <li className="block py-2 pr-4 pl-3 text-gray-700 dark:text-gray-300 md:p-0">
+                            <SavedUsersDropdown urlShareId={urlShareId} />
+                        </li>
                     )}
                 </ul>
 
