@@ -28,13 +28,13 @@ function ProfileDropdown({ user }: Props) {
         },
     });
 
-    const shareLinkToClipboard = () => {
+    function shareLinkToClipboard() {
         // if shareId is set, put link with shareId in clipboard
         if (getShareId.data?.shareId)
             navigator.clipboard.writeText(
                 window.location.origin + "/" + getShareId.data.shareId
             );
-    };
+    }
 
     return (
         <Menu as="div" className="relative inline-block">
