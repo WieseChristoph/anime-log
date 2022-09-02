@@ -2,9 +2,13 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import Navbar from "@/components/Navbar/Navbar";
 import Log from "@/components/Log/Log";
+import LoginAlert from "@/components/Util/LoginAlert";
+import Loading from "@/components/Util/Loading";
+import { useSession } from "next-auth/react";
 
 function SharedLog() {
     const router = useRouter();
+    const { status } = useSession();
     const shareId = router.query.shareId as string;
 
     return (
@@ -20,7 +24,15 @@ function SharedLog() {
 
             <Navbar urlShareId={shareId} />
 
-            <Log shareId={shareId} />
+            {status !== "loading" ? (
+                status === "authenticated" ? (
+                    <Log shareId={shareId} />
+                ) : (
+                    <LoginAlert />
+                )
+            ) : (
+                <Loading />
+            )}
         </div>
     );
 }
