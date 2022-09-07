@@ -2,7 +2,7 @@ import z from "zod";
 
 export const animeValidator = z.object({
     id: z.string(),
-    title: z.string(),
+    title: z.string().min(1),
     seasons: z.array(z.number()).default([]),
     movies: z.array(z.number()).default([]),
     ovas: z.array(z.number()).default([]),

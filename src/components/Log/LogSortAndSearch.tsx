@@ -1,18 +1,11 @@
 import PropTypes from "prop-types";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-
-// somewhat of an enum for order types
-export enum Order {
-    none,
-    title,
-    startDate,
-    rating,
-    updatedAt,
-}
+import { Order } from "@/types/Order";
 
 interface Props {
     currentOrder: Order;
     ascending: boolean;
+    searchTerm: string;
     onOrderChange: (order: Order) => void;
     onSearchChange: (searchTerm: string) => void;
     onAscendingChange: (ascending: boolean) => void;
@@ -29,6 +22,7 @@ function AscendingIcon({ ascending }: { ascending: boolean }) {
 function LogSortAndSearch({
     currentOrder,
     ascending,
+    searchTerm,
     onOrderChange,
     onSearchChange,
     onAscendingChange,
@@ -99,7 +93,17 @@ function LogSortAndSearch({
 
                 {/* Search box */}
                 <li className="ml-auto flex items-center">
-                    <div className="relative w-full">
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            const searchElement =
+                                e.currentTarget.elements.namedItem(
+                                    "search"
+                                ) as HTMLInputElement;
+                            onSearchChange(searchElement.value);
+                        }}
+                        className="relative w-full"
+                    >
                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                             <svg
                                 className="h-5 w-5 text-gray-500 dark:text-gray-400"
@@ -116,11 +120,17 @@ function LogSortAndSearch({
                         </div>
                         <input
                             type="search"
+                            name="search"
                             className="rounded-lg border border-gray-300 bg-gray-50 p-2 pl-10 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                             placeholder="Search"
-                            onChange={(e) => onSearchChange(e.target.value)}
+                            defaultValue={searchTerm}
+                            onChange={(e) =>
+                                // reset on clear
+                                !e.target.value &&
+                                onSearchChange(e.target.value)
+                            }
                         />
-                    </div>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -128,8 +138,9 @@ function LogSortAndSearch({
 }
 
 LogSortAndSearch.propTypes = {
-    currentOrder: PropTypes.number.isRequired,
+    currentOrder: PropTypes.string.isRequired,
     ascending: PropTypes.bool.isRequired,
+    searchTerm: PropTypes.string.isRequired,
     onOrderChange: PropTypes.func,
     onSearchChange: PropTypes.func,
     onAscendingChange: PropTypes.func,

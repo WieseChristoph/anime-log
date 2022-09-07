@@ -3,7 +3,7 @@ import Head from "next/head";
 import Loading from "@/components/Util/Loading";
 import Log from "@/components/Log/Log";
 import Navbar from "@/components/Navbar/Navbar";
-import LoginAlert from "@/components/Util/LoginAlert";
+import InfoAlert from "@/components/Util/InfoAlert";
 
 function Home() {
     const { status } = useSession();
@@ -25,7 +25,7 @@ function Home() {
                 status === "authenticated" ? (
                     <Log />
                 ) : (
-                    <LoginAlert />
+                    <InfoAlert message="Log in to log your watched anime!" />
                 )
             ) : (
                 <Loading />

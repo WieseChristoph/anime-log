@@ -1,4 +1,4 @@
-function LoginAlert() {
+function InfoAlert({ message }: { message?: string }) {
     return (
         <div className="p-5">
             <div
@@ -18,11 +18,11 @@ function LoginAlert() {
                     ></path>
                 </svg>
                 <div className="ml-3 text-sm font-medium text-blue-700">
-                    Log in to log your watched anime!
+                    {message}
                 </div>
             </div>
         </div>
     );
 }
 
-export default LoginAlert;
+export default InfoAlert;
