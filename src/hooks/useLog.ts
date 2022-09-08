@@ -13,7 +13,7 @@ function useLog(shareId: string | undefined) {
         order: order,
         asc: ascending,
         searchTerm: searchTerm,
-        limit: 20,
+        limit: 16,
     };
 
     const ctx = trpc.useContext();
