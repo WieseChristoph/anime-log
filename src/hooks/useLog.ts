@@ -31,6 +31,7 @@ function useLog(shareId: string | undefined) {
         onMutate: async (addedAnime) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await ctx.cancelQuery(["anime.infiniteAnime", queryInput]);
+            await ctx.cancelQuery(["anime.count", { shareId: shareId }]);
 
             // Optimistically update to the new value
             ctx.setInfiniteQueryData(
@@ -55,10 +56,17 @@ function useLog(shareId: string | undefined) {
                     };
                 }
             );
+
+            // Optimistically update anime count
+            ctx.setQueryData(
+                ["anime.count", { shareId: shareId }],
+                (data) => (data ?? 0) + 1
+            );
         },
         // Always refetch after error or success:
         onSettled: () => {
             ctx.invalidateQueries(["anime.infiniteAnime", queryInput]);
+            ctx.invalidateQueries(["anime.count", { shareId: shareId }]);
         },
     });
 
@@ -105,6 +113,7 @@ function useLog(shareId: string | undefined) {
         onMutate: async (deletedAnime) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await ctx.cancelQuery(["anime.infiniteAnime", queryInput]);
+            await ctx.cancelQuery(["anime.count", { shareId: shareId }]);
 
             // Optimistically update to the new value
             ctx.setInfiniteQueryData(
@@ -128,10 +137,16 @@ function useLog(shareId: string | undefined) {
                     };
                 }
             );
+            // Optimistically update anime count
+            ctx.setQueryData(
+                ["anime.count", { shareId: shareId }],
+                (data) => (data ?? 0) - 1
+            );
         },
         // Always refetch after error or success:
         onSettled: () => {
             ctx.invalidateQueries(["anime.infiniteAnime", queryInput]);
+            ctx.invalidateQueries(["anime.count", { shareId: shareId }]);
         },
     });
 
