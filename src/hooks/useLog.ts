@@ -58,11 +58,7 @@ function useLog(shareId: string | undefined) {
         },
         // Always refetch after error or success:
         onSettled: () => {
-            setTimeout(
-                () =>
-                    ctx.invalidateQueries(["anime.infiniteAnime", queryInput]),
-                5000
-            );
+            ctx.invalidateQueries(["anime.infiniteAnime", queryInput]);
         },
     });
 
