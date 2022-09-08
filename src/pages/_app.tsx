@@ -1,5 +1,6 @@
 import superjson from "superjson";
 import { SessionProvider } from "next-auth/react";
+import { Session } from "next-auth";
 import { ThemeProvider } from "next-themes";
 import { AppProps } from "next/app";
 import { withTRPC } from "@trpc/next";
@@ -11,7 +12,7 @@ import { getBaseUrl } from "@/utils/helper";
 function AnimeLog({
     Component,
     pageProps: { session, ...pageProps },
-}: AppProps) {
+}: AppProps<{ session: Session }>) {
     return (
         <SessionProvider session={session}>
             <ThemeProvider attribute="class">
