@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { createProtectedRouter } from "./protected-router";
-import { getImageByTitle } from "../utils/kitsu";
+import { createProtectedRouter } from "../protected-router";
+import { getImageByTitle } from "../../utils/kitsu";
 
 export const kitsuRouter = createProtectedRouter().query("get-imageByTitle", {
     input: z.object({

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createProtectedRouter } from "./protected-router";
+import { createProtectedRouter } from "../protected-router";
 import { animeValidator } from "@/types/Anime";
 import { Order } from "@/types/Order";
 

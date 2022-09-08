@@ -2,10 +2,10 @@
 import { createRouter } from "./context";
 import superjson from "superjson";
 
-import { animeRouter } from "./anime";
-import { savedUserRouter } from "./savedUser";
-import { userRouter } from "./user";
-import { kitsuRouter } from "./kitsu";
+import { animeRouter } from "./subrouters/anime";
+import { savedUserRouter } from "./subrouters/savedUser";
+import { userRouter } from "./subrouters/user";
+import { kitsuRouter } from "./subrouters/kitsu";
 
 export const appRouter = createRouter()
     .transformer(superjson)
