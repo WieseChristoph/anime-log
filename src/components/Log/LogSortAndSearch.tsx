@@ -13,9 +13,9 @@ interface Props {
 
 function AscendingIcon({ ascending }: { ascending: boolean }) {
     return ascending ? (
-        <FaChevronDown className="ml-1 text-sm" />
-    ) : (
         <FaChevronUp className="ml-1 text-sm" />
+    ) : (
+        <FaChevronDown className="ml-1 text-sm" />
     );
 }
 
