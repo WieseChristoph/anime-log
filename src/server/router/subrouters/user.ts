@@ -1,6 +1,6 @@
 import { z } from "zod";
 import cuid from "cuid";
-import { createProtectedRouter } from "./protected-router";
+import { createProtectedRouter } from "../protected-router";
 
 export const userRouter = createProtectedRouter()
     .query("get-shareId", {

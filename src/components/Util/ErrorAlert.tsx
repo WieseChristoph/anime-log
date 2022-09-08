@@ -1,10 +1,6 @@
 import PropTypes from "prop-types";
 
-interface Props {
-    message: string;
-}
-
-function ErrorAlert({ message }: Props) {
+function ErrorAlert({ message }: { message?: string }) {
     return (
         <div
             className="mb-4 flex border-t-4 border-red-500 bg-red-100 p-4 dark:bg-red-200"

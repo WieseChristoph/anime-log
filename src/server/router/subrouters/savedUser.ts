@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createProtectedRouter } from "./protected-router";
+import { createProtectedRouter } from "../protected-router";
 
 export const savedUserRouter = createProtectedRouter()
     .query("get-all", {
