@@ -63,7 +63,7 @@ function ProfileDropdown({ user }: Props) {
                         leaveTo="transform scale-50 opacity-0"
                     >
                         <Menu.Items
-                            className="text-dark absolute right-0 z-50 mt-2 w-40
+                            className="text-dark absolute right-0 mt-2 w-40
 			origin-top-right divide-y divide-black rounded-md bg-gray-100 shadow-lg
 			dark:divide-white dark:bg-slate-700 dark:text-white"
                         >

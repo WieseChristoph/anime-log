@@ -29,7 +29,7 @@ function SavedUsersDropdown({ urlShareId }: Props) {
     });
 
     return (
-        <Menu as="div" className="relative inline-block text-left">
+        <Menu as="div" className="relative z-50 inline-block text-left">
             {({ open }) => (
                 <>
                     <Menu.Button className="flex items-center">
@@ -48,7 +48,7 @@ function SavedUsersDropdown({ urlShareId }: Props) {
                         leaveTo="transform scale-50 opacity-0"
                     >
                         <Menu.Items
-                            className="absolute z-50 mt-2
+                            className="absolute mt-2
 			w-52 divide-y divide-black rounded-md bg-gray-100 shadow-lg
 			dark:divide-white dark:bg-slate-700 dark:text-white"
                         >
