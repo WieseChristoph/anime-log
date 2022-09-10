@@ -1,5 +1,5 @@
 import SortAndSearch from "./LogSortAndSearch";
-import { Fragment, useEffect, useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { useInView } from "react-intersection-observer";
 import ErrorAlert from "../Util/ErrorAlert";
@@ -20,7 +20,9 @@ function Log({ shareId }: Props) {
     const [showEditAnime, setShowEditAnime] = useState(false);
     const [animeToEdit, setAnimeToEdit] = useState<AnimeType>();
 
-    const { ref: inViewRef, inView } = useInView();
+    const { ref: inViewRef } = useInView({
+        onChange: (inView) => inView && getAnime.fetchNextPage(),
+    });
 
     const {
         getAnime,
@@ -51,10 +53,6 @@ function Log({ shareId }: Props) {
             };
         }
     }
-
-    useEffect(() => {
-        if (inView) getAnime.fetchNextPage();
-    }, [inView, getAnime]);
 
     // Error Alert
     if (getAnime.isError || getUserByShareId.isError)
@@ -127,26 +125,23 @@ function Log({ shareId }: Props) {
                 <Loading />
             ) : (
                 <>
+                    {/* Log */}
                     <div className="grid grid-cols-1 justify-start gap-4 xl:grid-cols-2">
                         {/* All entries */}
-                        {getAnime.data?.pages.map((page) => (
-                            <Fragment key={page.nextCursor ?? -1}>
-                                {page.items.map((anime) => (
-                                    <Anime
-                                        key={anime.id}
-                                        anime={anime}
-                                        onDeleteClick={(a) =>
-                                            deleteAnime.mutate(a)
-                                        }
-                                        onEditClick={(a) => {
-                                            setAnimeToEdit(a);
-                                            setShowEditAnime(true);
-                                        }}
-                                        isSharedLog={shareId !== undefined}
-                                    />
-                                ))}
-                            </Fragment>
-                        ))}
+                        {getAnime.data?.pages.map((page) =>
+                            page.items.map((anime) => (
+                                <Anime
+                                    key={anime.id}
+                                    anime={anime}
+                                    onDeleteClick={(a) => deleteAnime.mutate(a)}
+                                    onEditClick={(a) => {
+                                        setAnimeToEdit(a);
+                                        setShowEditAnime(true);
+                                    }}
+                                    isSharedLog={shareId !== undefined}
+                                />
+                            ))
+                        )}
                     </div>
 
                     {/* Loading for infinite query */}
