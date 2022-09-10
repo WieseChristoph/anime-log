@@ -245,6 +245,13 @@ function AnimeEdit({
                                             <div className="mb-4 flex items-center">
                                                 <Switch.Label className="mr-4">
                                                     Automatic Image Search
+                                                    <p className="text-xs text-gray-300">
+                                                        (Image updates{" "}
+                                                        {IMAGE_SEARCH_TIMEOUT /
+                                                            1000}{" "}
+                                                        Second after typing in
+                                                        the Title-Field)
+                                                    </p>
                                                 </Switch.Label>
                                                 <Switch
                                                     checked={searchForImage}
