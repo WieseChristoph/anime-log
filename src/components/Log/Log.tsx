@@ -2,6 +2,7 @@ import SortAndSearch from "./LogSortAndSearch";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
 import ErrorAlert from "../Util/ErrorAlert";
 import Anime from "./Anime/Anime";
 import AnimeEdit from "./Anime/AnimeEdit";
@@ -126,10 +127,14 @@ function Log({ shareId }: Props) {
             ) : (
                 <>
                     {/* Log */}
-                    <div className="grid grid-cols-1 justify-start gap-4 xl:grid-cols-2">
+
+                    <motion.div
+                        className="grid grid-cols-1 justify-start gap-4 xl:grid-cols-2"
+                        layout
+                    >
                         {/* All entries */}
                         {getAnime.data?.pages.map((page) =>
-                            page.items.map((anime) => (
+                            page.items.map((anime, iIndex) => (
                                 <Anime
                                     key={anime.id}
                                     anime={anime}
@@ -139,10 +144,11 @@ function Log({ shareId }: Props) {
                                         setShowEditAnime(true);
                                     }}
                                     isSharedLog={shareId !== undefined}
+                                    index={iIndex}
                                 />
                             ))
                         )}
-                    </div>
+                    </motion.div>
 
                     {/* Loading for infinite query */}
                     <div

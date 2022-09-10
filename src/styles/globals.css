@@ -1,33 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
 @layer base {
-  body {
-    @apply bg-white dark:bg-slate-800;
-  }
+    body {
+        @apply bg-white dark:bg-slate-800;
+    }
 
-  ::-webkit-scrollbar {
-    @apply bg-slate-300 dark:bg-slate-700;
-    width: 7px;
-    height: 5px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    @apply bg-slate-500 dark:bg-slate-300;
-    border-radius: 50px;
-  }
+    ::-webkit-scrollbar {
+        @apply bg-slate-300 dark:bg-slate-700;
+        width: 7px;
+        height: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-slate-500 dark:bg-slate-300;
+        border-radius: 50px;
+    }
 }
 
-html, body {
-  margin: 0;
-  font-family: 'Montserrat', sans-serif !important;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html,
+body {
+    margin: 0;
+    /* margin right if no scrollbar is present to prevent
+       layout shift when scrollbar appears or disappears */
+    margin-right: calc(-1 * (100vw - 100%));
+    overflow-x: hidden;
+
+    font-family: "Montserrat", sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
 }

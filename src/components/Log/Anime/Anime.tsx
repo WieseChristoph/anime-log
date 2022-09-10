@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import moment from "moment";
 import { MdEdit, MdDelete } from "react-icons/md";
+import { motion } from "framer-motion";
 import { Anime as AnimeType } from "@/types/Anime";
 
 const IMAGE_HEIGHT = 210;
@@ -11,6 +12,7 @@ interface Props {
     onDeleteClick: (anime: AnimeType) => void;
     onEditClick: (anime: AnimeType) => void;
     isSharedLog: boolean;
+    index: number;
 }
 
 function isConsecutive(array: number[]): boolean {
@@ -34,12 +36,25 @@ function Anime({
     onDeleteClick,
     onEditClick,
     isSharedLog = false,
+    index,
 }: Props) {
     return (
-        <div
+        <motion.div
             className={`relative rounded
             bg-gray-200 shadow-sm shadow-gray-400
 			dark:bg-slate-900 dark:text-white`}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{
+                opacity: 1,
+                scale: 1,
+                transition: { duration: 0.3, delay: index * 0.05 },
+            }}
+            exit={{
+                opacity: 0,
+                scale: 0.5,
+                transition: { duration: 0.3 },
+            }}
+            layout
         >
             <div className="flex flex-col sm:flex-row">
                 {/* Image */}
@@ -136,7 +151,7 @@ function Anime({
                     </button>
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 }
 
@@ -145,6 +160,7 @@ Anime.propTypes = {
     onDeleteClick: PropTypes.func,
     onEditClick: PropTypes.func,
     isSharedLog: PropTypes.bool,
+    index: PropTypes.number,
 };
 
 export default Anime;
