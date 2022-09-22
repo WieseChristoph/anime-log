@@ -5,8 +5,8 @@ import { MdCancel } from "react-icons/md";
 import { Dialog, Switch, Transition } from "@headlessui/react";
 import ListInput from "./AnimeListInput";
 import { Anime } from "@/types/Anime";
-import { trpc } from "@/utils/trpc";
 import ErrorAlert from "@/components/Util/ErrorAlert";
+import { getImageByTitle } from "@/utils/animeInfo";
 
 const IMAGE_HEIGHT = 315;
 const IMAGE_WIDTH = 225;
@@ -47,16 +47,6 @@ function AnimeEdit({
         setAnime(initialAnimeRef.current);
     }, [initialAnimeRef]);
 
-    const getImageByTitle = trpc.useQuery(
-        ["kitsu.get-imageByTitle", { title: anime.title }],
-        {
-            enabled: false,
-            onSuccess(data) {
-                if (data) setAnime({ ...anime, imageUrl: data });
-            },
-        }
-    );
-
     function updateArray(arrayName: string, array: number[]) {
         setAnime((prevAnime) => ({
             ...prevAnime,
@@ -64,9 +54,11 @@ function AnimeEdit({
         }));
     }
 
-    function handleImageSearchToggle(enabled: boolean) {
-        if (enabled && anime.title) getImageByTitle.refetch();
-        else clearTimeout(imageSearchTimeout);
+    async function handleImageSearchToggle(enabled: boolean) {
+        if (enabled && anime.title) {
+            const image = await getImageByTitle(anime.title);
+            setAnime((prev) => ({ ...prev, imageUrl: image }));
+        } else clearTimeout(imageSearchTimeout);
 
         setSearchForImage(enabled);
     }
@@ -76,10 +68,12 @@ function AnimeEdit({
         if (searchForImage) {
             clearTimeout(imageSearchTimeout);
             setimageSearchTimeout(
-                setTimeout(
-                    () => title && getImageByTitle.refetch(),
-                    IMAGE_SEARCH_TIMEOUT
-                )
+                setTimeout(async () => {
+                    if (title) {
+                        const image = await getImageByTitle(title);
+                        setAnime((prev) => ({ ...prev, imageUrl: image }));
+                    }
+                }, IMAGE_SEARCH_TIMEOUT)
             );
         }
     }
