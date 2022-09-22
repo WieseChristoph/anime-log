@@ -1,8 +1,8 @@
-import { JikanResponse } from "@/types/Jikan";
+import { KitsuResponse } from "@/types/Kitsu";
 
-const BASE_URL = "https://api.jikan.moe/v4";
+const BASE_URL = "https://kitsu.io/api/edge";
 
-async function jikanRequest(query: string): Promise<JikanResponse | undefined> {
+async function kitsuRequest(query: string): Promise<KitsuResponse | undefined> {
     const response = await fetch(`${BASE_URL}/${query}`, {
         headers: {
             Accept: `application/vnd.api+json`,
@@ -16,18 +16,22 @@ async function jikanRequest(query: string): Promise<JikanResponse | undefined> {
 
 export async function getImageByTitle(title: string): Promise<string> {
     // try to get anime with this title
-    let result = await jikanRequest(
-        `anime?q=${encodeURIComponent(title)}&limit=1`
+    let result = await kitsuRequest(
+        `anime?fields[anime]=posterImage&page[limit]=1&filter[text]=${encodeURI(
+            title
+        )}`
     );
-    if (result && result.data.length > 0)
-        return result.data[0].images.webp.image_url;
+    if (result && result.meta.count > 0)
+        return result.data[0].attributes.posterImage.small;
     else {
         // try to get manga with this title
-        result = await jikanRequest(
-            `manga?q=${encodeURIComponent(title)}&limit=1`
+        result = await kitsuRequest(
+            `manga?fields[manga]=posterImage&page[limit]=1&filter[text]=${encodeURI(
+                title
+            )}`
         );
-        if (result && result.data.length > 0)
-            return result.data[0].images.webp.image_url;
+        if (result && result.meta.count > 0)
+            return result.data[0].attributes.posterImage.small;
     }
 
     return "";
