@@ -1,4 +1,5 @@
 import SortAndSearch from "./LogSortAndSearch";
+import Head from "next/head";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useInView } from "react-intersection-observer";
@@ -74,6 +75,14 @@ function Log({ shareId }: Props) {
 
     return (
         <div className="container mx-auto px-5 py-4">
+            {getUserByShareId.data && (
+                <Head>
+                    <title>
+                        {getUserByShareId.data.name}&apos;s Log | Anime Log
+                    </title>
+                </Head>
+            )}
+
             <SortAndSearch
                 currentOrder={filters.order}
                 ascending={filters.ascending}

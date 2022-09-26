@@ -16,6 +16,7 @@ function Home() {
                     name="description"
                     content="Manage and share your watched Anime!"
                 />
+                <meta property="og:image" content="/torii-gate.png" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
