@@ -1,10 +1,10 @@
-import SharedLog from "@/pages/[shareId]";
+import Home from "@/pages/[[...slug]]";
 import { useSession } from "next-auth/react";
 import { render, screen } from "@testing-library/react";
 
 jest.mock("next-auth/react");
 jest.mock("next/router", () => ({
-    useRouter: jest.fn(() => ({ query: { shareId: "test" } })),
+    useRouter: jest.fn(() => ({ query: { slug: ["test"] } })),
 }));
 jest.mock("@/components/Log/Log", () => {
     const LogMock = ({ shareId }: { shareId: string }) => <p>{shareId}</p>;
@@ -22,7 +22,7 @@ describe("SharedLog", () => {
             status: "authenticated",
         });
 
-        render(<SharedLog />);
+        render(<Home />);
 
         expect(screen.getByText("test"));
     });

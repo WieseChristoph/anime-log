@@ -1,17 +1,24 @@
-import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import Head from "next/head";
-import Loading from "@/components/Util/Loading";
-import Log from "@/components/Log/Log";
 import Navbar from "@/components/Navbar/Navbar";
+import Log from "@/components/Log/Log";
 import InfoAlert from "@/components/Util/InfoAlert";
+import Loading from "@/components/Util/Loading";
+import { useSession } from "next-auth/react";
 
 function Home() {
+    const router = useRouter();
     const { status } = useSession();
+    const shareId = router.query.slug?.at(0);
 
     return (
         <div>
             <Head>
-                <title>Home | Anime Log</title>
+                {shareId ? (
+                    <title>Shared Log | Anime Log</title>
+                ) : (
+                    <title>Home | Anime Log</title>
+                )}
                 <meta
                     name="description"
                     content="Manage and share your watched Anime!"
@@ -20,11 +27,11 @@ function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Navbar />
+            <Navbar urlShareId={shareId} />
 
             {status !== "loading" ? (
                 status === "authenticated" ? (
-                    <Log />
+                    <Log shareId={shareId} />
                 ) : (
                     <InfoAlert message="Log in to log your watched anime!" />
                 )
