@@ -61,7 +61,7 @@ function StatsLayout({ shareId }: { shareId?: string }) {
                 </>
             )}
 
-            <div className="m-4 grid grid-cols-1 gap-10 md:grid-cols-2">
+            <div className="m-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="rounded bg-gray-200 p-4 dark:bg-slate-900">
                     <span className="text-xl font-bold">
                         Rating distribution
