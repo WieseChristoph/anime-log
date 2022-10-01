@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
-    swcMinify: true,
+    // needed to be off for chartJs but could be fixed in future nextJs versions
+    swcMinify: false,
     images: {
         domains: ["cdn.discordapp.com", "media.kitsu.io"],
     },
