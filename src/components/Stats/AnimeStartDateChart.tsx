@@ -44,6 +44,9 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
         scales: {
             xAxes: {
                 type: "time",
+                time: {
+                    tooltipFormat: "DD/MM/YYYY",
+                },
                 grid: {
                     ...(theme === "dark" && {
                         color: "rgb(255, 255, 255, 0.2)",
