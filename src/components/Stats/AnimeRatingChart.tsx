@@ -56,6 +56,10 @@ function AnimeRatingChart({ anime = [] }: { anime?: Anime[] }) {
     const options: ChartOptions<"bar"> = {
         scales: {
             xAxes: {
+                title: {
+                    display: true,
+                    text: "Rating",
+                },
                 grid: {
                     ...(theme === "dark" && {
                         color: "rgb(255, 255, 255, 0.2)",
@@ -63,6 +67,10 @@ function AnimeRatingChart({ anime = [] }: { anime?: Anime[] }) {
                 },
             },
             yAxes: {
+                title: {
+                    display: true,
+                    text: "Anime count",
+                },
                 ticks: {
                     stepSize: 1,
                 },

@@ -15,7 +15,15 @@ function AnimeWeekdayChart({ anime = [] }: { anime?: Anime[] }) {
     }, [anime]);
 
     const chartData: ChartData<"bar"> = {
-        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        labels: [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+        ],
         datasets: [
             {
                 data: data,
@@ -46,6 +54,10 @@ function AnimeWeekdayChart({ anime = [] }: { anime?: Anime[] }) {
     const options: ChartOptions<"bar"> = {
         scales: {
             xAxes: {
+                title: {
+                    display: true,
+                    text: "Weekday",
+                },
                 grid: {
                     ...(theme === "dark" && {
                         color: "rgb(255, 255, 255, 0.2)",
@@ -53,6 +65,10 @@ function AnimeWeekdayChart({ anime = [] }: { anime?: Anime[] }) {
                 },
             },
             yAxes: {
+                title: {
+                    display: true,
+                    text: "Anime count",
+                },
                 ticks: {
                     stepSize: 1,
                 },
@@ -69,19 +85,6 @@ function AnimeWeekdayChart({ anime = [] }: { anime?: Anime[] }) {
             },
             tooltip: {
                 callbacks: {
-                    title: (tooltipItem) => {
-                        const fullDayNames = [
-                            "Monday",
-                            "Tuesday",
-                            "Wednesday",
-                            "Thursday",
-                            "Friday",
-                            "Saturday",
-                            "Sunday",
-                        ];
-                        const index = tooltipItem.at(0)?.dataIndex ?? NaN;
-                        return fullDayNames.at(index) ?? "Unknown Day";
-                    },
                     label: (tooltipItem) => {
                         return `${tooltipItem.formattedValue} Anime`;
                     },

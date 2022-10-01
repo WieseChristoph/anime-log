@@ -44,6 +44,10 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
     const options: ChartOptions<"line"> = {
         scales: {
             xAxes: {
+                title: {
+                    display: true,
+                    text: "Date",
+                },
                 type: "time",
                 time: {
                     tooltipFormat: "DD/MM/YYYY",
@@ -55,6 +59,10 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
                 },
             },
             yAxes: {
+                title: {
+                    display: true,
+                    text: "Anime count",
+                },
                 ticks: {
                     stepSize: 1,
                 },

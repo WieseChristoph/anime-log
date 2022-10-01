@@ -90,7 +90,7 @@ function StatsLayout({ shareId }: { shareId?: string }) {
                 </div>
                 <div className="rounded bg-gray-200 p-4 dark:bg-slate-900">
                     <span className="text-xl font-bold">
-                        Start date by weekdays
+                        Anime count by weekdays
                     </span>
                     <hr className="my-2 border-black dark:border-white" />
                     <AnimeWeekdayChart anime={getAnime.data} />
