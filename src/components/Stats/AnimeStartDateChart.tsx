@@ -1,28 +1,11 @@
-import {
-    Chart as ChartJS,
-    LineController,
-    LineElement,
-    LinearScale,
-    PointElement,
-    TimeScale,
-    Tooltip,
-} from "chart.js";
 import { ChartData, ChartOptions } from "chart.js/auto";
+import zoomPlugin from "chartjs-plugin-zoom";
 import "chartjs-adapter-moment";
 import { Line } from "react-chartjs-2";
 import { useMemo } from "react";
 import { useTheme } from "next-themes";
 import moment from "moment";
 import { Anime } from "@/types/Anime";
-
-ChartJS.register(
-    LineController,
-    LineElement,
-    PointElement,
-    LinearScale,
-    TimeScale,
-    Tooltip
-);
 
 function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
     const { theme } = useTheme();
@@ -84,10 +67,20 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
             legend: {
                 display: false,
             },
+            zoom: {
+                zoom: {
+                    wheel: {
+                        enabled: true,
+                    },
+                },
+                pan: {
+                    enabled: true,
+                },
+            },
         },
     };
 
-    return <Line data={chartData} options={options} />;
+    return <Line data={chartData} options={options} plugins={[zoomPlugin]} />;
 }
 
 export default AnimeStartDateChart;

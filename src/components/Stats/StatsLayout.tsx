@@ -1,9 +1,35 @@
+import {
+    Chart as ChartJS,
+    BarElement,
+    CategoryScale,
+    LineElement,
+    LinearScale,
+    PointElement,
+    TimeScale,
+    Tooltip,
+} from "chart.js";
 import { Order } from "@/types/Order";
 import { trpc } from "@/utils/trpc";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import AnimeRatingChart from "./AnimeRatingChart";
-import AnimeStartDateChart from "./AnimeStartDateChart";
 import AnimeWeekdayChart from "./AnimeWeekdayChart";
+
+ChartJS.register(
+    BarElement,
+    CategoryScale,
+    LinearScale,
+    LineElement,
+    PointElement,
+    TimeScale,
+    Tooltip
+);
+
+// needs dynamic import without ssr because the chart zoom-plugin needs the window object
+const DynamicAnimeStartDateChart = dynamic(
+    () => import("./AnimeStartDateChart"),
+    { ssr: false }
+);
 
 function StatsLayout({ shareId }: { shareId?: string }) {
     const getAnime = trpc.useQuery([
@@ -55,7 +81,7 @@ function StatsLayout({ shareId }: { shareId?: string }) {
                         Anime count over time
                     </span>
                     <hr className="my-2 border-black dark:border-white" />
-                    <AnimeStartDateChart anime={getAnime.data} />
+                    <DynamicAnimeStartDateChart anime={getAnime.data} />
                 </div>
             </div>
         </div>

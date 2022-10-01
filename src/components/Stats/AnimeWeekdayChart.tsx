@@ -1,17 +1,8 @@
-import {
-    Chart as ChartJS,
-    BarController,
-    BarElement,
-    CategoryScale,
-    Tooltip,
-} from "chart.js";
 import { ChartData, ChartOptions } from "chart.js/auto";
 import { Bar } from "react-chartjs-2";
 import { useMemo } from "react";
 import { useTheme } from "next-themes";
 import { Anime } from "@/types/Anime";
-
-ChartJS.register(BarController, BarElement, CategoryScale, Tooltip);
 
 function AnimeWeekdayChart({ anime = [] }: { anime?: Anime[] }) {
     const { theme } = useTheme();
