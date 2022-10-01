@@ -4,7 +4,36 @@ import { animeValidator } from "@/types/Anime";
 import { Order } from "@/types/Order";
 
 export const animeRouter = createProtectedRouter()
-    .query("infiniteAnime", {
+    .query("get", {
+        input: z.object({ shareId: z.string().nullish() }),
+        async resolve({ ctx, input }) {
+            return await ctx.prisma.anime.findMany({
+                where: {
+                    user: {
+                        ...(input.shareId
+                            ? { shareId: input.shareId }
+                            : { id: ctx.session.user.id }),
+                    },
+                },
+                select: {
+                    id: true,
+                    user: false,
+                    userId: false,
+                    title: true,
+                    imageUrl: true,
+                    updatedAt: true,
+                    link: true,
+                    note: true,
+                    rating: true,
+                    startDate: true,
+                    seasons: true,
+                    movies: true,
+                    ovas: true,
+                },
+            });
+        },
+    })
+    .query("infinite", {
         input: z.object({
             shareId: z.string().nullish(),
             order: z.string().nullish(),
