@@ -35,8 +35,9 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
         datasets: [
             {
                 data: data.counts,
-                backgroundColor: "rgb(222, 66, 91, 0.7)",
+                backgroundColor: "rgb(222, 66, 91)",
                 borderColor: "rgb(72, 143, 49)",
+                pointRadius: 4,
             },
         ],
     };
