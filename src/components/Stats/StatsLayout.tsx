@@ -7,6 +7,7 @@ import {
     PointElement,
     TimeScale,
     Tooltip,
+    Filler,
 } from "chart.js";
 import { Order } from "@/types/Order";
 import { trpc } from "@/utils/trpc";
@@ -24,7 +25,8 @@ ChartJS.register(
     LineElement,
     PointElement,
     TimeScale,
-    Tooltip
+    Tooltip,
+    Filler
 );
 
 // needs dynamic import without ssr because the chart zoom-plugin needs the window object
