@@ -5,7 +5,12 @@ import { Order } from "@/types/Order";
 
 export const animeRouter = createProtectedRouter()
     .query("get", {
-        input: z.object({ shareId: z.string().nullish() }),
+        input: z.object({
+            shareId: z.string().nullish(),
+            order: z.string().nullish(),
+            asc: z.boolean().nullish(),
+            searchTerm: z.string().nullish(),
+        }),
         async resolve({ ctx, input }) {
             return await ctx.prisma.anime.findMany({
                 where: {
@@ -14,6 +19,15 @@ export const animeRouter = createProtectedRouter()
                             ? { shareId: input.shareId }
                             : { id: ctx.session.user.id }),
                     },
+                    ...(input.searchTerm && {
+                        title: {
+                            contains: input.searchTerm,
+                            mode: "insensitive",
+                        },
+                    }),
+                },
+                orderBy: {
+                    [input.order ?? Order.title]: input.asc ? "asc" : "desc",
                 },
                 select: {
                     id: true,

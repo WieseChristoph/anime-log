@@ -73,7 +73,7 @@ function LogSortAndSearch({
                         onClick={() => onOrderButtonClick(Order.startDate)}
                         className={sortButtonStyle(Order.startDate)}
                     >
-                        Startdate
+                        Start date
                         {currentOrder === Order.startDate && (
                             <AscendingIcon ascending={ascending} />
                         )}

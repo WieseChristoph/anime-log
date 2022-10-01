@@ -27,7 +27,7 @@ function Stats() {
 
             {status !== "loading" ? (
                 status === "authenticated" ? (
-                    <StatsLayout />
+                    <StatsLayout shareId={shareId} />
                 ) : (
                     <InfoAlert message="Log in to see Statistics!" />
                 )
