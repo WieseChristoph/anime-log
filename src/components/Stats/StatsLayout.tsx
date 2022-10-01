@@ -34,7 +34,8 @@ function StatsLayout({ shareId }: { shareId?: string }) {
                     </div>
                 </>
             )}
-            <div className="m-4 grid grid-cols-2 gap-10">
+
+            <div className="m-4 grid grid-cols-1 gap-10 md:grid-cols-2">
                 <div className="rounded bg-gray-200 p-4 dark:bg-slate-900">
                     <span className="text-xl font-bold">
                         Rating distribution
@@ -49,7 +50,7 @@ function StatsLayout({ shareId }: { shareId?: string }) {
                     <hr className="my-2 border-black dark:border-white" />
                     <AnimeWeekdayChart anime={getAnime.data} />
                 </div>
-                <div className="col-span-2 rounded bg-gray-200 p-4 dark:bg-slate-900">
+                <div className="rounded bg-gray-200 p-4 dark:bg-slate-900 md:col-span-2">
                     <span className="text-xl font-bold">
                         Anime count over time
                     </span>
