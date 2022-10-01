@@ -1,9 +1,12 @@
 // TODO: change to individual imports for smaller bundle (https://react-chartjs-2.js.org/docs/migration-to-v4/#tree-shaking)
 import "chart.js/auto";
-import { Doughnut } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { Anime } from "@/types/Anime";
+import { useTheme } from "next-themes";
 
 function AnimeRatingChart({ anime = [] }: { anime?: Anime[] }) {
+    const { theme } = useTheme();
+
     function getRatingCount() {
         const ratingCount = Array(12).fill(0);
 
@@ -50,7 +53,31 @@ function AnimeRatingChart({ anime = [] }: { anime?: Anime[] }) {
         ],
     };
 
-    return <Doughnut data={data} />;
+    const options = {
+        scales: {
+            xAxes: {
+                grid: {
+                    ...(theme === "dark" && {
+                        color: "rgb(255, 255, 255, 0.2)",
+                    }),
+                },
+            },
+            yAxes: {
+                grid: {
+                    ...(theme === "dark" && {
+                        color: "rgb(255, 255, 255, 0.2)",
+                    }),
+                },
+            },
+        },
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+    };
+
+    return <Bar data={data} options={options} />;
 }
 
 export default AnimeRatingChart;
