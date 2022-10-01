@@ -1,5 +1,12 @@
-// TODO: change to individual imports for smaller bundle (https://react-chartjs-2.js.org/docs/migration-to-v4/#tree-shaking)
-import "chart.js/auto";
+import {
+    Chart as ChartJS,
+    LineController,
+    LineElement,
+    LinearScale,
+    PointElement,
+    TimeScale,
+    Tooltip,
+} from "chart.js";
 import { ChartData, ChartOptions } from "chart.js/auto";
 import "chartjs-adapter-moment";
 import { Line } from "react-chartjs-2";
@@ -7,6 +14,15 @@ import { useMemo } from "react";
 import { useTheme } from "next-themes";
 import moment from "moment";
 import { Anime } from "@/types/Anime";
+
+ChartJS.register(
+    LineController,
+    LineElement,
+    PointElement,
+    LinearScale,
+    TimeScale,
+    Tooltip
+);
 
 function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
     const { theme } = useTheme();

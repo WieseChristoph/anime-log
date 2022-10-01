@@ -1,10 +1,17 @@
-// TODO: change to individual imports for smaller bundle (https://react-chartjs-2.js.org/docs/migration-to-v4/#tree-shaking)
-import "chart.js/auto";
+import {
+    Chart as ChartJS,
+    BarController,
+    BarElement,
+    CategoryScale,
+    Tooltip,
+} from "chart.js";
 import { ChartData, ChartOptions } from "chart.js/auto";
 import { Bar } from "react-chartjs-2";
 import { useMemo } from "react";
 import { useTheme } from "next-themes";
 import { Anime } from "@/types/Anime";
+
+ChartJS.register(BarController, BarElement, CategoryScale, Tooltip);
 
 function AnimeWeekdayChart({ anime = [] }: { anime?: Anime[] }) {
     const { theme } = useTheme();
@@ -39,6 +46,8 @@ function AnimeWeekdayChart({ anime = [] }: { anime?: Anime[] }) {
                     "rgb(60, 152, 109)",
                     "rgb(72, 143, 49)",
                 ],
+                borderRadius: 3,
+                borderWidth: 1,
             },
         ],
     };
