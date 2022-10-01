@@ -77,6 +77,17 @@ function AnimeRatingChart({ anime = [] }: { anime?: Anime[] }) {
             legend: {
                 display: false,
             },
+            tooltip: {
+                callbacks: {
+                    title: (tooltipItem) => {
+                        const index = tooltipItem.at(0)?.dataIndex ?? NaN;
+                        return `${index} / 10`;
+                    },
+                    label: (tooltipItem) => {
+                        return `${tooltipItem.formattedValue} Anime`;
+                    },
+                },
+            },
         },
     };
 

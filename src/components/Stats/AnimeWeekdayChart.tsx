@@ -67,6 +67,26 @@ function AnimeWeekdayChart({ anime = [] }: { anime?: Anime[] }) {
             legend: {
                 display: false,
             },
+            tooltip: {
+                callbacks: {
+                    title: (tooltipItem) => {
+                        const fullDayNames = [
+                            "Monday",
+                            "Tuesday",
+                            "Wednesday",
+                            "Thursday",
+                            "Friday",
+                            "Saturday",
+                            "Sunday",
+                        ];
+                        const index = tooltipItem.at(0)?.dataIndex ?? NaN;
+                        return fullDayNames.at(index) ?? "Unknown Day";
+                    },
+                    label: (tooltipItem) => {
+                        return `${tooltipItem.formattedValue} Anime`;
+                    },
+                },
+            },
         },
     };
 

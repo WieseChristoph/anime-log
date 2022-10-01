@@ -13,6 +13,7 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
     const data = useMemo(() => {
         const dates: moment.Moment[] = [];
         const counts: number[] = [];
+        const titles: string[] = [];
         let count = 0;
 
         // Anime array needs to be sorted by start date
@@ -22,10 +23,11 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
                 const date = moment.utc(a.startDate).startOf("day");
                 dates.push(date);
                 counts.push(count);
+                titles.push(a.title);
             }
         });
 
-        return { dates, counts };
+        return { dates, counts, titles };
     }, [anime]);
 
     const chartData: ChartData<"line"> = {
@@ -66,6 +68,19 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
         plugins: {
             legend: {
                 display: false,
+            },
+            tooltip: {
+                callbacks: {
+                    title: (tooltipItem) => {
+                        const index = tooltipItem.at(0)?.dataIndex ?? NaN;
+                        return `${data.titles.at(index)}\n${
+                            tooltipItem.at(0)?.label
+                        }`;
+                    },
+                    label: (tooltipItem) => {
+                        return `${tooltipItem.formattedValue} Anime`;
+                    },
+                },
             },
             zoom: {
                 zoom: {
