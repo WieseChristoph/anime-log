@@ -14,6 +14,8 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import AnimeRatingChart from "./AnimeRatingChart";
 import AnimeWeekdayChart from "./AnimeWeekdayChart";
+import ErrorAlert from "../Util/ErrorAlert";
+import InfoAlert from "../Util/InfoAlert";
 
 ChartJS.register(
     BarElement,
@@ -41,6 +43,23 @@ function StatsLayout({ shareId }: { shareId?: string }) {
         ["user.get-byShareId", { shareId: shareId as string }],
         { enabled: !!shareId }
     );
+
+    // Error Alert
+    if (getAnime.isError || getUserByShareId.isError)
+        return (
+            <div className="p-5">
+                <ErrorAlert
+                    message={
+                        getAnime.error?.message ||
+                        getUserByShareId.error?.message
+                    }
+                />
+            </div>
+        );
+
+    // Invalid share id alert
+    if (getUserByShareId.isFetched && !getUserByShareId.data)
+        return <InfoAlert message="No stats with this id" />;
 
     return (
         <div className="container mx-auto">
