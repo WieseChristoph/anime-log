@@ -1,12 +1,9 @@
 import { ChartData, ChartOptions } from "chart.js/auto";
-import { Radar } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 import { useMemo } from "react";
-import { useTheme } from "next-themes";
 import { Anime } from "@/types/Anime";
 
 function AnimeWatchtypeChart({ anime = [] }: { anime?: Anime[] }) {
-    const { theme } = useTheme();
-
     const data = useMemo(() => {
         return anime.reduce((prev, curr) => {
             prev[0] += curr.seasons.length;
@@ -16,54 +13,28 @@ function AnimeWatchtypeChart({ anime = [] }: { anime?: Anime[] }) {
         }, Array(3).fill(0));
     }, [anime]);
 
-    const chartData: ChartData<"radar"> = {
+    const chartData: ChartData<"doughnut"> = {
         labels: ["Seasons", "Movies", "OVAs"],
         datasets: [
             {
                 data: data,
-                backgroundColor: "rgb(72, 143, 49, 0.2)",
-                borderColor: "rgb(72, 143, 49)",
+                backgroundColor: [
+                    "rgb(222, 66, 91, 0.7)",
+                    "rgb(207, 211, 117, 0.7)",
+                    "rgb(72, 143, 49, 0.7)",
+                ],
+                borderColor: [
+                    "rgb(222, 66, 91)",
+                    "rgb(207, 211, 117)",
+                    "rgb(72, 143, 49)",
+                ],
                 borderWidth: 1,
-                pointRadius: 5,
-                pointBackgroundColor: "rgb(222, 66, 91)",
             },
         ],
     };
 
-    const options: ChartOptions<"radar"> = {
-        scales: {
-            xAxes: {
-                display: false,
-            },
-            yAxes: {
-                display: false,
-            },
-            r: {
-                min: 0,
-                ticks: {
-                    precision: 0,
-                },
-                pointLabels: {
-                    font: {
-                        size: 15,
-                    },
-                },
-                grid: {
-                    ...(theme === "dark" && {
-                        color: "rgb(255, 255, 255, 0.2)",
-                    }),
-                },
-                angleLines: {
-                    ...(theme === "dark" && {
-                        color: "rgb(255, 255, 255, 0.2)",
-                    }),
-                },
-            },
-        },
+    const options: ChartOptions<"doughnut"> = {
         plugins: {
-            legend: {
-                display: false,
-            },
             tooltip: {
                 callbacks: {
                     title: (tooltipItem) => {
@@ -77,7 +48,7 @@ function AnimeWatchtypeChart({ anime = [] }: { anime?: Anime[] }) {
         },
     };
 
-    return <Radar data={chartData} options={options} />;
+    return <Doughnut data={chartData} options={options} />;
 }
 
 export default AnimeWatchtypeChart;
