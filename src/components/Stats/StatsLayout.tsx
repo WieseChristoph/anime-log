@@ -5,6 +5,7 @@ import {
     LineElement,
     LinearScale,
     PointElement,
+    RadialLinearScale,
     TimeScale,
     Tooltip,
     Filler,
@@ -17,11 +18,13 @@ import AnimeRatingChart from "./AnimeRatingChart";
 import AnimeWeekdayChart from "./AnimeWeekdayChart";
 import ErrorAlert from "../Util/ErrorAlert";
 import InfoAlert from "../Util/InfoAlert";
+import AnimeWatchtypeChart from "./AnimeWatchtypeChart";
 
 ChartJS.register(
     BarElement,
     CategoryScale,
     LinearScale,
+    RadialLinearScale,
     LineElement,
     PointElement,
     TimeScale,
@@ -103,6 +106,11 @@ function StatsLayout({ shareId }: { shareId?: string }) {
                     </span>
                     <hr className="my-2 border-black dark:border-white" />
                     <DynamicAnimeStartDateChart anime={getAnime.data} />
+                </div>
+                <div className="h-5/6 overflow-hidden rounded bg-gray-200 p-4 dark:bg-slate-900">
+                    <span className="text-xl font-bold">Watchtype count</span>
+                    <hr className="my-2 border-black dark:border-white" />
+                    <AnimeWatchtypeChart anime={getAnime.data} />
                 </div>
             </div>
         </div>
