@@ -6,9 +6,11 @@ import {
     LinearScale,
     PointElement,
     RadialLinearScale,
+    ArcElement,
     TimeScale,
     Tooltip,
     Filler,
+    Legend,
 } from "chart.js";
 import { Order } from "@/types/Order";
 import { trpc } from "@/utils/trpc";
@@ -19,6 +21,7 @@ import AnimeWeekdayChart from "./AnimeWeekdayChart";
 import ErrorAlert from "../Util/ErrorAlert";
 import InfoAlert from "../Util/InfoAlert";
 import AnimeWatchtypeChart from "./AnimeWatchtypeChart";
+import AnimeTitleLenghtTable from "./AnimeTitleLengthTable";
 
 ChartJS.register(
     BarElement,
@@ -28,8 +31,10 @@ ChartJS.register(
     LineElement,
     PointElement,
     TimeScale,
+    ArcElement,
     Tooltip,
-    Filler
+    Filler,
+    Legend
 );
 
 // needs dynamic import without ssr because the chart zoom-plugin needs the window object
@@ -107,10 +112,19 @@ function StatsLayout({ shareId }: { shareId?: string }) {
                     <hr className="my-2 border-black dark:border-white" />
                     <DynamicAnimeStartDateChart anime={getAnime.data} />
                 </div>
-                <div className="h-5/6 overflow-hidden rounded bg-gray-200 p-4 dark:bg-slate-900">
+                <div className="rounded bg-gray-200 p-4 dark:bg-slate-900">
                     <span className="text-xl font-bold">Watchtype count</span>
                     <hr className="my-2 border-black dark:border-white" />
-                    <AnimeWatchtypeChart anime={getAnime.data} />
+                    <div className="mx-auto w-2/3">
+                        <AnimeWatchtypeChart anime={getAnime.data} />
+                    </div>
+                </div>
+                <div className="rounded bg-gray-200 p-4 dark:bg-slate-900">
+                    <span className="text-xl font-bold">
+                        Anime title lenght
+                    </span>
+                    <hr className="my-2 border-black dark:border-white" />
+                    <AnimeTitleLenghtTable anime={getAnime.data} />
                 </div>
             </div>
         </div>
