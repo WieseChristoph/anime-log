@@ -98,6 +98,9 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
                     wheel: {
                         enabled: true,
                     },
+                    pinch: {
+                        enabled: true,
+                    },
                 },
                 pan: {
                     enabled: true,
