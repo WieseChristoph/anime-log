@@ -39,6 +39,10 @@ function AnimeWatchtypeChart({ anime = [] }: { anime?: Anime[] }) {
                 display: false,
             },
             r: {
+                min: 0,
+                ticks: {
+                    precision: 0,
+                },
                 pointLabels: {
                     font: {
                         size: 15,

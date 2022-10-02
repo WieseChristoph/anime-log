@@ -62,12 +62,13 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
                 },
             },
             yAxes: {
+                min: 0,
                 title: {
                     display: true,
                     text: "Anime count",
                 },
                 ticks: {
-                    stepSize: 1,
+                    precision: 0,
                 },
                 grid: {
                     ...(theme === "dark" && {
