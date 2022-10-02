@@ -90,7 +90,7 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
                         }`;
                     },
                     label: (tooltipItem) => {
-                        return `${tooltipItem.formattedValue} Anime`;
+                        return `${tooltipItem.formattedValue} Anime in total`;
                     },
                 },
             },

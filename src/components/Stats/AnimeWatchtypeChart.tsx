@@ -41,7 +41,7 @@ function AnimeWatchtypeChart({ anime = [] }: { anime?: Anime[] }) {
                         return `${tooltipItem.at(0)?.label}`;
                     },
                     label: (tooltipItem) => {
-                        return `${tooltipItem.formattedValue} Anime`;
+                        return `${tooltipItem.formattedValue} ${tooltipItem.label}`;
                     },
                 },
             },
