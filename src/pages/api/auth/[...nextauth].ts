@@ -1,9 +1,11 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
+import { NextApiRequest, NextApiResponse } from "next";
 import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/server/db/prisma";
+import { log } from "@/server/utils/auditLog";
 
-export const authOptions: NextAuthOptions = {
+export const getNextAuthOptions = (ipAddress?: string): NextAuthOptions => ({
     adapter: PrismaAdapter(prisma),
     // Configure one or more authentication providers
     providers: [
@@ -20,7 +22,16 @@ export const authOptions: NextAuthOptions = {
 
             return session;
         },
+        signIn: ({ user }) => {
+            log("auth", ipAddress, user.id, true, "Login");
+            return true;
+        },
     },
-};
+});
 
-export default NextAuth(authOptions);
+export default async function auth(req: NextApiRequest, res: NextApiResponse) {
+    const ipAddress =
+        req.headers["x-forwarded-for"]?.toString() || req.socket.remoteAddress;
+
+    return await NextAuth(req, res, getNextAuthOptions(ipAddress));
+}

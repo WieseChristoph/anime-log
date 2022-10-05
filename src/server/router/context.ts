@@ -5,11 +5,12 @@ import {
     Session,
     unstable_getServerSession as getServerSession,
 } from "next-auth";
-import { authOptions as nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
+import { getNextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 import { prisma } from "@/server/db/prisma";
 
 type CreateContextOptions = {
     session: Session | null;
+    ipAddress: string | undefined;
 };
 
 /** Use this helper for:
@@ -20,6 +21,7 @@ export const createContextInner = async (opts: CreateContextOptions) => {
     return {
         session: opts.session,
         prisma,
+        ipAddress: opts.ipAddress,
     };
 };
 
@@ -30,13 +32,21 @@ export const createContextInner = async (opts: CreateContextOptions) => {
 export const createContext = async (
     opts: trpcNext.CreateNextContextOptions
 ) => {
-    const session = await getServerSession(opts.req, opts.res, nextAuthOptions);
+    const ipAddress =
+        opts.req.headers["x-forwarded-for"]?.toString() ||
+        opts.req.socket.remoteAddress;
+    const session = await getServerSession(
+        opts.req,
+        opts.res,
+        getNextAuthOptions(ipAddress)
+    );
 
     return await createContextInner({
         session,
+        ipAddress,
     });
 };
 
-type Context = trpc.inferAsyncReturnType<typeof createContext>;
+export type Context = trpc.inferAsyncReturnType<typeof createContext>;
 
 export const createRouter = () => trpc.router<Context>();
