@@ -13,7 +13,7 @@ export const appRouter = createRouter()
     .middleware(async ({ path, next, ctx }) => {
         const result: MiddlewareResult<Context> = await next();
         log(path, ctx.ipAddress, ctx.session?.user?.id, result.ok);
-        return next(result);
+        return result;
     })
     .merge("anime.", animeRouter)
     .merge("savedUser.", savedUserRouter)
