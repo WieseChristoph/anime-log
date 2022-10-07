@@ -3,6 +3,7 @@ import moment from "moment";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { motion } from "framer-motion";
 import { Anime as AnimeType } from "@/types/Anime";
+import DeleteButton from "@/components/Util/DeleteButton";
 
 const IMAGE_HEIGHT = 210;
 const IMAGE_WIDTH = 150;
@@ -140,15 +141,16 @@ function Anime({
                     >
                         <MdEdit />
                     </button>
-                    <button
-                        onClick={() =>
-                            window.confirm(`Delete ${anime.title}?`) &&
-                            onDeleteClick(anime)
-                        }
+                    <DeleteButton
+                        title={`Delete "${anime.title}"?`}
+                        text="You won't be able to revert this!"
+                        successTitle="Deleted!"
+                        successText={`"${anime.title}" has been deleted.`}
+                        onDeleteClick={() => onDeleteClick(anime)}
                         className="hover:text-md my-1 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-400 text-sm text-white"
                     >
                         <MdDelete />
-                    </button>
+                    </DeleteButton>
                 </div>
             )}
         </motion.div>

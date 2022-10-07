@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Menu, Transition } from "@headlessui/react";
 import { User } from "next-auth";
 import { trpc } from "@/utils/trpc";
+import DeleteButton from "@/components/Util/DeleteButton";
 
 interface Props {
     user: User;
@@ -69,16 +70,19 @@ function ProfileDropdown({ user }: Props) {
                         >
                             {getShareId.data?.shareId ? (
                                 <>
-                                    <Menu.Item
-                                        as="button"
-                                        className="w-full px-2 py-2 text-sm text-red-600 hover:underline"
-                                        onClick={() =>
-                                            window.confirm(
-                                                "Are you sure you want to delete your Share-Link?"
-                                            ) && deleteShareId.mutate()
-                                        }
-                                    >
-                                        Delete Share-Link
+                                    <Menu.Item>
+                                        <DeleteButton
+                                            title="Delete Share-Link?"
+                                            text="You can always create a new one."
+                                            successTitle="Deleted!"
+                                            successText="Share-Link has been deleted."
+                                            onDeleteClick={() =>
+                                                deleteShareId.mutate()
+                                            }
+                                            className="w-full px-2 py-2 text-sm text-red-600 hover:underline"
+                                        >
+                                            Delete Share-Link
+                                        </DeleteButton>
                                     </Menu.Item>
                                     <Menu.Item
                                         as="button"
