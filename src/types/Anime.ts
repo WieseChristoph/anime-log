@@ -12,6 +12,7 @@ export const animeValidator = z.object({
     imageUrl: z.string().max(512).nullable(),
     startDate: z.date().nullable(),
     updatedAt: z.date(),
+    createdAt: z.date(),
 });
 
 export type Anime = z.infer<typeof animeValidator>;
