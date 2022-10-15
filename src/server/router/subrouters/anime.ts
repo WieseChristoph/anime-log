@@ -126,12 +126,14 @@ export const animeRouter = createProtectedRouter()
         },
     })
     .mutation("add", {
-        input: animeValidator.omit({ id: true, updatedAt: true }).partial({
-            startDate: true,
-            link: true,
-            note: true,
-            imageUrl: true,
-        }),
+        input: animeValidator
+            .omit({ id: true, updatedAt: true, createdAt: true })
+            .partial({
+                startDate: true,
+                link: true,
+                note: true,
+                imageUrl: true,
+            }),
         resolve: async ({ ctx, input }) => {
             return await ctx.prisma.anime.create({
                 data: {
