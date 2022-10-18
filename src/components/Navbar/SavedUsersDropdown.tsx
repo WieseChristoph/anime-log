@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Menu, Transition } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
 import { trpc } from "@/utils/trpc";
+import DeleteButton from "../Util/DeleteButton";
 
 interface Props {
     urlShareId?: string;
@@ -104,16 +105,21 @@ function SavedUsersDropdown({ urlShareId }: Props) {
                                         savedUserEntry.savedUser.shareId ===
                                         urlShareId
                                 ) ? (
-                                    <Menu.Item
-                                        as="button"
-                                        className="w-full px-2 py-2 text-sm text-red-600 hover:underline"
-                                        onClick={() =>
-                                            deleteSavedUser.mutate({
-                                                shareId: urlShareId,
-                                            })
-                                        }
-                                    >
-                                        Delete current log
+                                    <Menu.Item>
+                                        <DeleteButton
+                                            className="w-full px-2 py-2 text-sm text-red-600 hover:underline"
+                                            title="Delete current Saved-Log?"
+                                            text="You can always save this log again."
+                                            successTitle="Deleted!"
+                                            successText="Current Saved-Log has been deleted."
+                                            onDeleteClick={() =>
+                                                deleteSavedUser.mutate({
+                                                    shareId: urlShareId,
+                                                })
+                                            }
+                                        >
+                                            Delete current log
+                                        </DeleteButton>
                                     </Menu.Item>
                                 ) : (
                                     <Menu.Item
