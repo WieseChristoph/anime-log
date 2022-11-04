@@ -97,7 +97,7 @@ function Anime({
                                 content={
                                     anime.updatedAt
                                         ? moment(anime.updatedAt).format(
-                                              "DD.MM.yyyy HH:MM:SS"
+                                              "DD.MM.yyyy HH:mm:ss"
                                           )
                                         : "-"
                                 }
