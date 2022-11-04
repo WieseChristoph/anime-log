@@ -48,6 +48,7 @@ export const animeRouter = createProtectedRouter()
             });
         },
     })
+    // TODO: Some anime are doubled when fetching
     .query("infinite", {
         input: z.object({
             shareId: z.string().nullish(),

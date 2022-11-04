@@ -13,6 +13,8 @@ import { Anime as AnimeType } from "@/types/Anime";
 import useLog from "@/hooks/useLog";
 import { trpc } from "@/utils/trpc";
 import InfoAlert from "../Util/InfoAlert";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 interface Props {
     shareId?: string;
@@ -106,15 +108,17 @@ function Log({ shareId }: Props) {
                 )}
                 {/* Add new Anime button */}
                 {!shareId && (
-                    <button
-                        type="button"
-                        onClick={() => {
-                            setShowEditAnime(!showEditAnime);
-                        }}
-                        className="ml-auto rounded-full bg-gradient-to-br from-pink-500 to-orange-400 p-2 text-center text-lg font-medium text-white"
-                    >
-                        <FaPlus />
-                    </button>
+                    <Tippy content="Add new Anime">
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setShowEditAnime(!showEditAnime);
+                            }}
+                            className="ml-auto rounded-full bg-gradient-to-br from-pink-500 to-orange-400 p-2 text-center text-lg font-medium text-white"
+                        >
+                            <FaPlus />
+                        </button>
+                    </Tippy>
                 )}
             </div>
 

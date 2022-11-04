@@ -90,7 +90,6 @@ function AnimeEdit({
     }
 
     return (
-        // TODO: Transition
         <Transition show={isOpen} as={Fragment}>
             <Dialog
                 onClose={() => {

@@ -1,10 +1,13 @@
 import Swal from "sweetalert2";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 function DeleteButton({
     title,
     text,
     successTitle,
     successText,
+    tooltip,
     onDeleteClick,
     children,
     className = "",
@@ -13,43 +16,46 @@ function DeleteButton({
     text: string;
     successTitle: string;
     successText: string;
+    tooltip?: string;
     onDeleteClick: () => void;
     children: React.ReactNode;
     className: string;
 }) {
     return (
-        <button
-            onClick={() =>
-                Swal.fire({
-                    title: title,
-                    text: text,
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!",
-                    customClass: {
-                        popup: "bg-gray-200 dark:bg-slate-900 dark:text-white",
-                    },
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        onDeleteClick();
-                        Swal.fire({
-                            title: successTitle,
-                            text: successText,
-                            icon: "success",
-                            confirmButtonColor: "#3085d6",
-                            customClass: {
-                                popup: "bg-gray-200 dark:bg-slate-900 dark:text-white",
-                            },
-                        });
-                    }
-                })
-            }
-            className={className}
-        >
-            {children}
-        </button>
+        <Tippy content={tooltip} disabled={!tooltip}>
+            <button
+                onClick={() =>
+                    Swal.fire({
+                        title: title,
+                        text: text,
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, delete it!",
+                        customClass: {
+                            popup: "bg-gray-200 dark:bg-slate-900 dark:text-white",
+                        },
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            onDeleteClick();
+                            Swal.fire({
+                                title: successTitle,
+                                text: successText,
+                                icon: "success",
+                                confirmButtonColor: "#3085d6",
+                                customClass: {
+                                    popup: "bg-gray-200 dark:bg-slate-900 dark:text-white",
+                                },
+                            });
+                        }
+                    })
+                }
+                className={className}
+            >
+                {children}
+            </button>
+        </Tippy>
     );
 }
 
