@@ -372,7 +372,7 @@ function AnimeEdit({
                                         placeholder="Notes"
                                         defaultValue={anime.note ?? ""}
                                         maxLength={1000}
-                                        rows={1}
+                                        rows={2}
                                         onChange={(e) =>
                                             setAnime((prevAnime) => ({
                                                 ...prevAnime,

@@ -113,8 +113,10 @@ function Anime({
                             </Tippy>
                             <hr className="border-black dark:border-white" />
                         </div>
-                        <div className="overflow-y-auto pt-1">
-                            <span className="break-words">{anime.note}</span>
+                        <div className="h-full overflow-y-auto pt-1">
+                            <span className="whitespace-pre-line break-words">
+                                {anime.note}
+                            </span>
                         </div>
                     </div>
 
