@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import Link from "next/link";
-import Image from "next/image";
 import { Menu, Transition } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
 import { trpc } from "@/utils/trpc";
 import DeleteButton from "../Util/DeleteButton";
+import ImageWithFallback from "../Util/ImageWithFallback";
 
 interface Props {
     urlShareId?: string;
@@ -69,13 +69,14 @@ function SavedUsersDropdown({ urlShareId }: Props) {
                                                 "bg-gray-300 dark:bg-slate-800"
                                             }`}
                                         >
-                                            <Image
+                                            <ImageWithFallback
                                                 className="inline rounded-full"
                                                 src={
                                                     savedUserEntry.savedUser
                                                         .image ||
-                                                    "https://cdn.discordapp.com/embed/avatars/3.png"
+                                                    "https://cdn.discordapp.com/embed/avatars/1.png"
                                                 }
+                                                fallbackSrc="https://cdn.discordapp.com/embed/avatars/3.png"
                                                 alt={
                                                     savedUserEntry.savedUser
                                                         .name || "-"

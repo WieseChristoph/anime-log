@@ -1,10 +1,10 @@
 import { signOut } from "next-auth/react";
-import Image from "next/image";
 import PropTypes from "prop-types";
 import { Menu, Transition } from "@headlessui/react";
 import { User } from "next-auth";
 import { trpc } from "@/utils/trpc";
 import DeleteButton from "@/components/Util/DeleteButton";
+import ImageWithFallback from "../Util/ImageWithFallback";
 
 interface Props {
     user: User;
@@ -42,12 +42,13 @@ function ProfileDropdown({ user }: Props) {
             {({ open }) => (
                 <>
                     <Menu.Button className="flex items-center">
-                        <Image
+                        <ImageWithFallback
                             className="rounded-full"
                             src={
                                 user.image ||
-                                "https://cdn.discordapp.com/embed/avatars/3.png"
+                                "https://cdn.discordapp.com/embed/avatars/1.png"
                             }
+                            fallbackSrc="https://cdn.discordapp.com/embed/avatars/1.png"
                             alt={user.name || "-"}
                             width="32"
                             height="32"
