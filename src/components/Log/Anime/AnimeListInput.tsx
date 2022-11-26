@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { FaPlus, FaMinus } from "react-icons/fa";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 interface Props {
     initialArray: number[];
@@ -46,20 +48,24 @@ function AnimeListInput({ initialArray, onArrayChange }: Props) {
                     value={arrayElement}
                     onChange={(e) => setArrayElement(parseInt(e.target.value))}
                 />
-                <button
-                    className="border border-r-0 border-gray-300 bg-gray-300 p-2 text-xs dark:border-gray-600 dark:bg-gray-600 dark:text-white"
-                    type="button"
-                    onClick={addToArray}
-                >
-                    <FaPlus />
-                </button>
-                <button
-                    className="rounded-r-md border border-r-0 border-gray-300 bg-gray-300 p-2 text-xs dark:border-gray-600 dark:bg-gray-600 dark:text-white"
-                    type="button"
-                    onClick={removeFromArray}
-                >
-                    <FaMinus />
-                </button>
+                <Tippy content={`Add ${arrayElement} to list`}>
+                    <button
+                        className="border border-r-0 border-gray-300 bg-gray-300 p-2 text-xs dark:border-gray-600 dark:bg-gray-600 dark:text-white"
+                        type="button"
+                        onClick={addToArray}
+                    >
+                        <FaPlus />
+                    </button>
+                </Tippy>
+                <Tippy content={`Remove ${arrayElement} from list`}>
+                    <button
+                        className="rounded-r-md border border-r-0 border-gray-300 bg-gray-300 p-2 text-xs dark:border-gray-600 dark:bg-gray-600 dark:text-white"
+                        type="button"
+                        onClick={removeFromArray}
+                    >
+                        <FaMinus />
+                    </button>
+                </Tippy>
             </div>
             <hr className="my-2 border-dotted border-black dark:border-white" />
             <span>{array.join(", ") || "-"}</span>
