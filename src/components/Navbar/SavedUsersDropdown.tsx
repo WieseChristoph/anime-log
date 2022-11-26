@@ -81,8 +81,8 @@ function SavedUsersDropdown({ urlShareId }: Props) {
                                                     savedUserEntry.savedUser
                                                         .name || "-"
                                                 }
-                                                width="24"
-                                                height="24"
+                                                width={24}
+                                                height={24}
                                             />
                                             <b>
                                                 {savedUserEntry.savedUser.name}

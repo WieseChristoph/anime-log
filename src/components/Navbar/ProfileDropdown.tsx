@@ -50,8 +50,8 @@ function ProfileDropdown({ user }: Props) {
                             }
                             fallbackSrc="https://cdn.discordapp.com/embed/avatars/1.png"
                             alt={user.name || "-"}
-                            width="32"
-                            height="32"
+                            width={32}
+                            height={32}
                         />
                     </Menu.Button>
                     {/* Dropdown menu */}

@@ -7,8 +7,8 @@ interface Props {
     children?: React.ReactNode;
     className: string;
     alt: string;
-    width?: string;
-    height?: string;
+    width?: number;
+    height?: number;
 }
 
 function ImageWithFallback({
