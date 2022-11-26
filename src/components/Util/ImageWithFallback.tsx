@@ -7,8 +7,8 @@ interface Props {
     children?: React.ReactNode;
     className: string;
     alt: string;
-    width: string;
-    height: string;
+    width?: string;
+    height?: string;
 }
 
 function ImageWithFallback({
@@ -17,8 +17,8 @@ function ImageWithFallback({
     children,
     className = "",
     alt = "",
-    width = "",
-    height = "",
+    width,
+    height,
 }: Props) {
     const [imgSrc, setImgSrc] = useState(src);
 
