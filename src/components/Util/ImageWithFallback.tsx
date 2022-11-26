@@ -5,20 +5,20 @@ interface Props {
     src: string;
     fallbackSrc: string;
     children?: React.ReactNode;
-    className?: string;
-    alt?: string;
-    width?: string;
-    height?: string;
+    className: string;
+    alt: string;
+    width: string;
+    height: string;
 }
 
 function ImageWithFallback({
     src,
-    children,
-    className,
-    alt,
-    width,
-    height,
     fallbackSrc,
+    children,
+    className = "",
+    alt = "",
+    width = "",
+    height = "",
 }: Props) {
     const [imgSrc, setImgSrc] = useState(src);
 
