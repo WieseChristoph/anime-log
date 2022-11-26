@@ -76,7 +76,7 @@ function SavedUsersDropdown({ urlShareId }: Props) {
                                                         .image ||
                                                     "https://cdn.discordapp.com/embed/avatars/1.png"
                                                 }
-                                                fallbackSrc="https://cdn.discordapp.com/embed/avatars/3.png"
+                                                fallbackSrc="https://cdn.discordapp.com/embed/avatars/1.png"
                                                 alt={
                                                     savedUserEntry.savedUser
                                                         .name || "-"
