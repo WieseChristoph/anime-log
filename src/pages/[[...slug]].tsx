@@ -5,6 +5,7 @@ import Log from "@/components/Log/Log";
 import InfoAlert from "@/components/Util/InfoAlert";
 import Loading from "@/components/Util/Loading";
 import { useSession } from "next-auth/react";
+import Snowfall from "react-snowfall";
 
 function Home() {
     const router = useRouter();
@@ -26,6 +27,15 @@ function Home() {
                 <meta property="og:image" content="/torii-gate.png" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+
+            {/* Snow in december */}
+            {new Date().getMonth() === 11 && (
+                <Snowfall
+                    style={{
+                        zIndex: 100,
+                    }}
+                />
+            )}
 
             <Navbar urlShareId={shareId} />
 
