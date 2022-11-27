@@ -4,14 +4,21 @@
 
 # Anime Log
 
-Website to log watched anime.
-![Screenshot](https://user-images.githubusercontent.com/32820890/182124207-211c84aa-98ad-45fc-97bc-ccbea44cc1df.png)
+Website to log and share watched anime.
+
+## Home
+
+![Home screenshot](.github/screenshots/home.png)
+
+## Stats
+
+![Stats screenshot](.github/screenshots/stats.png)
 
 # Configuration
 
 ## Next-Auth Data
 
-Set Environment Variables:
+Set environment variables:
 
 ```
 NEXTAUTH_SECRET=<use [openssl rand -hex 32] to generate a 32 bytes value>
@@ -20,7 +27,7 @@ NEXTAUTH_URL=<http://YOUR_DOMAIN> (must not be set when deploying to vercel)
 
 ## Discord Authentication
 
-Set Environment Variables:
+Set environment variables:
 
 ```
 DISCORD_CLIENT_ID=<YOUR_CLIENT_ID>
@@ -29,24 +36,28 @@ DISCORD_CLIENT_SECRET=<YOUR_CLIENT_SECRET>
 
 ## Database Connection
 
-Set Environment Variable `DATABASE_URL` with an postgres Database URL string.
+Set environment variable `DATABASE_URL` with an [CockroackDB](https://www.cockroachlabs.com/) database URL. Alternatively you can use a Postgres database URL, but you need to change the datasource provider in `prisma/schema.prisma` from `cockroach` to `postgresql`.
 
 # Developement Run
 
-```
+```bash
+# install dependencies
+yarn
+# run project
 yarn dev
 ```
 
-The Server will listen on `localhost:3000`.
+The server will listen on `localhost:3000`.
 
 # Production Build
 
-```
-docker build -t chwiese/anime-log-client
+```bash
+# install dependencies
+yarn
+# build project
+yarn build
+# run project
+yarn start
 ```
 
-```
-docker run chwiese/anime-log-client -p "3000:3000"
-```
-
-The Server will listen on `localhost:3000`.
+The server will listen on `localhost:3000`.
