@@ -1,17 +1,19 @@
 import { ChartData, ChartOptions } from "chart.js/auto";
+import "@/utils/chartjsDayjsAdapter";
 import zoomPlugin from "chartjs-plugin-zoom";
-import "chartjs-adapter-moment";
 import { Line } from "react-chartjs-2";
 import { useMemo } from "react";
 import { useTheme } from "next-themes";
-import moment from "moment";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
 import { Anime } from "@/types/Anime";
 
 function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
     const { theme } = useTheme();
 
     const data = useMemo(() => {
-        const dates: moment.Moment[] = [];
+        const dates: dayjs.Dayjs[] = [];
         const counts: number[] = [];
         const titles: string[] = [];
         let count = 0;
@@ -20,7 +22,7 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
         anime.forEach((a) => {
             count += 1;
             if (a.startDate) {
-                const date = moment.utc(a.startDate).startOf("day");
+                const date = dayjs.utc(a.startDate).startOf("day");
                 dates.push(date);
                 counts.push(count);
                 titles.push(a.title);

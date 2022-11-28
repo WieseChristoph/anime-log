@@ -1,6 +1,6 @@
 import { FormEvent, Fragment, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
+import dayjs from "dayjs";
 import { MdCancel } from "react-icons/md";
 import { Dialog, Switch, Transition } from "@headlessui/react";
 import ListInput from "./AnimeListInput";
@@ -341,9 +341,9 @@ function AnimeEdit({
                                                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                                 defaultValue={
                                                     anime.startDate
-                                                        ? moment(
+                                                        ? dayjs(
                                                               anime.startDate
-                                                          ).format("yyyy-MM-DD")
+                                                          ).format("YYYY-MM-DD")
                                                         : undefined
                                                 }
                                                 onChange={(e) =>

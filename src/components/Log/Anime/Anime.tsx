@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import moment from "moment";
+import dayjs from "dayjs";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
@@ -88,16 +88,16 @@ function Anime({
                             <div className="font-bold">{anime.title}</div>
                             <div className="text-sm dark:text-slate-300">
                                 {anime.startDate
-                                    ? moment(anime.startDate).format(
-                                          "DD.MM.yyyy"
+                                    ? dayjs(anime.startDate).format(
+                                          "DD.MM.YYYY"
                                       )
                                     : "-"}
                             </div>
                             <Tippy
                                 content={
                                     anime.updatedAt
-                                        ? moment(anime.updatedAt).format(
-                                              "DD.MM.yyyy HH:mm:ss"
+                                        ? dayjs(anime.updatedAt).format(
+                                              "DD.MM.YYYY HH:mm:ss"
                                           )
                                         : "-"
                                 }
@@ -105,8 +105,8 @@ function Anime({
                                 <div className="text-xs dark:text-slate-300">
                                     Last updated:
                                     {anime.updatedAt
-                                        ? moment(anime.updatedAt).format(
-                                              " DD.MM.yyyy"
+                                        ? dayjs(anime.updatedAt).format(
+                                              " DD.MM.YYYY"
                                           )
                                         : " -"}
                                 </div>

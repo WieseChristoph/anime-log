@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 export function log(
     route: string,
@@ -8,7 +8,7 @@ export function log(
     message?: string
 ) {
     console.log(
-        `[${moment().format(
+        `[${dayjs().format(
             "DD/MM/YYYY HH:MM:SS"
         )}] IP_ADDRESS=${ipAddress}, USER_ID=${userId}, ROUTE=${route}, SUCCESS=${success}, MESSAGE="${message}"`
     );
