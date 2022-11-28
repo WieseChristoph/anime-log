@@ -1,6 +1,6 @@
-[![GitHub license](https://img.shields.io/github/license/WieseChristoph/anime-log)](https://github.com/WieseChristoph/anime-log/blob/main/LICENSE)
-![GitHub deployments](https://img.shields.io/github/deployments/WieseChristoph/anime-log/Production?label=prod%20deploy)
-![GitHub branch checks state](https://img.shields.io/github/checks-status/WieseChristoph/anime-log/main)
+[![GitHub license](https://img.shields.io/github/license/WieseChristoph/anime-log?label=License)](https://github.com/WieseChristoph/anime-log/blob/main/LICENSE)
+![GitHub deployments](https://img.shields.io/github/deployments/WieseChristoph/anime-log/Production?label=Prod.%20deploy)
+![GitHub branch checks state](https://img.shields.io/github/checks-status/WieseChristoph/anime-log/main?label=CI)
 
 # Anime Log
 
