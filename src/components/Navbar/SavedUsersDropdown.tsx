@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
+import { MdDelete, MdSave } from "react-icons/md";
 import { trpc } from "@/utils/trpc";
 import DeleteButton from "../Util/DeleteButton";
 import ImageWithFallback from "../Util/ImageWithFallback";
@@ -108,7 +109,7 @@ function SavedUsersDropdown({ urlShareId }: Props) {
                                 ) ? (
                                     <Menu.Item>
                                         <DeleteButton
-                                            className="w-full px-2 py-2 text-sm text-red-600 hover:underline"
+                                            className="flex w-full flex-row gap-2 px-2 py-2 text-sm hover:underline"
                                             title="Delete current Saved-Log?"
                                             text="You can always save this log again."
                                             successTitle="Deleted!"
@@ -119,20 +120,22 @@ function SavedUsersDropdown({ urlShareId }: Props) {
                                                 })
                                             }
                                         >
-                                            Delete current log
+                                            <MdDelete className="text-xl" />
+                                            <b>Delete current log</b>
                                         </DeleteButton>
                                     </Menu.Item>
                                 ) : (
                                     <Menu.Item
                                         as="button"
-                                        className="w-full px-2 py-2 text-sm text-blue-600 hover:underline"
+                                        className="flex w-full flex-row gap-2 px-2 py-2 text-sm hover:underline"
                                         onClick={() =>
                                             addSavedUser.mutate({
                                                 shareId: urlShareId,
                                             })
                                         }
                                     >
-                                        Save current log
+                                        <MdSave className="text-xl" />
+                                        <b>Save current log</b>
                                     </Menu.Item>
                                 ))}
                         </Menu.Items>

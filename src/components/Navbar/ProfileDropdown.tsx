@@ -1,6 +1,7 @@
 import { signOut } from "next-auth/react";
 import PropTypes from "prop-types";
 import { Menu, Transition } from "@headlessui/react";
+import { MdDelete, MdShare, MdContentCopy, MdLogout } from "react-icons/md";
 import { User } from "next-auth";
 import { trpc } from "@/utils/trpc";
 import DeleteButton from "@/components/Util/DeleteButton";
@@ -65,7 +66,7 @@ function ProfileDropdown({ user }: Props) {
                         leaveTo="transform scale-50 opacity-0"
                     >
                         <Menu.Items
-                            className="text-dark absolute right-0 mt-2 w-40
+                            className="text-dark absolute right-0 mt-2 w-44
 			origin-top-right divide-y divide-black rounded-md bg-gray-100 shadow-lg
 			dark:divide-white dark:bg-slate-700 dark:text-white"
                         >
@@ -80,34 +81,38 @@ function ProfileDropdown({ user }: Props) {
                                             onDeleteClick={() =>
                                                 deleteShareId.mutate()
                                             }
-                                            className="w-full px-2 py-2 text-sm text-red-600 hover:underline"
+                                            className="flex w-full flex-row gap-2 px-2 py-2 text-sm hover:underline"
                                         >
+                                            <MdDelete className="text-xl" />
                                             Delete Share-Link
                                         </DeleteButton>
                                     </Menu.Item>
                                     <Menu.Item
                                         as="button"
-                                        className="w-full px-2 py-2 text-sm hover:underline"
+                                        className="flex w-full flex-row gap-2 px-2 py-2 text-sm hover:underline"
                                         onClick={() => shareLinkToClipboard()}
                                     >
+                                        <MdContentCopy className="text-xl" />
                                         Copy Share-Link
                                     </Menu.Item>
                                 </>
                             ) : (
                                 <Menu.Item
                                     as="button"
-                                    className="w-full px-2 py-2 text-sm text-blue-600 hover:underline"
+                                    className="flex w-full flex-row gap-2 px-2 py-2 text-sm hover:underline"
                                     onClick={() => addShareId.mutate()}
                                 >
+                                    <MdShare className="text-xl" />
                                     Create Share-Link
                                 </Menu.Item>
                             )}
 
                             <Menu.Item
                                 as="button"
-                                className="w-full px-2 py-2 text-sm hover:underline"
+                                className="flex w-full flex-row gap-2 px-2 py-2 text-sm hover:underline"
                                 onClick={() => signOut()}
                             >
+                                <MdLogout className="text-xl" />
                                 Sign out
                             </Menu.Item>
                         </Menu.Items>
