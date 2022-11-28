@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { AppProps } from "next/app";
 import { withTRPC } from "@trpc/next";
 import type { AppRouter } from "@/server/router";
+import { Analytics } from "@vercel/analytics/react";
 
 import "@/styles/globals.css";
 import { getBaseUrl } from "@/utils/helper";
@@ -18,6 +19,7 @@ function AnimeLog({
             <ThemeProvider attribute="class">
                 <Component {...pageProps} />
             </ThemeProvider>
+            <Analytics />
         </SessionProvider>
     );
 }

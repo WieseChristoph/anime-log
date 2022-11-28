@@ -19,6 +19,7 @@
         "@trpc/next": "^9.27.0",
         "@trpc/react": "^9.27.0",
         "@trpc/server": "^9.27.0",
+        "@vercel/analytics": "^0.1.5",
         "chart.js": "^3.9.1",
         "chartjs-plugin-zoom": "^1.2.1",
         "cuid": "^2.1.8",
