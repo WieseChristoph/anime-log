@@ -1,18 +1,16 @@
 import { Anime } from "@/types/Anime";
-import { Order } from "@/types/Order";
+import { logOptionsValidator } from "@/types/LogOptions";
 import { trpc } from "@/utils/trpc";
 import { useState } from "react";
 
 function useLog(shareId: string | undefined) {
-    const [order, setOrder] = useState(Order.title);
-    const [ascending, setAscending] = useState(true);
-    const [searchTerm, setSearchTerm] = useState("");
+    const [logOptions, setLogOptions] = useState(
+        logOptionsValidator.parse(undefined)
+    );
 
     const queryInput = {
         shareId: shareId,
-        order: order,
-        asc: ascending,
-        searchTerm: searchTerm,
+        logOptions: logOptions,
         limit: 16,
     };
 
@@ -144,14 +142,8 @@ function useLog(shareId: string | undefined) {
         updateAnime,
         deleteAnime,
         getAnimeCount,
-        filters: {
-            order,
-            searchTerm,
-            ascending,
-            setOrder,
-            setSearchTerm,
-            setAscending,
-        },
+        logOptions,
+        setLogOptions,
     };
 }
 

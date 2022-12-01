@@ -2,11 +2,12 @@ import { FormEvent, Fragment, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import { MdCancel } from "react-icons/md";
-import { Dialog, Switch, Transition } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import ListInput from "./AnimeListInput";
 import { Anime } from "@/types/Anime";
 import ErrorAlert from "@/components/Util/ErrorAlert";
 import { getImageByTitle } from "@/utils/animeInfo";
+import ToggleButton from "@/components/Util/ToggleButton";
 
 const IMAGE_HEIGHT = 315;
 const IMAGE_WIDTH = 225;
@@ -35,9 +36,6 @@ function AnimeEdit({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string>();
 
-    const [searchForImage, setSearchForImage] = useState(
-        anime.imageUrl?.includes("media.kitsu.io") ?? true
-    );
     const [imageSearchTimeout, setimageSearchTimeout] = useState<
         NodeJS.Timeout | undefined
     >();
@@ -54,25 +52,34 @@ function AnimeEdit({
         }));
     }
 
-    async function handleImageSearchToggle(enabled: boolean) {
-        if (enabled && anime.title) {
-            const image = await getImageByTitle(anime.title);
-            setAnime((prev) => ({ ...prev, imageUrl: image }));
-        } else clearTimeout(imageSearchTimeout);
+    async function updateImage(title: string, isManga: boolean) {
+        const image = await getImageByTitle(title, isManga);
+        setAnime((prev) => ({ ...prev, imageUrl: image }));
+    }
 
-        setSearchForImage(enabled);
+    function handleTypeToggle(isManga: boolean) {
+        setAnime((prev) => ({
+            ...prev,
+            isManga: isManga,
+        }));
+        if (!anime.hasCustomImage && anime.title)
+            updateImage(anime.title, isManga);
+    }
+
+    function handleImageSearchToggle(enabled: boolean) {
+        if (!enabled && anime.title) updateImage(anime.title, anime.isManga);
+        else clearTimeout(imageSearchTimeout);
+
+        setAnime((prev) => ({ ...prev, hasCustomImage: enabled }));
     }
 
     // wait without input in the title field before fetching new image
     function handleImageSearchTimeout(title: string) {
-        if (searchForImage) {
+        if (!anime.hasCustomImage) {
             clearTimeout(imageSearchTimeout);
             setimageSearchTimeout(
                 setTimeout(async () => {
-                    if (title) {
-                        const image = await getImageByTitle(title);
-                        setAnime((prev) => ({ ...prev, imageUrl: image }));
-                    }
+                    if (title) updateImage(anime.title, anime.isManga);
                 }, IMAGE_SEARCH_TIMEOUT)
             );
         }
@@ -122,14 +129,20 @@ function AnimeEdit({
                     leaveTo="opacity-0"
                 >
                     {/* Full-screen container to center the panel */}
-                    <div className="fixed inset-0 grid place-items-center overflow-y-auto p-4">
-                        <Dialog.Panel className="w-4/5 rounded bg-gray-200 p-4 shadow-md shadow-gray-600  dark:bg-slate-900 md:w-3/5 lg:w-3/6">
+                    <div className="fixed inset-0 z-50 grid place-items-center overflow-y-auto p-4">
+                        <Dialog.Panel className="w-4/5 rounded bg-gray-200 p-4 shadow-md  shadow-gray-600 dark:bg-slate-900 md:w-3/5 lg:w-3/6">
                             <Dialog.Title className="flex items-start justify-between border-b border-black px-4 pb-2 dark:border-white">
+                                {/* Title */}
                                 <span className="text-xl font-semibold">
                                     {initialAnime.id
-                                        ? "Update Anime"
-                                        : "Add Anime"}
+                                        ? `Update ${
+                                              anime.isManga ? "Manga" : "Anime"
+                                          }`
+                                        : `Add ${
+                                              anime.isManga ? "Manga" : "Anime"
+                                          }`}
                                 </span>
+                                {/* Close button */}
                                 <button
                                     type="button"
                                     className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -143,6 +156,7 @@ function AnimeEdit({
                                 </button>
                             </Dialog.Title>
 
+                            {/* Error message */}
                             {error && (
                                 <div className="mt-2">
                                     <ErrorAlert message={error} />
@@ -153,17 +167,29 @@ function AnimeEdit({
                                 className="flex flex-col"
                                 onSubmit={handleSubmit}
                             >
-                                <section className="flex flex-col items-center gap-4 pt-4 md:flex-row">
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                        className="shadow shadow-gray-400"
-                                        src={
-                                            anime.imageUrl || "placeholder.jpg"
-                                        }
-                                        alt={anime.title}
-                                        height={IMAGE_HEIGHT}
-                                        width={IMAGE_WIDTH}
-                                    />
+                                <section className="flex flex-col gap-4 pt-4 md:flex-row">
+                                    <div>
+                                        {/* Anime-Manga toggle */}
+                                        <ToggleButton
+                                            initialValue={anime.isManga}
+                                            onValueChange={handleTypeToggle}
+                                            label="Type"
+                                            valueLeft="Anime"
+                                            valueRight="Manga"
+                                        />
+                                        {/* Image */}
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img
+                                            className="mx-auto shadow shadow-gray-400"
+                                            src={
+                                                anime.imageUrl ||
+                                                "placeholder.jpg"
+                                            }
+                                            alt={anime.title}
+                                            height={IMAGE_HEIGHT}
+                                            width={IMAGE_WIDTH}
+                                        />
+                                    </div>
                                     <div className="w-full">
                                         {/* Title */}
                                         <div className="mb-4">
@@ -234,44 +260,22 @@ function AnimeEdit({
                                             </div>
                                         </div>
                                         {/* Automatic Image Search Toggle */}
-                                        <Switch.Group>
-                                            <div className="mb-4 flex items-center">
-                                                <Switch.Label className="mr-4">
-                                                    Automatic Image Search
-                                                    <p className="text-xs text-gray-300">
-                                                        (Image updates{" "}
-                                                        {IMAGE_SEARCH_TIMEOUT /
-                                                            1000}{" "}
-                                                        Second after typing in
-                                                        the Title-Field)
-                                                    </p>
-                                                </Switch.Label>
-                                                <Switch
-                                                    checked={searchForImage}
-                                                    onChange={
-                                                        handleImageSearchToggle
-                                                    }
-                                                    className={`${
-                                                        searchForImage
-                                                            ? "bg-blue-600"
-                                                            : "bg-gray-200 dark:bg-gray-700"
-                                                    } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
-                                                >
-                                                    <span
-                                                        className={`${
-                                                            searchForImage
-                                                                ? "translate-x-6"
-                                                                : "translate-x-1"
-                                                        } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
-                                                    />
-                                                </Switch>
-                                            </div>
-                                        </Switch.Group>
+                                        <ToggleButton
+                                            initialValue={
+                                                anime.hasCustomImage || false
+                                            }
+                                            onValueChange={
+                                                handleImageSearchToggle
+                                            }
+                                            label="Image"
+                                            valueLeft="Automatic"
+                                            valueRight="Manual"
+                                        />
                                         {/* Image Url */}
                                         <Transition
                                             as="div"
                                             className="mb-4"
-                                            show={!searchForImage}
+                                            show={anime.hasCustomImage || false}
                                             enter="ease-out duration-200"
                                             enterFrom="opacity-0"
                                             enterTo="opacity-100"
@@ -279,12 +283,6 @@ function AnimeEdit({
                                             leaveFrom="opacity-100"
                                             leaveTo="opacity-0"
                                         >
-                                            <label
-                                                htmlFor="imageUrl"
-                                                className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300"
-                                            >
-                                                Image URL
-                                            </label>
                                             <input
                                                 type="url"
                                                 id="imageUrl"
@@ -294,7 +292,7 @@ function AnimeEdit({
                                                     anime.imageUrl ?? ""
                                                 }
                                                 maxLength={512}
-                                                disabled={searchForImage}
+                                                disabled={!anime.hasCustomImage}
                                                 onChange={(e) =>
                                                     setAnime((prevAnime) => ({
                                                         ...prevAnime,
@@ -417,6 +415,7 @@ function AnimeEdit({
                                         />
                                     </div>
                                 </div>
+                                {/* Save button */}
                                 <button
                                     type="submit"
                                     className="rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800"

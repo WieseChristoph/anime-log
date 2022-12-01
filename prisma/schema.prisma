@@ -64,20 +64,22 @@ model VerificationToken {
 // anime-log stuff
 
 model Anime {
-  id        String    @id @default(cuid())
-  user      User      @relation(fields: [userId], references: [id])
-  userId    String
-  title     String
-  seasons   Int[]
-  movies    Int[]
-  ovas      Int[]
-  rating    Int       @default(0)
-  link      String?
-  note      String?
-  imageUrl  String?
-  startDate DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id             String    @id @default(cuid())
+  user           User      @relation(fields: [userId], references: [id])
+  userId         String
+  isManga        Boolean   @default(false)
+  title          String
+  seasons        Int[]
+  movies         Int[]
+  ovas           Int[]
+  rating         Int       @default(0)
+  link           String?
+  note           String?
+  imageUrl       String?
+  hasCustomImage Boolean   @default(false)
+  startDate      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 }
 
 model SavedUser {

@@ -4,7 +4,7 @@ import { FaGithub, FaChevronDown } from "react-icons/fa";
 
 function AboutDropdown() {
     return (
-        <Menu as="div" className="relative z-50 inline-block text-left">
+        <Menu as="div" className="relative z-10 inline-block text-left">
             {({ open }) => (
                 <>
                     <Menu.Button className="flex items-center">

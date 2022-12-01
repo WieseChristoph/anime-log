@@ -39,7 +39,7 @@ function ProfileDropdown({ user }: Props) {
     }
 
     return (
-        <Menu as="div" className="relative z-50 inline-block">
+        <Menu as="div" className="relative z-10 inline-block">
             {({ open }) => (
                 <>
                     <Menu.Button className="flex items-center">
@@ -66,9 +66,9 @@ function ProfileDropdown({ user }: Props) {
                         leaveTo="transform scale-50 opacity-0"
                     >
                         <Menu.Items
-                            className="text-dark absolute right-0 mt-2 w-44
-			origin-top-right divide-y divide-black rounded-md bg-gray-100 shadow-lg
-			dark:divide-white dark:bg-slate-700 dark:text-white"
+                            className="text-dark absolute right-0 mt-2
+			w-44 origin-top-right divide-y divide-black rounded-md bg-gray-100
+			shadow-lg dark:divide-white dark:bg-slate-700 dark:text-white"
                         >
                             {getShareId.data?.shareId ? (
                                 <>

@@ -31,7 +31,7 @@ function SavedUsersDropdown({ urlShareId }: Props) {
     });
 
     return (
-        <Menu as="div" className="relative z-50 inline-block text-left">
+        <Menu as="div" className="relative z-20 inline-block text-left">
             {({ open }) => (
                 <>
                     <Menu.Button className="flex items-center">

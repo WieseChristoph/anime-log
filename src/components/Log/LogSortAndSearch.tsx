@@ -1,14 +1,11 @@
 import PropTypes from "prop-types";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { Order } from "@/types/Order";
+import { MdFilterList } from "react-icons/md";
+import { LogOptions, Order } from "@/types/LogOptions";
 
 interface Props {
-    currentOrder: Order;
-    ascending: boolean;
-    searchTerm: string;
-    onOrderChange: (order: Order) => void;
-    onSearchChange: (searchTerm: string) => void;
-    onAscendingChange: (ascending: boolean) => void;
+    logOptions: LogOptions;
+    onLogOptionsChange: (logOptions: LogOptions) => void;
 }
 
 function AscendingIcon({ ascending }: { ascending: boolean }) {
@@ -19,80 +16,126 @@ function AscendingIcon({ ascending }: { ascending: boolean }) {
     );
 }
 
-function LogSortAndSearch({
-    currentOrder,
-    ascending,
-    searchTerm,
-    onOrderChange,
-    onSearchChange,
-    onAscendingChange,
-}: Props) {
+function LogSortAndSearch({ logOptions, onLogOptionsChange }: Props) {
     const sortButtonStyle = (order: Order) =>
         `inline-block flex items-center p-4 rounded-t-lg border-b-2 border-transparent ${
-            currentOrder === order
+            logOptions.order === order
                 ? "active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500"
                 : "hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
         }`;
 
     function onOrderButtonClick(order: Order) {
-        if (currentOrder === order) onAscendingChange(!ascending);
-        else {
-            onAscendingChange(true);
-            onOrderChange(order);
-        }
+        if (logOptions.order === order)
+            onLogOptionsChange({ ...logOptions, asc: !logOptions.asc });
+        else onLogOptionsChange({ ...logOptions, asc: true, order: order });
     }
 
     return (
         <div className="border-b border-gray-200 text-center font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
             {/* Order buttons */}
-            <ul className="flex flex-wrap">
+            <ul className="md:text-md text-md flex flex-wrap text-sm">
                 <li className="mr-2">
                     <button
-                        onClick={() => onOrderButtonClick(Order.title)}
-                        className={sortButtonStyle(Order.title)}
+                        onClick={() => onOrderButtonClick(Order.TITLE)}
+                        className={sortButtonStyle(Order.TITLE)}
                     >
                         Title
-                        {currentOrder === Order.title && (
-                            <AscendingIcon ascending={ascending} />
+                        {logOptions.order === Order.TITLE && (
+                            <AscendingIcon ascending={logOptions.asc} />
                         )}
                     </button>
                 </li>
                 <li className="mr-2">
                     <button
-                        onClick={() => onOrderButtonClick(Order.rating)}
-                        className={sortButtonStyle(Order.rating)}
+                        onClick={() => onOrderButtonClick(Order.RATING)}
+                        className={sortButtonStyle(Order.RATING)}
                     >
                         Rating
-                        {currentOrder === Order.rating && (
-                            <AscendingIcon ascending={ascending} />
+                        {logOptions.order === Order.RATING && (
+                            <AscendingIcon ascending={logOptions.asc} />
                         )}
                     </button>
                 </li>
                 <li className="mr-2">
                     <button
-                        onClick={() => onOrderButtonClick(Order.startDate)}
-                        className={sortButtonStyle(Order.startDate)}
+                        onClick={() => onOrderButtonClick(Order.START_DATE)}
+                        className={sortButtonStyle(Order.START_DATE)}
                     >
                         Start date
-                        {currentOrder === Order.startDate && (
-                            <AscendingIcon ascending={ascending} />
+                        {logOptions.order === Order.START_DATE && (
+                            <AscendingIcon ascending={logOptions.asc} />
                         )}
                     </button>
                 </li>
                 <li className="mr-2">
                     <button
-                        onClick={() => onOrderButtonClick(Order.updatedAt)}
-                        className={sortButtonStyle(Order.updatedAt)}
+                        onClick={() => onOrderButtonClick(Order.UPDATED_AT)}
+                        className={sortButtonStyle(Order.UPDATED_AT)}
                     >
                         Last Update
-                        {currentOrder === Order.updatedAt && (
-                            <AscendingIcon ascending={ascending} />
+                        {logOptions.order === Order.UPDATED_AT && (
+                            <AscendingIcon ascending={logOptions.asc} />
                         )}
                     </button>
                 </li>
 
+                {/* Type filter */}
+                <li className="mr-4 flex items-center md:ml-auto">
+                    <div className="flex flex-row rounded-lg border border-gray-300 bg-gray-50 px-2 py-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+                        <MdFilterList className="mr-2 text-xl text-gray-500 dark:text-gray-400" />
+                        <div className="border-x-[1px] border-gray-500 px-2 dark:border-gray-400">
+                            <input
+                                type="checkbox"
+                                id="type-anime"
+                                defaultChecked={logOptions.filter.anime}
+                                onChange={(e) =>
+                                    // check if needed, that one checkmark stays checked
+                                    !e.target.checked &&
+                                    logOptions.filter.anime !==
+                                        logOptions.filter.manga
+                                        ? (e.target.checked = !e.target.checked)
+                                        : onLogOptionsChange({
+                                              ...logOptions,
+                                              filter: {
+                                                  ...logOptions.filter,
+                                                  anime: e.target.checked,
+                                              },
+                                          })
+                                }
+                            />
+                            <label className="ml-2" htmlFor="type-anime">
+                                Anime
+                            </label>
+                        </div>
+                        <div className="px-2">
+                            <input
+                                type="checkbox"
+                                id="type-manga"
+                                defaultChecked={logOptions.filter.manga}
+                                onChange={(e) =>
+                                    // check if needed, that one checkmark stays checked
+                                    !e.target.checked &&
+                                    logOptions.filter.anime !==
+                                        logOptions.filter.manga
+                                        ? (e.target.checked = !e.target.checked)
+                                        : onLogOptionsChange({
+                                              ...logOptions,
+                                              filter: {
+                                                  ...logOptions.filter,
+                                                  manga: e.target.checked,
+                                              },
+                                          })
+                                }
+                            />
+                            <label className="ml-2" htmlFor="type-manga">
+                                Manga
+                            </label>
+                        </div>
+                    </div>
+                </li>
+
                 {/* Search box */}
-                <li className="ml-auto flex items-center">
+                <li className="flex items-center">
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
@@ -100,7 +143,10 @@ function LogSortAndSearch({
                                 e.currentTarget.elements.namedItem(
                                     "search"
                                 ) as HTMLInputElement;
-                            onSearchChange(searchElement.value);
+                            onLogOptionsChange({
+                                ...logOptions,
+                                searchTerm: searchElement.value,
+                            });
                         }}
                         className="relative w-full"
                     >
@@ -123,11 +169,14 @@ function LogSortAndSearch({
                             name="search"
                             className="rounded-lg border border-gray-300 bg-gray-50 p-2 pl-10 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                             placeholder="Search"
-                            defaultValue={searchTerm}
+                            defaultValue={logOptions.searchTerm}
                             onChange={(e) =>
                                 // reset on clear
                                 !e.target.value &&
-                                onSearchChange(e.target.value)
+                                onLogOptionsChange({
+                                    ...logOptions,
+                                    searchTerm: e.target.value,
+                                })
                             }
                         />
                     </form>
@@ -138,12 +187,8 @@ function LogSortAndSearch({
 }
 
 LogSortAndSearch.propTypes = {
-    currentOrder: PropTypes.string.isRequired,
-    ascending: PropTypes.bool.isRequired,
-    searchTerm: PropTypes.string.isRequired,
-    onOrderChange: PropTypes.func,
-    onSearchChange: PropTypes.func,
-    onAscendingChange: PropTypes.func,
+    logOptions: PropTypes.object,
+    onLogOptionsChange: PropTypes.func,
 };
 
 export default LogSortAndSearch;

@@ -34,7 +34,8 @@ function Log({ shareId }: Props) {
         updateAnime,
         deleteAnime,
         getAnimeCount,
-        filters,
+        logOptions,
+        setLogOptions,
     } = useLog(shareId);
 
     const getUserByShareId = trpc.useQuery(
@@ -86,18 +87,20 @@ function Log({ shareId }: Props) {
             )}
 
             <SortAndSearch
-                currentOrder={filters.order}
-                ascending={filters.ascending}
-                searchTerm={filters.searchTerm}
-                onOrderChange={filters.setOrder}
-                onSearchChange={filters.setSearchTerm}
-                onAscendingChange={filters.setAscending}
+                logOptions={logOptions}
+                onLogOptionsChange={setLogOptions}
             />
 
             <div className="my-4 flex flex-row items-center">
                 {/* Anime count */}
                 <div className="mr-2 rounded bg-gradient-to-br from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
-                    {getAnimeCount.data} Anime in total
+                    {getAnimeCount.data}
+                    {logOptions.filter.anime && logOptions.filter.manga
+                        ? " Anime / Manga "
+                        : logOptions.filter.anime
+                        ? " Anime "
+                        : " Manga "}
+                    in total
                 </div>
                 {/* Shared Log Username */}
                 {getUserByShareId.data && (
@@ -140,7 +143,6 @@ function Log({ shareId }: Props) {
             ) : (
                 <>
                     {/* Log */}
-
                     <motion.div
                         className="grid grid-cols-1 justify-start gap-4 xl:grid-cols-2"
                         layout
@@ -163,7 +165,7 @@ function Log({ shareId }: Props) {
                         )}
                     </motion.div>
 
-                    {/* Loading for infinite query */}
+                    {/* Loading spinner for infinite query */}
                     <div
                         ref={inViewRef}
                         className={!getAnime.hasNextPage ? "hidden" : ""}

@@ -1,15 +1,13 @@
 import { z } from "zod";
 import { createProtectedRouter } from "../protected-router";
 import { animeValidator } from "@/types/Anime";
-import { Order } from "@/types/Order";
+import { logOptionsValidator, Order } from "@/types/LogOptions";
 
 export const animeRouter = createProtectedRouter()
     .query("get", {
         input: z.object({
             shareId: z.string().nullish(),
-            order: z.string().nullish(),
-            asc: z.boolean().nullish(),
-            searchTerm: z.string().nullish(),
+            logOptions: logOptionsValidator.nullish(),
         }),
         async resolve({ ctx, input }) {
             return await ctx.prisma.anime.findMany({
@@ -19,22 +17,34 @@ export const animeRouter = createProtectedRouter()
                             ? { shareId: input.shareId }
                             : { id: ctx.session.user.id }),
                     },
-                    ...(input.searchTerm && {
+                    ...(input.logOptions?.searchTerm && {
                         title: {
-                            contains: input.searchTerm,
+                            contains: input.logOptions.searchTerm,
                             mode: "insensitive",
                         },
                     }),
+                    ...(input.logOptions?.filter &&
+                        input.logOptions.filter.anime !==
+                            input.logOptions.filter.manga && {
+                            isManga: {
+                                equals: input.logOptions.filter.manga,
+                            },
+                        }),
                 },
                 orderBy: {
-                    [input.order ?? Order.title]: input.asc ? "asc" : "desc",
+                    [input.logOptions?.order ?? Order.TITLE]: input.logOptions
+                        ?.asc
+                        ? "asc"
+                        : "desc",
                 },
                 select: {
                     id: true,
                     user: false,
                     userId: false,
+                    isManga: true,
                     title: true,
                     imageUrl: true,
+                    hasCustomImage: true,
                     updatedAt: true,
                     createdAt: true,
                     link: true,
@@ -52,9 +62,7 @@ export const animeRouter = createProtectedRouter()
     .query("infinite", {
         input: z.object({
             shareId: z.string().nullish(),
-            order: z.string().nullish(),
-            asc: z.boolean().nullish(),
-            searchTerm: z.string().nullish(),
+            logOptions: logOptionsValidator.nullish(),
             limit: z.number().min(1).max(100).nullish(),
             cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
         }),
@@ -70,23 +78,35 @@ export const animeRouter = createProtectedRouter()
                             ? { shareId: input.shareId }
                             : { id: ctx.session.user.id }),
                     },
-                    ...(input.searchTerm && {
+                    ...(input.logOptions?.searchTerm && {
                         title: {
-                            contains: input.searchTerm,
+                            contains: input.logOptions.searchTerm,
                             mode: "insensitive",
                         },
                     }),
+                    ...(input.logOptions?.filter &&
+                        input.logOptions.filter.anime !==
+                            input.logOptions.filter.manga && {
+                            isManga: {
+                                equals: input.logOptions.filter.manga,
+                            },
+                        }),
                 },
                 cursor: cursor ? { id: cursor } : undefined,
                 orderBy: {
-                    [input.order ?? Order.title]: input.asc ? "asc" : "desc",
+                    [input.logOptions?.order ?? Order.TITLE]: input.logOptions
+                        ?.asc
+                        ? "asc"
+                        : "desc",
                 },
                 select: {
                     id: true,
+                    isManga: true,
                     user: false,
                     userId: false,
                     title: true,
                     imageUrl: true,
+                    hasCustomImage: true,
                     updatedAt: true,
                     createdAt: true,
                     link: true,

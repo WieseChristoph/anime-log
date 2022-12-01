@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import { MdEdit, MdDelete } from "react-icons/md";
+import { FaBook, FaTv } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
@@ -60,6 +61,19 @@ function Anime({
             layout
         >
             <div className="flex flex-col sm:flex-row">
+                {/* Type symbol */}
+                <Tippy
+                    content={anime.isManga ? "Manga" : "Anime"}
+                    placement="right"
+                >
+                    <div className="absolute top-1 left-1 rounded-lg bg-white/30 p-2 backdrop-blur-lg dark:bg-black/30">
+                        {anime.isManga ? (
+                            <FaBook className="text-xl" />
+                        ) : (
+                            <FaTv className="text-xl" />
+                        )}
+                    </div>
+                </Tippy>
                 {/* Image */}
                 <a
                     className="block h-[210px] w-[150px] self-center"
@@ -149,7 +163,11 @@ function Anime({
             {/* Edit and Delete Button */}
             {!isSharedLog && (
                 <div className="absolute top-1 right-1 columns-1">
-                    <Tippy content="Edit this Anime">
+                    <Tippy
+                        content={`Edit this ${
+                            anime.isManga ? "Manga" : "Anime"
+                        }`}
+                    >
                         <button
                             onClick={() => onEditClick(anime)}
                             className="hover:text-md flex h-[24px] w-[24px] items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-400 text-sm text-white"
@@ -162,7 +180,9 @@ function Anime({
                         text="You won't be able to revert this!"
                         successTitle="Deleted!"
                         successText={`"${anime.title}" has been deleted.`}
-                        tooltip="Delete this Anime"
+                        tooltip={`Delete this ${
+                            anime.isManga ? "Manga" : "Anime"
+                        }`}
                         onDeleteClick={() => onDeleteClick(anime)}
                         className="hover:text-md my-1 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-400 text-sm text-white"
                     >
