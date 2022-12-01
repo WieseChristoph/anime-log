@@ -68,7 +68,7 @@ function AnimeWeekdayChart({ anime = [] }: { anime?: Anime[] }) {
                 min: 0,
                 title: {
                     display: true,
-                    text: "Anime count",
+                    text: "Anime / Manga count",
                 },
                 ticks: {
                     precision: 0,
@@ -87,7 +87,7 @@ function AnimeWeekdayChart({ anime = [] }: { anime?: Anime[] }) {
             tooltip: {
                 callbacks: {
                     label: (tooltipItem) => {
-                        return `${tooltipItem.formattedValue} Anime`;
+                        return `${tooltipItem.formattedValue} Anime / Manga`;
                     },
                 },
             },

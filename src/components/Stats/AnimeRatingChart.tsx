@@ -70,7 +70,7 @@ function AnimeRatingChart({ anime = [] }: { anime?: Anime[] }) {
                 min: 0,
                 title: {
                     display: true,
-                    text: "Anime count",
+                    text: "Anime / Manga count",
                 },
                 ticks: {
                     precision: 0,
@@ -93,7 +93,7 @@ function AnimeRatingChart({ anime = [] }: { anime?: Anime[] }) {
                         return `${index} / 10`;
                     },
                     label: (tooltipItem) => {
-                        return `${tooltipItem.formattedValue} Anime`;
+                        return `${tooltipItem.formattedValue} Anime / Manga`;
                     },
                 },
             },

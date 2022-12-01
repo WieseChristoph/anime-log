@@ -104,14 +104,14 @@ function StatsLayout({ shareId }: { shareId?: string }) {
                 </div>
                 <div className="rounded bg-gray-200 p-4 dark:bg-slate-900">
                     <span className="text-xl font-bold">
-                        Anime count by weekdays
+                        Anime / Manga count by weekdays
                     </span>
                     <hr className="my-2 border-black dark:border-white" />
                     <AnimeWeekdayChart anime={getAnime.data} />
                 </div>
                 <div className="rounded bg-gray-200 p-4 dark:bg-slate-900 md:col-span-2">
                     <span className="text-xl font-bold">
-                        Anime count over time
+                        Anime / Manga count over time
                     </span>
                     <hr className="my-2 border-black dark:border-white" />
                     <DynamicAnimeStartDateChart anime={getAnime.data} />
@@ -125,7 +125,7 @@ function StatsLayout({ shareId }: { shareId?: string }) {
                 </div>
                 <div className="rounded bg-gray-200 p-4 dark:bg-slate-900">
                     <span className="text-xl font-bold">
-                        Anime title length
+                        Anime / Manga title length
                     </span>
                     <hr className="my-2 border-black dark:border-white" />
                     <AnimeTitleLenghtTable anime={getAnime.data} />

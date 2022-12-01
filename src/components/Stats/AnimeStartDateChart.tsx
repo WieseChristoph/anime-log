@@ -67,7 +67,7 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
                 min: 0,
                 title: {
                     display: true,
-                    text: "Anime count",
+                    text: "Anime / Manga count",
                 },
                 ticks: {
                     precision: 0,
@@ -92,7 +92,7 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
                         }`;
                     },
                     label: (tooltipItem) => {
-                        return `${tooltipItem.formattedValue} Anime in total`;
+                        return `${tooltipItem.formattedValue} Anime / Manga in total`;
                     },
                 },
             },
