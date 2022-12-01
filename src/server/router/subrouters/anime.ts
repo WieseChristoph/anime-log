@@ -133,6 +133,7 @@ export const animeRouter = createProtectedRouter()
     .query("count", {
         input: z.object({
             shareId: z.string().nullish(),
+            logOptions: logOptionsValidator.nullish(),
         }),
         resolve: async ({ ctx, input }) => {
             return await ctx.prisma.anime.count({
@@ -142,6 +143,19 @@ export const animeRouter = createProtectedRouter()
                             ? { shareId: input.shareId }
                             : { id: ctx.session.user.id }),
                     },
+                    ...(input.logOptions?.searchTerm && {
+                        title: {
+                            contains: input.logOptions.searchTerm,
+                            mode: "insensitive",
+                        },
+                    }),
+                    ...(input.logOptions?.filter &&
+                        input.logOptions.filter.anime !==
+                            input.logOptions.filter.manga && {
+                            isManga: {
+                                equals: input.logOptions.filter.manga,
+                            },
+                        }),
                 },
             });
         },

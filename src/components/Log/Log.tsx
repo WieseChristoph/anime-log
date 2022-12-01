@@ -100,7 +100,6 @@ function Log({ shareId }: Props) {
                         : logOptions.filter.anime
                         ? " Anime "
                         : " Manga "}
-                    in total
                 </div>
                 {/* Shared Log Username */}
                 {getUserByShareId.data && (

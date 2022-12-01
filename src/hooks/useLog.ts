@@ -16,7 +16,10 @@ function useLog(shareId: string | undefined) {
 
     const ctx = trpc.useContext();
 
-    const getAnimeCount = trpc.useQuery(["anime.count", { shareId: shareId }]);
+    const getAnimeCount = trpc.useQuery([
+        "anime.count",
+        { shareId: shareId, logOptions },
+    ]);
 
     const getAnime = trpc.useInfiniteQuery(["anime.infinite", queryInput], {
         getNextPageParam: (lastPage) => lastPage.nextCursor,

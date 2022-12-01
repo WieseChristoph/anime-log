@@ -12,7 +12,7 @@ import {
     Filler,
     Legend,
 } from "chart.js";
-import { Order } from "@/types/Order";
+import { logOptionsValidator, Order } from "@/types/LogOptions";
 import { trpc } from "@/utils/trpc";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -44,9 +44,13 @@ const DynamicAnimeStartDateChart = dynamic(
 );
 
 function StatsLayout({ shareId }: { shareId?: string }) {
+    const logOptions = logOptionsValidator.parse(undefined);
+    logOptions.order = Order.START_DATE;
+    logOptions.asc = true;
+
     const getAnime = trpc.useQuery([
         "anime.get",
-        { shareId: shareId, order: Order.startDate, asc: true },
+        { shareId: shareId, logOptions },
     ]);
 
     const getUserByShareId = trpc.useQuery(
