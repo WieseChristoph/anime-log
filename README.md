@@ -36,7 +36,7 @@ DISCORD_CLIENT_SECRET=<YOUR_CLIENT_SECRET>
 
 ## Database Connection
 
-Set environment variable `DATABASE_URL` with an [CockroackDB](https://www.cockroachlabs.com/) database URL. Alternatively you can use a Postgres database URL, but you need to change the datasource provider in `prisma/schema.prisma` from `cockroach` to `postgresql`.
+Set environment variable `DATABASE_URL` with an [CockroachDB](https://www.cockroachlabs.com/) database URL. Alternatively you can use a Postgres database URL, but you need to change the datasource provider in `prisma/schema.prisma` from `cockroach` to `postgresql`.
 
 # Developement Run
 
