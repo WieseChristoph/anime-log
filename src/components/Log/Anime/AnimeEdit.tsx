@@ -79,7 +79,7 @@ function AnimeEdit({
             clearTimeout(imageSearchTimeout);
             setimageSearchTimeout(
                 setTimeout(async () => {
-                    if (title) updateImage(anime.title, anime.isManga);
+                    if (title) updateImage(title, anime.isManga);
                 }, IMAGE_SEARCH_TIMEOUT)
             );
         }
