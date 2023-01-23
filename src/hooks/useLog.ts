@@ -1,6 +1,6 @@
 import { Anime } from "@/types/Anime";
 import { logOptionsValidator } from "@/types/LogOptions";
-import { trpc } from "@/utils/trpc";
+import { api } from "@/utils/api";
 import { useState } from "react";
 
 function useLog(shareId: string | undefined) {
@@ -14,25 +14,25 @@ function useLog(shareId: string | undefined) {
         limit: 16,
     };
 
-    const ctx = trpc.useContext();
+    const ctx = api.useContext();
 
-    const getAnimeCount = trpc.useQuery([
-        "anime.count",
-        { shareId: shareId, logOptions },
-    ]);
+    const getAnimeCount = api.anime.count.useQuery({
+        shareId: shareId,
+        logOptions,
+    });
 
-    const getAnime = trpc.useInfiniteQuery(["anime.infinite", queryInput], {
+    const getAnime = api.anime.infinite.useInfiniteQuery(queryInput, {
         getNextPageParam: (lastPage) => lastPage.nextCursor,
     });
 
-    const addAnime = trpc.useMutation("anime.add", {
+    const addAnime = api.anime.add.useMutation({
         onMutate: async (addedAnime) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-            await ctx.cancelQuery(["anime.infinite", queryInput]);
-            await ctx.cancelQuery(["anime.count", { shareId: shareId }]);
+            await ctx.anime.infinite.cancel(queryInput);
+            await ctx.anime.count.cancel({ shareId: shareId });
 
             // Optimistically update to the new value
-            ctx.setInfiniteQueryData(["anime.infinite", queryInput], (data) => {
+            ctx.anime.infinite.setInfiniteData(queryInput, (data) => {
                 if (!data) {
                     return {
                         pages: [],
@@ -53,25 +53,25 @@ function useLog(shareId: string | undefined) {
             });
 
             // Optimistically update anime count
-            ctx.setQueryData(
-                ["anime.count", { shareId: shareId }],
+            ctx.anime.count.setData(
+                { shareId: shareId },
                 (data) => (data ?? 0) + 1
             );
         },
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.invalidateQueries(["anime.infinite", queryInput]);
-            ctx.invalidateQueries(["anime.count", { shareId: shareId }]);
+            ctx.anime.infinite.invalidate(queryInput);
+            ctx.anime.count.invalidate({ shareId: shareId });
         },
     });
 
-    const updateAnime = trpc.useMutation("anime.update", {
+    const updateAnime = api.anime.update.useMutation({
         onMutate: async (updatedAnime) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-            await ctx.cancelQuery(["anime.infinite", queryInput]);
+            await ctx.anime.infinite.cancel(queryInput);
 
             // Optimistically update to the new value
-            ctx.setInfiniteQueryData(["anime.infinite", queryInput], (data) => {
+            ctx.anime.infinite.setInfiniteData(queryInput, (data) => {
                 if (!data) {
                     return {
                         pages: [],
@@ -97,18 +97,18 @@ function useLog(shareId: string | undefined) {
         },
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.invalidateQueries(["anime.infinite", queryInput]);
+            ctx.anime.infinite.invalidate(queryInput);
         },
     });
 
-    const deleteAnime = trpc.useMutation("anime.delete", {
+    const deleteAnime = api.anime.delete.useMutation({
         onMutate: async (deletedAnime) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-            await ctx.cancelQuery(["anime.infinite", queryInput]);
-            await ctx.cancelQuery(["anime.count", { shareId: shareId }]);
+            await ctx.anime.infinite.cancel(queryInput);
+            await ctx.anime.count.cancel({ shareId: shareId });
 
             // Optimistically update to the new value
-            ctx.setInfiniteQueryData(["anime.infinite", queryInput], (data) => {
+            ctx.anime.infinite.setInfiniteData(queryInput, (data) => {
                 if (!data) {
                     return {
                         pages: [],
@@ -127,15 +127,15 @@ function useLog(shareId: string | undefined) {
                 };
             });
             // Optimistically update anime count
-            ctx.setQueryData(
-                ["anime.count", { shareId: shareId }],
+            ctx.anime.count.setData(
+                { shareId: shareId },
                 (data) => (data ?? 0) - 1
             );
         },
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.invalidateQueries(["anime.infinite", queryInput]);
-            ctx.invalidateQueries(["anime.count", { shareId: shareId }]);
+            ctx.anime.infinite.invalidate(queryInput);
+            ctx.anime.count.invalidate({ shareId: shareId });
         },
     });
 

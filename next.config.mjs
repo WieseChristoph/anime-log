@@ -1,4 +1,6 @@
-/** @type {import('next').NextConfig} */
+// @ts-check
+/** @type {import("next").NextConfig} */
+
 const nextConfig = {
     reactStrictMode: true,
     // needed to be off for chartJs but could be fixed in future nextJs versions
@@ -8,4 +10,4 @@ const nextConfig = {
     },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

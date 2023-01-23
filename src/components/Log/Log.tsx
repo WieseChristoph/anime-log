@@ -11,7 +11,7 @@ import { FaPlus } from "react-icons/fa";
 import Loading from "../Util/Loading";
 import { Anime as AnimeType } from "@/types/Anime";
 import useLog from "@/hooks/useLog";
-import { trpc } from "@/utils/trpc";
+import { api } from "@/utils/api";
 import InfoAlert from "../Util/InfoAlert";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
@@ -38,8 +38,8 @@ function Log({ shareId }: Props) {
         setLogOptions,
     } = useLog(shareId);
 
-    const getUserByShareId = trpc.useQuery(
-        ["user.get-byShareId", { shareId: shareId as string }],
+    const getUserByShareId = api.user.getByShareId.useQuery(
+        { shareId: shareId as string },
         { enabled: !!shareId }
     );
 

@@ -1,4 +1,4 @@
-import * as helper from "../../utils/helper";
+import * as helper from "@/utils/helper";
 
 describe("getBaseUrl", () => {
     const OLD_ENV = process.env;

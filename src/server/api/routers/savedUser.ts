@@ -1,20 +1,20 @@
 import { z } from "zod";
-import { createProtectedRouter } from "../protected-router";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 
-export const savedUserRouter = createProtectedRouter()
-    .query("get-all", {
-        resolve: async ({ ctx }) => {
-            return await ctx.prisma.savedUser.findMany({
-                where: { user: { id: ctx.session.user.id } },
-                include: { savedUser: true },
-            });
-        },
-    })
-    .mutation("add", {
-        input: z.object({
-            shareId: z.string(),
-        }),
-        resolve: async ({ ctx, input }) => {
+export const savedUserRouter = createTRPCRouter({
+    getAll: protectedProcedure.query(({ ctx }) => {
+        return ctx.prisma.savedUser.findMany({
+            where: { user: { id: ctx.session.user.id } },
+            include: { savedUser: true },
+        });
+    }),
+    add: protectedProcedure
+        .input(
+            z.object({
+                shareId: z.string(),
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
             const savedUser = await ctx.prisma.user.findUnique({
                 where: { shareId: input.shareId },
             });
@@ -27,13 +27,14 @@ export const savedUserRouter = createProtectedRouter()
                     savedUser: { connect: { id: savedUser.id } },
                 },
             });
-        },
-    })
-    .mutation("delete", {
-        input: z.object({
-            shareId: z.string(),
         }),
-        resolve: async ({ ctx, input }) => {
+    delete: protectedProcedure
+        .input(
+            z.object({
+                shareId: z.string(),
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
             const savedUser = await ctx.prisma.user.findUnique({
                 where: { shareId: input.shareId },
             });
@@ -48,5 +49,5 @@ export const savedUserRouter = createProtectedRouter()
                     },
                 },
             });
-        },
-    });
+        }),
+});

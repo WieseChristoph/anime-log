@@ -1,16 +1,18 @@
 import { z } from "zod";
-import { createProtectedRouter } from "../protected-router";
 import { animeValidator } from "@/types/Anime";
 import { logOptionsValidator, Order } from "@/types/LogOptions";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 
-export const animeRouter = createProtectedRouter()
-    .query("get", {
-        input: z.object({
-            shareId: z.string().nullish(),
-            logOptions: logOptionsValidator.nullish(),
-        }),
-        async resolve({ ctx, input }) {
-            return await ctx.prisma.anime.findMany({
+export const animeRouter = createTRPCRouter({
+    get: protectedProcedure
+        .input(
+            z.object({
+                shareId: z.string().nullish(),
+                logOptions: logOptionsValidator.nullish(),
+            })
+        )
+        .query(({ ctx, input }) => {
+            return ctx.prisma.anime.findMany({
                 where: {
                     user: {
                         ...(input.shareId
@@ -56,17 +58,18 @@ export const animeRouter = createProtectedRouter()
                     ovas: true,
                 },
             });
-        },
-    })
-    // TODO: Some anime are doubled when fetching
-    .query("infinite", {
-        input: z.object({
-            shareId: z.string().nullish(),
-            logOptions: logOptionsValidator.nullish(),
-            limit: z.number().min(1).max(100).nullish(),
-            cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
         }),
-        async resolve({ ctx, input }) {
+    // TODO: Some anime are doubled when fetching
+    infinite: protectedProcedure
+        .input(
+            z.object({
+                shareId: z.string().nullish(),
+                logOptions: logOptionsValidator.nullish(),
+                limit: z.number().min(1).max(100).nullish(),
+                cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+            })
+        )
+        .query(async ({ ctx, input }) => {
             const limit = input.limit ?? 50;
             const { cursor } = input;
 
@@ -128,15 +131,16 @@ export const animeRouter = createProtectedRouter()
                 items,
                 nextCursor,
             };
-        },
-    })
-    .query("count", {
-        input: z.object({
-            shareId: z.string().nullish(),
-            logOptions: logOptionsValidator.nullish(),
         }),
-        resolve: async ({ ctx, input }) => {
-            return await ctx.prisma.anime.count({
+    count: protectedProcedure
+        .input(
+            z.object({
+                shareId: z.string().nullish(),
+                logOptions: logOptionsValidator.nullish(),
+            })
+        )
+        .query(({ ctx, input }) => {
+            return ctx.prisma.anime.count({
                 where: {
                     user: {
                         ...(input.shareId
@@ -158,31 +162,31 @@ export const animeRouter = createProtectedRouter()
                         }),
                 },
             });
-        },
-    })
-    .mutation("add", {
-        input: animeValidator
-            .omit({ id: true, updatedAt: true, createdAt: true })
-            .partial({
-                startDate: true,
-                link: true,
-                note: true,
-                imageUrl: true,
-            }),
-        resolve: async ({ ctx, input }) => {
-            return await ctx.prisma.anime.create({
+        }),
+    add: protectedProcedure
+        .input(
+            animeValidator
+                .omit({ id: true, updatedAt: true, createdAt: true })
+                .partial({
+                    startDate: true,
+                    link: true,
+                    note: true,
+                    imageUrl: true,
+                })
+        )
+        .mutation(({ ctx, input }) => {
+            return ctx.prisma.anime.create({
                 data: {
                     ...input,
                     user: { connect: { id: ctx.session.user.id } },
                     updatedAt: undefined,
                 },
             });
-        },
-    })
-    .mutation("update", {
-        input: animeValidator.partial({ imageUrl: true }),
-        resolve: async ({ ctx, input }) => {
-            return await ctx.prisma.anime.update({
+        }),
+    update: protectedProcedure
+        .input(animeValidator.partial({ imageUrl: true }))
+        .mutation(({ ctx, input }) => {
+            return ctx.prisma.anime.update({
                 where: { id: input.id },
                 data: {
                     ...input,
@@ -190,13 +194,12 @@ export const animeRouter = createProtectedRouter()
                     updatedAt: undefined,
                 },
             });
-        },
-    })
-    .mutation("delete", {
-        input: animeValidator,
-        resolve: async ({ ctx, input }) => {
-            return await ctx.prisma.anime.delete({
+        }),
+    delete: protectedProcedure
+        .input(animeValidator)
+        .mutation(({ ctx, input }) => {
+            return ctx.prisma.anime.delete({
                 where: { id: input.id },
             });
-        },
-    });
+        }),
+});

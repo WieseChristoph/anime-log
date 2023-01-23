@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
 import { MdDelete, MdSave } from "react-icons/md";
-import { trpc } from "@/utils/trpc";
+import { api } from "@/utils/api";
 import DeleteButton from "../Util/DeleteButton";
 import ImageWithFallback from "../Util/ImageWithFallback";
 
@@ -12,21 +12,21 @@ interface Props {
 }
 
 function SavedUsersDropdown({ urlShareId }: Props) {
-    const ctx = trpc.useContext();
+    const ctx = api.useContext();
 
-    const getSavedUsers = trpc.useQuery(["savedUser.get-all"]);
+    const getSavedUsers = api.savedUser.getAll.useQuery();
 
-    const addSavedUser = trpc.useMutation(["savedUser.add"], {
+    const addSavedUser = api.savedUser.add.useMutation({
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.invalidateQueries(["savedUser.get-all"]);
+            ctx.savedUser.getAll.invalidate();
         },
     });
 
-    const deleteSavedUser = trpc.useMutation(["savedUser.delete"], {
+    const deleteSavedUser = api.savedUser.delete.useMutation({
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.invalidateQueries(["savedUser.get-all"]);
+            ctx.savedUser.getAll.invalidate();
         },
     });
 

@@ -24,7 +24,7 @@ export async function getImageByTitle(
         }]=posterImage&page[limit]=1&filter[text]=${encodeURI(title)}`
     );
 
-    if (result && result.data.length > 0)
+    if (result && result.data[0])
         return result.data[0].attributes.posterImage.small;
 
     return "";

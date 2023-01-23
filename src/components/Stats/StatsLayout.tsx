@@ -13,7 +13,7 @@ import {
     Legend,
 } from "chart.js";
 import { logOptionsValidator, Order } from "@/types/LogOptions";
-import { trpc } from "@/utils/trpc";
+import { api } from "@/utils/api";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import AnimeRatingChart from "./AnimeRatingChart";
@@ -48,13 +48,10 @@ function StatsLayout({ shareId }: { shareId?: string }) {
     logOptions.order = Order.START_DATE;
     logOptions.asc = true;
 
-    const getAnime = trpc.useQuery([
-        "anime.get",
-        { shareId: shareId, logOptions },
-    ]);
+    const getAnime = api.anime.get.useQuery({ shareId: shareId, logOptions });
 
-    const getUserByShareId = trpc.useQuery(
-        ["user.get-byShareId", { shareId: shareId as string }],
+    const getUserByShareId = api.user.getByShareId.useQuery(
+        { shareId: shareId as string },
         { enabled: !!shareId }
     );
 

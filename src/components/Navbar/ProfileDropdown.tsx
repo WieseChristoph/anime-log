@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Menu, Transition } from "@headlessui/react";
 import { MdDelete, MdShare, MdContentCopy, MdLogout } from "react-icons/md";
 import { User } from "next-auth";
-import { trpc } from "@/utils/trpc";
+import { api } from "@/utils/api";
 import DeleteButton from "@/components/Util/DeleteButton";
 import ImageWithFallback from "../Util/ImageWithFallback";
 
@@ -12,21 +12,21 @@ interface Props {
 }
 
 function ProfileDropdown({ user }: Props) {
-    const ctx = trpc.useContext();
+    const ctx = api.useContext();
 
-    const getShareId = trpc.useQuery(["user.get-shareId"]);
+    const getShareId = api.user.getShareId.useQuery();
 
-    const addShareId = trpc.useMutation(["user.add-shareId"], {
+    const addShareId = api.user.addShareId.useMutation({
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.invalidateQueries(["user.get-shareId"]);
+            ctx.user.getByShareId.invalidate();
         },
     });
 
-    const deleteShareId = trpc.useMutation(["user.delete-shareId"], {
+    const deleteShareId = api.user.deleteShareId.useMutation({
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.invalidateQueries(["user.get-shareId"]);
+            ctx.user.getByShareId.invalidate();
         },
     });
 
