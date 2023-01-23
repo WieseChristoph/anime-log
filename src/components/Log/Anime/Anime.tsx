@@ -76,7 +76,7 @@ function Anime({
                 </Tippy>
                 {/* Image */}
                 <a
-                    className="block h-[210px] w-[150px] self-center"
+                    className={`block h-[${IMAGE_HEIGHT}px] w-[${IMAGE_WIDTH}px] self-center`}
                     target="_blank"
                     {...(anime.link && { href: anime.link })}
                 >
