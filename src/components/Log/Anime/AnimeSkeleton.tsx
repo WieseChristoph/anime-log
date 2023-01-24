@@ -1,8 +1,5 @@
 import { motion } from "framer-motion";
 
-const IMAGE_HEIGHT = 210;
-const IMAGE_WIDTH = 150;
-
 function AnimeSkeleton({ index }: { index: number }) {
     return (
         <motion.div
@@ -25,7 +22,7 @@ function AnimeSkeleton({ index }: { index: number }) {
             <div className="flex animate-pulse flex-col sm:flex-row">
                 {/* Image */}
                 <div
-                    className={`flex items-center justify-center h-[${IMAGE_HEIGHT}px] w-[${IMAGE_WIDTH}px] rounded bg-gray-300 dark:bg-gray-700`}
+                    className={`flex h-[210px] w-[150px] items-center justify-center rounded bg-gray-300 dark:bg-gray-700`}
                 >
                     <svg
                         className={`h-12 w-12 text-gray-200`}
@@ -39,7 +36,7 @@ function AnimeSkeleton({ index }: { index: number }) {
                 </div>
 
                 <div
-                    className={`grid flex-1 grid-cols-1 grid-rows-2 py-2 sm:grid-cols-2 sm:grid-rows-1 h-[${IMAGE_HEIGHT}px]`}
+                    className={`sm:grid-rows-1] grid flex-1 grid-cols-1 grid-rows-2 py-2 sm:grid-cols-2`}
                 >
                     {/* Title, rating and notes */}
                     <div className="flex flex-col overflow-hidden px-2">

@@ -8,9 +8,6 @@ import "tippy.js/dist/tippy.css";
 import { Anime as AnimeType } from "@/types/Anime";
 import DeleteButton from "@/components/Util/DeleteButton";
 
-const IMAGE_HEIGHT = 210;
-const IMAGE_WIDTH = 150;
-
 interface Props {
     anime: AnimeType;
     onDeleteClick: (anime: AnimeType) => void;
@@ -19,10 +16,10 @@ interface Props {
     index: number;
 }
 
-function isConsecutive(array: number[]): boolean {
+function isConsecutive(array: Array<number>): boolean {
     const sorted = array.sort((a, b) => a - b);
     for (let i = 0; i < sorted.length - 1; i++) {
-        if (sorted[i + 1] !== sorted[i]++) return false;
+        if (sorted[i + 1] !== (sorted[i] || -1) + 1) return false;
     }
     return true;
 }
@@ -42,9 +39,9 @@ function Anime({
 }: Props) {
     return (
         <motion.div
-            className={`relative rounded
-            bg-gray-200 shadow-sm shadow-gray-400
-			dark:bg-slate-900 dark:text-white`}
+            className={`relative
+            rounded bg-gray-200 shadow-sm
+			shadow-gray-400 dark:bg-slate-900 dark:text-white`}
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{
                 opacity: 1,
@@ -74,7 +71,7 @@ function Anime({
                 </Tippy>
                 {/* Image */}
                 <a
-                    className={`block h-[${IMAGE_HEIGHT}px] w-[${IMAGE_WIDTH}px] self-center`}
+                    className={`block h-[210px] w-[150px] self-center`}
                     target="_blank"
                     {...(anime.link && { href: anime.link })}
                 >
@@ -83,13 +80,13 @@ function Anime({
                         className="h-full w-full rounded-l"
                         src={anime.imageUrl || "/placeholder.jpg"}
                         alt={anime.title}
-                        height={IMAGE_HEIGHT}
-                        width={IMAGE_WIDTH}
+                        height={210}
+                        width={150}
                     />
                 </a>
 
                 <div
-                    className={`grid flex-1 grid-cols-1 grid-rows-2 py-2 sm:grid-cols-2 sm:grid-rows-1 h-[${IMAGE_HEIGHT}px]`}
+                    className={`grid flex-1 grid-cols-1 grid-rows-2 py-2 sm:grid-cols-2 sm:grid-rows-1`}
                 >
                     {/* Title, rating and notes */}
                     <div className="flex flex-col overflow-hidden px-2">
