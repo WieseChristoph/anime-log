@@ -19,14 +19,14 @@ function ProfileDropdown({ user }: Props) {
     const addShareId = api.user.addShareId.useMutation({
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.user.getByShareId.invalidate();
+            ctx.user.getShareId.invalidate();
         },
     });
 
     const deleteShareId = api.user.deleteShareId.useMutation({
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.user.getByShareId.invalidate();
+            ctx.user.getShareId.invalidate();
         },
     });
 
