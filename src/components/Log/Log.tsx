@@ -1,17 +1,17 @@
+import { useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { type Anime as AnimeType } from "@/types/Anime";
+import { api } from "@/utils/api";
+import useLog from "@/hooks/useLog";
+
 import SortAndSearch from "./LogSortAndSearch";
 import Head from "next/head";
-import { useState } from "react";
-import PropTypes from "prop-types";
-import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
 import ErrorAlert from "../Util/ErrorAlert";
 import Anime from "./Anime/Anime";
 import AnimeEdit from "./Anime/AnimeEdit";
 import { FaPlus } from "react-icons/fa";
 import Loading from "../Util/Loading";
-import { Anime as AnimeType } from "@/types/Anime";
-import useLog from "@/hooks/useLog";
-import { api } from "@/utils/api";
 import InfoAlert from "../Util/InfoAlert";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
@@ -20,7 +20,7 @@ interface Props {
     shareId?: string;
 }
 
-function Log({ shareId }: Props) {
+const Log: React.FC<Props> = ({ shareId }) => {
     const [showEditAnime, setShowEditAnime] = useState(false);
     const [animeToEdit, setAnimeToEdit] = useState<AnimeType>();
 
@@ -175,10 +175,6 @@ function Log({ shareId }: Props) {
             )}
         </div>
     );
-}
-
-Log.propTypes = {
-    shareId: PropTypes.string,
 };
 
 export default Log;

@@ -1,10 +1,15 @@
-import { ChartData, ChartOptions } from "chart.js/auto";
-import { Bar } from "react-chartjs-2";
 import { useMemo } from "react";
 import { useTheme } from "next-themes";
-import { Anime } from "@/types/Anime";
+import { type Anime } from "@/types/Anime";
+import { type ChartData, type ChartOptions } from "chart.js/auto";
 
-function AnimeWeekdayChart({ anime = [] }: { anime?: Anime[] }) {
+import { Bar } from "react-chartjs-2";
+
+interface Props {
+    anime?: Anime[];
+}
+
+const AnimeWeekdayChart: React.FC<Props> = ({ anime = [] }) => {
     const { theme } = useTheme();
 
     const data = useMemo(() => {
@@ -95,6 +100,6 @@ function AnimeWeekdayChart({ anime = [] }: { anime?: Anime[] }) {
     };
 
     return <Bar data={chartData} options={options} />;
-}
+};
 
 export default AnimeWeekdayChart;

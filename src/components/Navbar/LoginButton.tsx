@@ -1,7 +1,8 @@
 import { signIn } from "next-auth/react";
+
 import { FaDiscord } from "react-icons/fa";
 
-function LoginButton() {
+const LoginButton: React.FC = () => {
     return (
         <button
             className="rounded-md bg-[#7289DA] py-1 px-2"
@@ -13,6 +14,6 @@ function LoginButton() {
             </span>
         </button>
     );
-}
+};
 
 export default LoginButton;

@@ -1,9 +1,9 @@
 import { signOut } from "next-auth/react";
-import PropTypes from "prop-types";
+import { api } from "@/utils/api";
+import { User } from "next-auth";
+
 import { Menu, Transition } from "@headlessui/react";
 import { MdDelete, MdShare, MdContentCopy, MdLogout } from "react-icons/md";
-import { User } from "next-auth";
-import { api } from "@/utils/api";
 import DeleteButton from "@/components/Util/DeleteButton";
 import ImageWithFallback from "../Util/ImageWithFallback";
 
@@ -11,7 +11,7 @@ interface Props {
     user: User;
 }
 
-function ProfileDropdown({ user }: Props) {
+const ProfileDropdown: React.FC<Props> = ({ user }) => {
     const ctx = api.useContext();
 
     const getShareId = api.user.getShareId.useQuery();
@@ -121,10 +121,6 @@ function ProfileDropdown({ user }: Props) {
             )}
         </Menu>
     );
-}
-
-ProfileDropdown.propTypes = {
-    user: PropTypes.object.isRequired,
 };
 
 export default ProfileDropdown;

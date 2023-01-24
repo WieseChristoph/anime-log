@@ -1,7 +1,7 @@
-import { Anime } from "@/types/Anime";
+import { useState } from "react";
+import { type Anime } from "@/types/Anime";
 import { logOptionsValidator } from "@/types/LogOptions";
 import { api } from "@/utils/api";
-import { useState } from "react";
 
 function useLog(shareId: string | undefined) {
     const [logOptions, setLogOptions] = useState(

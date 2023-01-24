@@ -1,4 +1,8 @@
-function InfoAlert({ message }: { message?: string }) {
+interface Props {
+    message?: string;
+}
+
+const InfoAlert: React.FC<Props> = ({ message }) => {
     return (
         <div className="p-5">
             <div
@@ -23,6 +27,6 @@ function InfoAlert({ message }: { message?: string }) {
             </div>
         </div>
     );
-}
+};
 
 export default InfoAlert;

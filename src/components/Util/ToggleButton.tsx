@@ -1,5 +1,6 @@
-import { Switch } from "@headlessui/react";
 import React, { useState } from "react";
+
+import { Switch } from "@headlessui/react";
 
 interface Props {
     initialValue: boolean;
@@ -9,13 +10,13 @@ interface Props {
     valueRight: string;
 }
 
-function ToggleButton({
+const ToggleButton: React.FC<Props> = ({
     initialValue = false,
     onValueChange,
     label,
     valueLeft,
     valueRight,
-}: Props) {
+}) => {
     const [value, setValue] = useState(initialValue);
 
     function handleChange(newValue: boolean) {
@@ -50,6 +51,6 @@ bg-white text-center text-sm transition-colors focus:border-blue-500 focus:ring-
             </div>
         </Switch.Group>
     );
-}
+};
 
 export default ToggleButton;

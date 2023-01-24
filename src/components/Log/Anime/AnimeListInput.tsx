@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
+
 import { FaPlus, FaMinus } from "react-icons/fa";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
@@ -9,7 +9,7 @@ interface Props {
     onArrayChange: (changedArray: number[]) => void;
 }
 
-function AnimeListInput({ initialArray, onArrayChange }: Props) {
+const AnimeListInput: React.FC<Props> = ({ initialArray, onArrayChange }) => {
     const [array, setArray] = useState(initialArray);
     const [arrayElement, setArrayElement] = useState((array.at(-1) || 0) + 1);
 
@@ -71,11 +71,6 @@ function AnimeListInput({ initialArray, onArrayChange }: Props) {
             <span>{array.join(", ") || "-"}</span>
         </>
     );
-}
-
-AnimeListInput.propTypes = {
-    initialArray: PropTypes.array.isRequired,
-    onArrayChange: PropTypes.func,
 };
 
 export default AnimeListInput;

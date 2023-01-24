@@ -1,15 +1,20 @@
-import { ChartData, ChartOptions } from "chart.js/auto";
-import "@/utils/chartjsDayjsAdapter";
-import zoomPlugin from "chartjs-plugin-zoom";
-import { Line } from "react-chartjs-2";
 import { useMemo } from "react";
 import { useTheme } from "next-themes";
+import { type ChartData, type ChartOptions } from "chart.js/auto";
+import "@/utils/chartjsDayjsAdapter";
+import zoomPlugin from "chartjs-plugin-zoom";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
-import { Anime } from "@/types/Anime";
+import { type Anime } from "@/types/Anime";
 
-function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
+import { Line } from "react-chartjs-2";
+
+interface Props {
+    anime?: Anime[];
+}
+
+const AnimeStartDateChart: React.FC<Props> = ({ anime = [] }) => {
     const { theme } = useTheme();
 
     const data = useMemo(() => {
@@ -113,6 +118,6 @@ function AnimeStartDateChart({ anime = [] }: { anime?: Anime[] }) {
     };
 
     return <Line data={chartData} options={options} plugins={[zoomPlugin]} />;
-}
+};
 
 export default AnimeStartDateChart;

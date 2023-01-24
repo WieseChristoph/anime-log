@@ -1,6 +1,8 @@
-import PropTypes from "prop-types";
+interface Props {
+    message?: string;
+}
 
-function ErrorAlert({ message }: { message?: string }) {
+const ErrorAlert: React.FC<Props> = ({ message }) => {
     return (
         <div
             className="mb-4 flex border-t-4 border-red-500 bg-red-100 p-4 dark:bg-red-200"
@@ -23,10 +25,6 @@ function ErrorAlert({ message }: { message?: string }) {
             </div>
         </div>
     );
-}
-
-ErrorAlert.propTypes = {
-    message: PropTypes.string.isRequired,
 };
 
 export default ErrorAlert;

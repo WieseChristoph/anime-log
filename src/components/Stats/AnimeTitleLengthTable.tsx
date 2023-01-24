@@ -1,6 +1,10 @@
-import { Anime } from "@/types/Anime";
+import { type Anime } from "@/types/Anime";
 
-function AnimeTitleLenghtTable({ anime = [] }: { anime?: Anime[] }) {
+interface Props {
+    anime?: Anime[];
+}
+
+const AnimeTitleLenghtTable: React.FC<Props> = ({ anime = [] }) => {
     anime.sort((a, b) => b.title.length - a.title.length);
 
     return (
@@ -37,6 +41,6 @@ function AnimeTitleLenghtTable({ anime = [] }: { anime?: Anime[] }) {
             </tbody>
         </table>
     );
-}
+};
 
 export default AnimeTitleLenghtTable;

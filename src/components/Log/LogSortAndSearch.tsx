@@ -1,7 +1,6 @@
-import PropTypes from "prop-types";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { MdFilterList } from "react-icons/md";
-import { LogOptions, Order } from "@/types/LogOptions";
+import { type LogOptions, Order } from "@/types/LogOptions";
 
 interface Props {
     logOptions: LogOptions;
@@ -16,7 +15,10 @@ function AscendingIcon({ ascending }: { ascending: boolean }) {
     );
 }
 
-function LogSortAndSearch({ logOptions, onLogOptionsChange }: Props) {
+const LogSortAndSearch: React.FC<Props> = ({
+    logOptions,
+    onLogOptionsChange,
+}) => {
     const sortButtonStyle = (order: Order) =>
         `inline-block flex items-center p-4 rounded-t-lg border-b-2 border-transparent ${
             logOptions.order === order
@@ -184,11 +186,6 @@ function LogSortAndSearch({ logOptions, onLogOptionsChange }: Props) {
             </ul>
         </div>
     );
-}
-
-LogSortAndSearch.propTypes = {
-    logOptions: PropTypes.object,
-    onLogOptionsChange: PropTypes.func,
 };
 
 export default LogSortAndSearch;

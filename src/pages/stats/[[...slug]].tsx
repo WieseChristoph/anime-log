@@ -1,13 +1,15 @@
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { type NextPage } from "next";
+
+import Head from "next/head";
 import Navbar from "@/components/Navbar/Navbar";
 import StatsLayout from "@/components/Stats/StatsLayout";
 import InfoAlert from "@/components/Util/InfoAlert";
 import Loading from "@/components/Util/Loading";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
 import Snowfall from "react-snowfall";
 
-function Stats() {
+const Stats: NextPage = () => {
     const router = useRouter();
     const { status } = useSession();
     const shareId = router.query.slug?.at(0);
@@ -46,6 +48,6 @@ function Stats() {
             )}
         </>
     );
-}
+};
 
 export default Stats;

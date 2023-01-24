@@ -2,16 +2,7 @@ import Swal from "sweetalert2";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
-function DeleteButton({
-    title,
-    text,
-    successTitle,
-    successText,
-    tooltip,
-    onDeleteClick,
-    children,
-    className = "",
-}: {
+interface Props {
     title: string;
     text: string;
     successTitle: string;
@@ -20,7 +11,18 @@ function DeleteButton({
     onDeleteClick: () => void;
     children: React.ReactNode;
     className: string;
-}) {
+}
+
+const DeleteButton: React.FC<Props> = ({
+    title,
+    text,
+    successTitle,
+    successText,
+    tooltip,
+    onDeleteClick,
+    children,
+    className = "",
+}) => {
     return (
         <Tippy content={tooltip} disabled={!tooltip}>
             <button
@@ -57,6 +59,6 @@ function DeleteButton({
             </button>
         </Tippy>
     );
-}
+};
 
 export default DeleteButton;

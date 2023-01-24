@@ -1,5 +1,6 @@
-import Image from "next/image";
 import { useState } from "react";
+
+import Image from "next/image";
 
 interface Props {
     src: string;
@@ -11,7 +12,7 @@ interface Props {
     height?: number;
 }
 
-function ImageWithFallback({
+const ImageWithFallback: React.FC<Props> = ({
     src,
     fallbackSrc,
     children,
@@ -19,7 +20,7 @@ function ImageWithFallback({
     alt = "",
     width,
     height,
-}: Props) {
+}) => {
     const [imgSrc, setImgSrc] = useState(src);
 
     return (
@@ -36,6 +37,6 @@ function ImageWithFallback({
             {children}
         </Image>
     );
-}
+};
 
 export default ImageWithFallback;

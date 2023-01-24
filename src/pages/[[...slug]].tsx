@@ -1,13 +1,15 @@
 import { useRouter } from "next/router";
+import { type NextPage } from "next";
+import { useSession } from "next-auth/react";
+
 import Head from "next/head";
 import Navbar from "@/components/Navbar/Navbar";
 import Log from "@/components/Log/Log";
 import InfoAlert from "@/components/Util/InfoAlert";
 import Loading from "@/components/Util/Loading";
-import { useSession } from "next-auth/react";
 import Snowfall from "react-snowfall";
 
-function Home() {
+const Home: NextPage = () => {
     const router = useRouter();
     const { status } = useSession();
     const shareId = router.query.slug?.at(0);
@@ -50,6 +52,6 @@ function Home() {
             )}
         </>
     );
-}
+};
 
 export default Home;

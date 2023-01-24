@@ -15,6 +15,7 @@ import {
 import { logOptionsValidator, Order } from "@/types/LogOptions";
 import { api } from "@/utils/api";
 import dynamic from "next/dynamic";
+
 import Head from "next/head";
 import AnimeRatingChart from "./AnimeRatingChart";
 import AnimeWeekdayChart from "./AnimeWeekdayChart";
@@ -37,13 +38,17 @@ ChartJS.register(
     Legend
 );
 
+interface Props {
+    shareId?: string;
+}
+
 // needs dynamic import without ssr because the chart zoom-plugin needs the window object
 const DynamicAnimeStartDateChart = dynamic(
     () => import("./AnimeStartDateChart"),
     { ssr: false }
 );
 
-function StatsLayout({ shareId }: { shareId?: string }) {
+const StatsLayout: React.FC<Props> = ({ shareId }) => {
     const logOptions = logOptionsValidator.parse(undefined);
     logOptions.order = Order.START_DATE;
     logOptions.asc = true;
@@ -130,6 +135,6 @@ function StatsLayout({ shareId }: { shareId?: string }) {
             </div>
         </div>
     );
-}
+};
 
 export default StatsLayout;

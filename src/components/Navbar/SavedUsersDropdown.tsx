@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
+import { api } from "@/utils/api";
+
 import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
 import { MdDelete, MdSave } from "react-icons/md";
-import { api } from "@/utils/api";
 import DeleteButton from "../Util/DeleteButton";
 import ImageWithFallback from "../Util/ImageWithFallback";
 
@@ -11,7 +11,7 @@ interface Props {
     urlShareId?: string;
 }
 
-function SavedUsersDropdown({ urlShareId }: Props) {
+const SavedUsersDropdown: React.FC<Props> = ({ urlShareId }) => {
     const ctx = api.useContext();
 
     const getSavedUsers = api.savedUser.getAll.useQuery();
@@ -144,10 +144,6 @@ function SavedUsersDropdown({ urlShareId }: Props) {
             )}
         </Menu>
     );
-}
-
-SavedUsersDropdown.propTypes = {
-    urlShareId: PropTypes.string,
 };
 
 export default SavedUsersDropdown;

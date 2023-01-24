@@ -1,7 +1,8 @@
-import { SessionProvider } from "next-auth/react";
-import { Session } from "next-auth";
-import { ThemeProvider } from "next-themes";
 import { type AppType } from "next/app";
+import { Session } from "next-auth";
+
+import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/react";
 
 import "@/styles/globals.css";

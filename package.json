@@ -3,12 +3,13 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "next dev",
         "build": "next build",
-        "start": "next start",
+        "dev": "next dev",
+        "postinstall": "prisma generate",
         "lint": "next lint",
         "jest": "jest",
-        "test": "yarn run tsc && yarn run lint && yarn run jest"
+        "test": "yarn run tsc && yarn run lint && yarn run jest",
+        "start": "next start"
     },
     "dependencies": {
         "@headlessui/react": "^1.7.0",
@@ -29,7 +30,6 @@
         "next": "^13.1.5",
         "next-auth": "^4.18.7",
         "next-themes": "^0.2.1",
-        "prop-types": "^15.8.1",
         "react": "^18.2.0",
         "react-chartjs-2": "^4.3.1",
         "react-dom": "^18.2.0",

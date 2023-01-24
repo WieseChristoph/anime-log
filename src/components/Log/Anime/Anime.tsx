@@ -1,11 +1,11 @@
-import PropTypes from "prop-types";
 import dayjs from "dayjs";
+
 import { MdEdit, MdDelete } from "react-icons/md";
 import { FaBook, FaTv } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
-import { Anime as AnimeType } from "@/types/Anime";
+import { type Anime as AnimeType } from "@/types/Anime";
 import DeleteButton from "@/components/Util/DeleteButton";
 
 interface Props {
@@ -30,13 +30,13 @@ function arrayToString(array: number[]): string {
     else return array?.join(", ");
 }
 
-function Anime({
+const Anime: React.FC<Props> = ({
     anime,
     onDeleteClick,
     onEditClick,
     isSharedLog = false,
     index,
-}: Props) {
+}) => {
     return (
         <motion.div
             className={`relative
@@ -187,14 +187,6 @@ function Anime({
             )}
         </motion.div>
     );
-}
-
-Anime.propTypes = {
-    anime: PropTypes.object.isRequired,
-    onDeleteClick: PropTypes.func,
-    onEditClick: PropTypes.func,
-    isSharedLog: PropTypes.bool,
-    index: PropTypes.number,
 };
 
 export default Anime;

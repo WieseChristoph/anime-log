@@ -1,10 +1,15 @@
-import { ChartData, ChartOptions } from "chart.js/auto";
-import { Bar } from "react-chartjs-2";
-import { useMemo } from "react";
+import { type Anime } from "@/types/Anime";
 import { useTheme } from "next-themes";
-import { Anime } from "@/types/Anime";
+import { useMemo } from "react";
+import { type ChartData, type ChartOptions } from "chart.js/auto";
 
-function AnimeRatingChart({ anime = [] }: { anime?: Anime[] }) {
+import { Bar } from "react-chartjs-2";
+
+interface Props {
+    anime?: Anime[];
+}
+
+const AnimeRatingChart: React.FC<Props> = ({ anime = [] }) => {
     const { theme } = useTheme();
 
     const data = useMemo(() => {
@@ -101,6 +106,6 @@ function AnimeRatingChart({ anime = [] }: { anime?: Anime[] }) {
     };
 
     return <Bar data={chartData} options={options} />;
-}
+};
 
 export default AnimeRatingChart;

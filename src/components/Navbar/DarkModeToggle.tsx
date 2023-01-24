@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
+
 import { FaSun, FaMoon } from "react-icons/fa";
 
-function DarkModeToggle() {
+const DarkModeToggle: React.FC = () => {
     const [mounted, setMounted] = useState(false);
     const { theme, setTheme } = useTheme();
 
@@ -29,6 +30,6 @@ function DarkModeToggle() {
             {theme && theme === "dark" ? <FaSun /> : <FaMoon />}
         </button>
     );
-}
+};
 
 export default DarkModeToggle;

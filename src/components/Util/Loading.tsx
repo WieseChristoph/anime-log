@@ -1,4 +1,4 @@
-function Loading() {
+const Loading: React.FC = () => {
     return (
         <div className="mt-10 text-center">
             <svg
@@ -19,6 +19,6 @@ function Loading() {
             </svg>
         </div>
     );
-}
+};
 
 export default Loading;

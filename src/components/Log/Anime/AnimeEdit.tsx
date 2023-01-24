@@ -1,12 +1,12 @@
 import { FormEvent, Fragment, useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
+import { getImageByTitle } from "@/utils/animeInfo";
 import dayjs from "dayjs";
+
 import { MdCancel } from "react-icons/md";
 import { Dialog, Transition } from "@headlessui/react";
 import ListInput from "./AnimeListInput";
-import { Anime } from "@/types/Anime";
+import { type Anime } from "@/types/Anime";
 import ErrorAlert from "@/components/Util/ErrorAlert";
-import { getImageByTitle } from "@/utils/animeInfo";
 import ToggleButton from "@/components/Util/ToggleButton";
 
 const IMAGE_HEIGHT = 315;
@@ -23,12 +23,12 @@ interface Props {
     }>;
 }
 
-function AnimeEdit({
+const AnimeEdit: React.FC<Props> = ({
     isOpen,
     initialAnime = {} as Anime,
     onCancelButtonClick,
     onSaveButtonClick,
-}: Props) {
+}) => {
     // use ref to avoid call of useEffect on every rerender
     const initialAnimeRef = useRef(initialAnime);
 
@@ -452,13 +452,6 @@ function AnimeEdit({
             </Dialog>
         </Transition>
     );
-}
-
-AnimeEdit.propTypes = {
-    isOpen: PropTypes.bool,
-    initialAnime: PropTypes.object,
-    onCancelButtonClick: PropTypes.func,
-    onSaveButtonClick: PropTypes.func,
 };
 
 export default AnimeEdit;

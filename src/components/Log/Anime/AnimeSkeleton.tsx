@@ -1,6 +1,10 @@
 import { motion } from "framer-motion";
 
-function AnimeSkeleton({ index }: { index: number }) {
+interface Props {
+    index: number;
+}
+
+const AnimeSkeleton: React.FC<Props> = ({ index }) => {
     return (
         <motion.div
             className={`relative rounded
@@ -107,6 +111,6 @@ function AnimeSkeleton({ index }: { index: number }) {
             </div>
         </motion.div>
     );
-}
+};
 
 export default AnimeSkeleton;

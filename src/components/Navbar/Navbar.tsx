@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { DiscordProfile } from "next-auth/providers/discord";
+
 import { FaToriiGate } from "react-icons/fa";
-import PropTypes from "prop-types";
 import Link from "next/link";
 import ProfileDropdown from "./ProfileDropdown";
 import LoginButton from "./LoginButton";
@@ -13,7 +13,7 @@ interface Props {
     urlShareId?: string;
 }
 
-function Navbar({ urlShareId }: Props) {
+const Navbar: React.FC<Props> = ({ urlShareId }) => {
     const { data: session, status } = useSession();
 
     return (
@@ -59,10 +59,6 @@ function Navbar({ urlShareId }: Props) {
             </div>
         </nav>
     );
-}
-
-Navbar.propTypes = {
-    urlShareId: PropTypes.string,
 };
 
 export default Navbar;

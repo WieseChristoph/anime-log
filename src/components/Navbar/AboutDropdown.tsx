@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 import { FaGithub, FaChevronDown } from "react-icons/fa";
 
-function AboutDropdown() {
+const AboutDropdown: React.FC = () => {
     return (
         <Menu as="div" className="relative z-10 inline-block text-left">
             {({ open }) => (
@@ -44,6 +44,6 @@ function AboutDropdown() {
             )}
         </Menu>
     );
-}
+};
 
 export default AboutDropdown;
