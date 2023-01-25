@@ -4,12 +4,9 @@ export function isConsecutive(array: Array<number>): boolean {
     let isFirst = true;
 
     for (const element of sorted) {
-        if (isFirst) {
-            isFirst = false;
-            prev = element;
-            continue;
-        }
-        if (prev + 1 !== element) return false;
+        if (!isFirst && prev + 1 !== element) return false;
+        if (isFirst) isFirst = false;
+        prev = element;
     }
     return true;
 }
