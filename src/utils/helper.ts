@@ -1,3 +1,19 @@
+export function isConsecutive(array: Array<number>): boolean {
+    const sorted = [...array].sort((a, b) => a - b);
+    let prev = 0;
+    let isFirst = true;
+
+    for (const element of sorted) {
+        if (isFirst) {
+            isFirst = false;
+            prev = element;
+            continue;
+        }
+        if (prev + 1 !== element) return false;
+    }
+    return true;
+}
+
 export function getBaseUrl() {
     if (typeof window !== "undefined") {
         return "";
