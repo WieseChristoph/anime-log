@@ -24,7 +24,7 @@ describe("Home", () => {
 
         render(<Home />);
 
-        expect(screen.getByText("Log in to log your watched anime!"));
+        expect(screen.getByText("Must be logged in to access own log."));
     });
 
     it("returns log if logged in", () => {
