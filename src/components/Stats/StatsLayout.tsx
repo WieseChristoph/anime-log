@@ -22,6 +22,8 @@ import AnimeWeekdayChart from "./AnimeWeekdayChart";
 import ErrorAlert from "../Util/ErrorAlert";
 import AnimeWatchtypeChart from "./AnimeWatchtypeChart";
 import AnimeTitleLenghtTable from "./AnimeTitleLengthTable";
+import { MdArrowBackIosNew } from "react-icons/md";
+import Link from "next/link";
 
 ChartJS.register(
     BarElement,
@@ -90,8 +92,15 @@ const StatsLayout: React.FC<Props> = ({ shareId }) => {
                             Log
                         </title>
                     </Head>
-                    <div className="mx-4 mt-4 flex flex-row">
-                        <div className="ml-auto mr-2 rounded bg-gradient-to-br from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
+                    <div className="mx-4 mt-4 flex flex-row px-2">
+                        <Link
+                            className="flex flex-row items-center space-x-2"
+                            href={`/${shareId ?? ""}`}
+                        >
+                            <MdArrowBackIosNew />
+                            <span>Back to log</span>
+                        </Link>
+                        <div className="ml-auto rounded bg-gradient-to-br from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
                             Stats of
                             <b> {getUserByShareId.data.name}</b>
                         </div>
