@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { isConsecutive } from "@/utils/helper";
 
 import { MdEdit, MdDelete } from "react-icons/md";
 import { FaBook, FaTv } from "react-icons/fa";
@@ -14,14 +15,6 @@ interface Props {
     onEditClick: (anime: AnimeType) => void;
     isSharedLog: boolean;
     index: number;
-}
-
-function isConsecutive(array: Array<number>): boolean {
-    const sorted = array.sort((a, b) => a - b);
-    for (let i = 0; i < sorted.length - 1; i++) {
-        if (sorted[i + 1] !== (sorted[i] || -1) + 1) return false;
-    }
-    return true;
 }
 
 function arrayToString(array: number[]): string {
