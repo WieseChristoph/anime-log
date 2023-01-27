@@ -5,9 +5,9 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Navbar from "@/components/Navbar/Navbar";
 import Log from "@/components/Log/Log";
-import InfoAlert from "@/components/Util/InfoAlert";
 import Loading from "@/components/Util/Loading";
 import Snowfall from "react-snowfall";
+import ErrorAlert from "@/components/Util/ErrorAlert";
 
 const Home: NextPage = () => {
     const router = useRouter();
@@ -42,10 +42,12 @@ const Home: NextPage = () => {
             <Navbar urlShareId={shareId} />
 
             {status !== "loading" ? (
-                status === "authenticated" ? (
+                status === "authenticated" || shareId ? (
                     <Log shareId={shareId} />
                 ) : (
-                    <InfoAlert message="Log in to log your watched anime!" />
+                    <div className="p-5">
+                        <ErrorAlert message="Must be logged in to access own log." />
+                    </div>
                 )
             ) : (
                 <Loading />

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import cuid from "cuid";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const userRouter = createTRPCRouter({
     getShareId: protectedProcedure.query(({ ctx }) => {
@@ -39,7 +39,7 @@ export const userRouter = createTRPCRouter({
             },
         });
     }),
-    getByShareId: protectedProcedure
+    getByShareId: publicProcedure
         .input(
             z.object({
                 shareId: z.string(),

@@ -5,9 +5,9 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Navbar from "@/components/Navbar/Navbar";
 import StatsLayout from "@/components/Stats/StatsLayout";
-import InfoAlert from "@/components/Util/InfoAlert";
 import Loading from "@/components/Util/Loading";
 import Snowfall from "react-snowfall";
+import ErrorAlert from "@/components/Util/ErrorAlert";
 
 const Stats: NextPage = () => {
     const router = useRouter();
@@ -38,10 +38,12 @@ const Stats: NextPage = () => {
             <Navbar urlShareId={shareId} />
 
             {status !== "loading" ? (
-                status === "authenticated" ? (
+                status === "authenticated" || shareId ? (
                     <StatsLayout shareId={shareId} />
                 ) : (
-                    <InfoAlert message="Log in to see Statistics!" />
+                    <div className="p-5">
+                        <ErrorAlert message="Must be logged in to access own statistics." />
+                    </div>
                 )
             ) : (
                 <Loading />

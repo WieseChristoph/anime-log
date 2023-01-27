@@ -27,21 +27,28 @@ const Navbar: React.FC<Props> = ({ urlShareId }) => {
                 </Link>
 
                 <ul className="mr-auto flex flex-col md:flex-row md:space-x-8 md:text-sm md:font-medium">
+                    {/* Only for logged in users */}
                     {status === "authenticated" && (
                         <>
                             <li className="block py-2 pr-4 pl-3 text-gray-700 dark:text-gray-300 md:p-0">
                                 <SavedUsersDropdown urlShareId={urlShareId} />
                             </li>
+                        </>
+                    )}
+                    {/* Only for logged in users or when a shareId is present */}
+                    {(status === "authenticated" || urlShareId) && (
+                        <>
                             <li className="block py-2 pr-4 pl-3 text-gray-700 dark:text-gray-300 md:p-0">
                                 <Link href={`/stats/${urlShareId ?? ""}`}>
                                     Stats
                                 </Link>
                             </li>
-                            <li className="block py-2 pr-4 pl-3 text-gray-700 dark:text-gray-300 md:p-0">
-                                <AboutDropdown />
-                            </li>
                         </>
                     )}
+                    {/* Always visible */}
+                    <li className="block py-2 pr-4 pl-3 text-gray-700 dark:text-gray-300 md:p-0">
+                        <AboutDropdown />
+                    </li>
                 </ul>
 
                 <div className="flex items-center">

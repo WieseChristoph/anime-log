@@ -20,7 +20,6 @@ import Head from "next/head";
 import AnimeRatingChart from "./AnimeRatingChart";
 import AnimeWeekdayChart from "./AnimeWeekdayChart";
 import ErrorAlert from "../Util/ErrorAlert";
-import InfoAlert from "../Util/InfoAlert";
 import AnimeWatchtypeChart from "./AnimeWatchtypeChart";
 import AnimeTitleLenghtTable from "./AnimeTitleLengthTable";
 
@@ -75,7 +74,11 @@ const StatsLayout: React.FC<Props> = ({ shareId }) => {
 
     // Invalid share id alert
     if (getUserByShareId.isFetched && !getUserByShareId.data)
-        return <InfoAlert message="No stats with this id" />;
+        return (
+            <div className="p-5">
+                <ErrorAlert message="No stats with this id" />
+            </div>
+        );
 
     return (
         <div className="container mx-auto">

@@ -12,7 +12,6 @@ import Anime from "./Anime/Anime";
 import AnimeEdit from "./Anime/AnimeEdit";
 import { FaPlus } from "react-icons/fa";
 import Loading from "../Util/Loading";
-import InfoAlert from "../Util/InfoAlert";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
@@ -74,7 +73,11 @@ const Log: React.FC<Props> = ({ shareId }) => {
 
     // Invalid share id alert
     if (getUserByShareId.isFetched && !getUserByShareId.data)
-        return <InfoAlert message="No log with this id" />;
+        return (
+            <div className="p-5">
+                <ErrorAlert message="No log with this id" />
+            </div>
+        );
 
     return (
         <div className="container mx-auto px-5 py-4">

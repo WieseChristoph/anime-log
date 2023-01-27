@@ -1,10 +1,11 @@
 import { z } from "zod";
 import { animeValidator } from "@/types/Anime";
 import { logOptionsValidator, Order } from "@/types/LogOptions";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { TRPCError } from "@trpc/server";
 
 export const animeRouter = createTRPCRouter({
-    get: protectedProcedure
+    get: publicProcedure
         .input(
             z.object({
                 shareId: z.string().nullish(),
@@ -12,12 +13,18 @@ export const animeRouter = createTRPCRouter({
             })
         )
         .query(({ ctx, input }) => {
+            if (!input.shareId && !ctx.session)
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Must be logged in to access own log.",
+                });
+
             return ctx.prisma.anime.findMany({
                 where: {
                     user: {
                         ...(input.shareId
                             ? { shareId: input.shareId }
-                            : { id: ctx.session.user.id }),
+                            : { id: ctx.session?.user?.id }),
                     },
                     ...(input.logOptions?.searchTerm && {
                         title: {
@@ -60,7 +67,7 @@ export const animeRouter = createTRPCRouter({
             });
         }),
     // TODO: Some anime are doubled when fetching
-    infinite: protectedProcedure
+    infinite: publicProcedure
         .input(
             z.object({
                 shareId: z.string().nullish(),
@@ -73,13 +80,19 @@ export const animeRouter = createTRPCRouter({
             const limit = input.limit ?? 50;
             const { cursor } = input;
 
+            if (!input.shareId && !ctx.session)
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Must be logged in to access own log.",
+                });
+
             const items = await ctx.prisma.anime.findMany({
                 take: limit + 1, // get an extra item at the end which we'll use as next cursor
                 where: {
                     user: {
                         ...(input.shareId
                             ? { shareId: input.shareId }
-                            : { id: ctx.session.user.id }),
+                            : { id: ctx.session?.user?.id }),
                     },
                     ...(input.logOptions?.searchTerm && {
                         title: {
@@ -132,7 +145,7 @@ export const animeRouter = createTRPCRouter({
                 nextCursor,
             };
         }),
-    count: protectedProcedure
+    count: publicProcedure
         .input(
             z.object({
                 shareId: z.string().nullish(),
@@ -140,12 +153,18 @@ export const animeRouter = createTRPCRouter({
             })
         )
         .query(({ ctx, input }) => {
+            if (!input.shareId && !ctx.session)
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Must be logged in to access own log.",
+                });
+
             return ctx.prisma.anime.count({
                 where: {
                     user: {
                         ...(input.shareId
                             ? { shareId: input.shareId }
-                            : { id: ctx.session.user.id }),
+                            : { id: ctx.session?.user?.id }),
                     },
                     ...(input.logOptions?.searchTerm && {
                         title: {
