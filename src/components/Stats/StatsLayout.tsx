@@ -108,7 +108,7 @@ const StatsLayout: React.FC<Props> = ({ shareId }) => {
                 </>
             )}
 
-            <div className="m-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="m-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="rounded bg-gray-200 p-4 dark:bg-slate-900">
                     <span className="text-xl font-bold">
                         Rating distribution
@@ -123,7 +123,7 @@ const StatsLayout: React.FC<Props> = ({ shareId }) => {
                     <hr className="my-2 border-black dark:border-white" />
                     <AnimeWeekdayChart anime={getAnime.data} />
                 </div>
-                <div className="rounded bg-gray-200 p-4 dark:bg-slate-900 md:col-span-2">
+                <div className="rounded bg-gray-200 p-4 dark:bg-slate-900 sm:col-span-2">
                     <span className="text-xl font-bold">
                         Anime / Manga count over time
                     </span>

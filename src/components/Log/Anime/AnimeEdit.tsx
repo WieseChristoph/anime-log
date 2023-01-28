@@ -167,7 +167,7 @@ const AnimeEdit: React.FC<Props> = ({
                                 className="flex flex-col"
                                 onSubmit={handleSubmit}
                             >
-                                <section className="flex flex-col gap-4 pt-4 md:flex-row">
+                                <section className="flex flex-col gap-4 pt-4 sm:flex-row">
                                     <div>
                                         {/* Anime-Manga toggle */}
                                         <ToggleButton
@@ -380,7 +380,7 @@ const AnimeEdit: React.FC<Props> = ({
                                     />
                                 </div>
                                 {/* Seasons, Movies ans OVAs input */}
-                                <div className="mb-4 flex flex-col divide-black dark:divide-white md:flex-row md:divide-x">
+                                <div className="mb-4 flex flex-col divide-black dark:divide-white sm:flex-row sm:divide-x">
                                     <div className="basis-1/3 p-2">
                                         <div className="mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                             Seasons

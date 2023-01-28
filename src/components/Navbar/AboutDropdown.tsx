@@ -7,7 +7,7 @@ const AboutDropdown: React.FC = () => {
         <Menu as="div" className="relative z-10 inline-block text-left">
             {({ open }) => (
                 <>
-                    <Menu.Button className="flex items-center">
+                    <Menu.Button className="flex items-center text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white">
                         About
                         <FaChevronDown className="ml-1 text-sm" />
                     </Menu.Button>

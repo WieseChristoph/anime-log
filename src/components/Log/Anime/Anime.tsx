@@ -48,7 +48,7 @@ const Anime: React.FC<Props> = ({
             }}
             layout
         >
-            <div className="flex flex-col sm:flex-row">
+            <div className="grid grid-cols-[150px_1fr] grid-rows-2 sm:grid-cols-[150px_1fr_1fr] sm:grid-rows-1">
                 {/* Type symbol */}
                 <Tippy
                     content={anime.isManga ? "Manga" : "Anime"}
@@ -78,71 +78,65 @@ const Anime: React.FC<Props> = ({
                     />
                 </a>
 
-                <div
-                    className={`grid flex-1 grid-cols-1 grid-rows-2 py-2 sm:grid-cols-2 sm:grid-rows-1`}
-                >
-                    {/* Title, rating and notes */}
-                    <div className="flex flex-col overflow-hidden px-2">
-                        <div>
-                            <span className="float-right mr-2 rounded bg-gradient-to-br from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
-                                {anime.rating} / 10
-                            </span>
-                            <div className="font-bold">{anime.title}</div>
-                            <div className="text-sm dark:text-slate-300">
-                                {anime.startDate
-                                    ? dayjs(anime.startDate).format(
-                                          "DD.MM.YYYY"
-                                      )
-                                    : "-"}
-                            </div>
-                            <Tippy
-                                content={
-                                    anime.updatedAt
-                                        ? dayjs(anime.updatedAt).format(
-                                              "DD.MM.YYYY HH:mm:ss"
-                                          )
-                                        : "-"
-                                }
-                            >
-                                <div className="text-xs dark:text-slate-300">
-                                    Last updated:
-                                    {anime.updatedAt
-                                        ? dayjs(anime.updatedAt).format(
-                                              " DD.MM.YYYY"
-                                          )
-                                        : " -"}
-                                </div>
-                            </Tippy>
-                            <hr className="border-black dark:border-white" />
+                {/* Title, rating and notes */}
+                <div className="col-span-2 flex flex-col overflow-hidden px-2 py-2 sm:col-span-1">
+                    <div>
+                        <span className="float-right mr-2 rounded bg-gradient-to-br from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
+                            {anime.rating} / 10
+                        </span>
+                        <div className="font-bold">{anime.title}</div>
+                        <div className="text-sm dark:text-slate-300">
+                            {anime.startDate
+                                ? dayjs(anime.startDate).format("DD.MM.YYYY")
+                                : "-"}
                         </div>
-                        <div className="h-full overflow-y-auto pt-1">
-                            <span className="whitespace-pre-line break-words">
-                                {anime.note}
-                            </span>
+                        <Tippy
+                            content={
+                                anime.updatedAt
+                                    ? dayjs(anime.updatedAt).format(
+                                          "DD.MM.YYYY HH:mm:ss"
+                                      )
+                                    : "-"
+                            }
+                        >
+                            <div className="text-xs dark:text-slate-300">
+                                Last updated:
+                                {anime.updatedAt
+                                    ? dayjs(anime.updatedAt).format(
+                                          " DD.MM.YYYY"
+                                      )
+                                    : " -"}
+                            </div>
+                        </Tippy>
+                        <hr className="border-black dark:border-white" />
+                    </div>
+                    <div className="h-full overflow-y-auto pt-1">
+                        <span className="whitespace-pre-line break-words">
+                            {anime.note}
+                        </span>
+                    </div>
+                </div>
+
+                {/* Season, Movie, OVA */}
+                <div className="col-start-2 row-start-1 flex flex-col border-l border-black px-2 py-2 dark:border-white sm:col-start-3">
+                    <div className="basis-1/3">
+                        <div className="font-semibold">Seasons</div>
+                        <div className="overflow-x-auto whitespace-nowrap">
+                            {arrayToString(anime.seasons) || "-"}
                         </div>
                     </div>
-
-                    {/* Season, Movie, OVA */}
-                    <div className="flex flex-col border-black px-2 dark:border-white sm:border-l">
-                        <div className="basis-1/3">
-                            <div className="font-semibold">Seasons</div>
-                            <div className="overflow-x-auto whitespace-nowrap">
-                                {arrayToString(anime.seasons) || "-"}
-                            </div>
+                    <div className="basis-1/3">
+                        <hr className="border-black dark:border-white" />
+                        <div className="font-semibold">Movies</div>
+                        <div className="overflow-x-auto whitespace-nowrap">
+                            {arrayToString(anime.movies) || "-"}
                         </div>
-                        <div className="basis-1/3">
-                            <hr className="border-black dark:border-white" />
-                            <div className="font-semibold">Movies</div>
-                            <div className="overflow-x-auto whitespace-nowrap">
-                                {arrayToString(anime.movies) || "-"}
-                            </div>
-                        </div>
-                        <div className="basis-1/3">
-                            <hr className="border-black dark:border-white" />
-                            <div className="font-semibold">OVAs</div>
-                            <div className="overflow-x-auto whitespace-nowrap">
-                                {arrayToString(anime.ovas) || "-"}
-                            </div>
+                    </div>
+                    <div className="basis-1/3">
+                        <hr className="border-black dark:border-white" />
+                        <div className="font-semibold">OVAs</div>
+                        <div className="overflow-x-auto whitespace-nowrap">
+                            {arrayToString(anime.ovas) || "-"}
                         </div>
                     </div>
                 </div>

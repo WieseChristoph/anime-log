@@ -34,7 +34,7 @@ const SavedUsersDropdown: React.FC<Props> = ({ urlShareId }) => {
         <Menu as="div" className="relative z-20 inline-block text-left">
             {({ open }) => (
                 <>
-                    <Menu.Button className="flex items-center">
+                    <Menu.Button className="flex items-center text-gray-700 hover:text-black  dark:text-gray-300 dark:hover:text-white">
                         Saved Logs
                         <FaChevronDown className="ml-1 text-sm" />
                     </Menu.Button>
