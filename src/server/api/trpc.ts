@@ -62,7 +62,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
     return createInnerTRPCContext({
         session,
         ipAddress,
-    });
+    } as CreateContextOptions);
 };
 
 /**
