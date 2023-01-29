@@ -96,7 +96,7 @@ const Log: React.FC<Props> = ({ shareId }) => {
 
             <div className="my-4 flex flex-row items-center">
                 {/* Anime count */}
-                <div className="mr-2 rounded bg-gradient-to-br from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
+                <div className="rounded bg-gradient-to-br from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
                     {getAnimeCount.data}
                     {logOptions.filter.anime && logOptions.filter.manga
                         ? " Anime / Manga "
@@ -106,7 +106,7 @@ const Log: React.FC<Props> = ({ shareId }) => {
                 </div>
                 {/* Shared Log Username */}
                 {getUserByShareId.data && (
-                    <div className="ml-auto mr-2 rounded bg-gradient-to-br from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
+                    <div className="ml-auto rounded bg-gradient-to-br from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
                         Log of
                         <b> {getUserByShareId.data.name}</b>
                     </div>
