@@ -8,8 +8,10 @@ export function log(
     message?: string
 ) {
     console.log(
-        `[${dayjs().format(
-            "DD/MM/YYYY HH:MM:SS"
-        )}] IP_ADDRESS=${ipAddress}, USER_ID=${userId}, ROUTE=${route}, SUCCESS=${success}, MESSAGE="${message}"`
+        `[${dayjs().format("DD/MM/YYYY HH:MM:SS")}] IP_ADDRESS=${
+            ipAddress || "undefined"
+        }, USER_ID=${userId || "undefined"}, ROUTE=${route}, SUCCESS=${
+            success.toString() || "undefined"
+        }, MESSAGE="${message || "undefined"}"`
     );
 }

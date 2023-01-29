@@ -27,7 +27,7 @@ const DeleteButton: React.FC<Props> = ({
         <Tippy content={tooltip} disabled={!tooltip}>
             <button
                 onClick={() =>
-                    Swal.fire({
+                    void Swal.fire({
                         title: title,
                         text: text,
                         icon: "warning",
@@ -41,7 +41,7 @@ const DeleteButton: React.FC<Props> = ({
                     }).then((result) => {
                         if (result.isConfirmed) {
                             onDeleteClick();
-                            Swal.fire({
+                            void Swal.fire({
                                 title: successTitle,
                                 text: successText,
                                 icon: "success",

@@ -15,7 +15,7 @@ const AnimeWatchtypeChart: React.FC<Props> = ({ anime = [] }) => {
             prev[1] += curr.movies.length;
             prev[2] += curr.ovas.length;
             return prev;
-        }, Array(3).fill(0));
+        }, Array<number>(3).fill(0));
     }, [anime]);
 
     const chartData: ChartData<"doughnut"> = {
@@ -43,7 +43,7 @@ const AnimeWatchtypeChart: React.FC<Props> = ({ anime = [] }) => {
             tooltip: {
                 callbacks: {
                     title: (tooltipItem) => {
-                        return `${tooltipItem.at(0)?.label}`;
+                        return `${tooltipItem.at(0)?.label || "?"}`;
                     },
                     label: (tooltipItem) => {
                         return `${tooltipItem.formattedValue} ${tooltipItem.label}`;

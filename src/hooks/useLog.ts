@@ -60,8 +60,8 @@ function useLog(shareId: string | undefined) {
         },
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.anime.infinite.invalidate(queryInput);
-            ctx.anime.count.invalidate({ shareId: shareId });
+            void ctx.anime.infinite.invalidate(queryInput);
+            void ctx.anime.count.invalidate({ shareId: shareId });
         },
     });
 
@@ -90,14 +90,14 @@ function useLog(shareId: string | undefined) {
                                       updatedAt: new Date(),
                                   } as Anime)
                                 : a
-                        ) as Anime[],
+                        ),
                     })),
                 };
             });
         },
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.anime.infinite.invalidate(queryInput);
+            void ctx.anime.infinite.invalidate(queryInput);
         },
     });
 
@@ -134,8 +134,8 @@ function useLog(shareId: string | undefined) {
         },
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.anime.infinite.invalidate(queryInput);
-            ctx.anime.count.invalidate({ shareId: shareId });
+            void ctx.anime.infinite.invalidate(queryInput);
+            void ctx.anime.count.invalidate({ shareId: shareId });
         },
     });
 

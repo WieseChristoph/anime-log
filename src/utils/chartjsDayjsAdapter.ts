@@ -2,9 +2,9 @@
 
 import { _adapters } from "chart.js";
 
-import dayjs, { QUnitType } from "dayjs";
+import dayjs, { type QUnitType } from "dayjs";
 
-import type { TimeUnit } from "chart.js";
+import { type TimeUnit } from "chart.js";
 
 // Needed to handle the custom parsing
 import CustomParseFormat from "dayjs/plugin/customParseFormat";

@@ -24,7 +24,7 @@ const Log: React.FC<Props> = ({ shareId }) => {
     const [animeToEdit, setAnimeToEdit] = useState<AnimeType>();
 
     const { ref: inViewRef } = useInView({
-        onChange: (inView) => inView && getAnime.fetchNextPage(),
+        onChange: (inView) => inView && void getAnime.fetchNextPage(),
     });
 
     const {

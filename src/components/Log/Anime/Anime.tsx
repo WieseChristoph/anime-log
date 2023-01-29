@@ -19,7 +19,7 @@ interface Props {
 
 function arrayToString(array: number[]): string {
     if (array?.length > 1 && isConsecutive(array))
-        return `${array[0]}-${array[array.length - 1]}`;
+        return `${array[0] || "?"}-${array[array.length - 1] || "?"}`;
     else return array?.join(", ");
 }
 
@@ -48,7 +48,7 @@ const Anime: React.FC<Props> = ({
             }}
             layout
         >
-            <div className="grid grid-cols-[150px_1fr] grid-rows-2 sm:grid-cols-[150px_1fr_1fr] sm:grid-rows-1">
+            <div className="grid grid-cols-[150px_1fr] grid-rows-[210px_1fr] sm:grid-cols-[150px_1fr_1fr] sm:grid-rows-[210px]">
                 {/* Type symbol */}
                 <Tippy
                     content={anime.isManga ? "Manga" : "Anime"}
@@ -118,7 +118,7 @@ const Anime: React.FC<Props> = ({
                 </div>
 
                 {/* Season, Movie, OVA */}
-                <div className="col-start-2 row-start-1 flex flex-col border-l border-black px-2 py-2 dark:border-white sm:col-start-3">
+                <div className="col-start-2 row-start-1 flex flex-col border-black px-2 py-2 dark:border-white sm:col-start-3 sm:border-l">
                     <div className="basis-1/3">
                         <div className="font-semibold">Seasons</div>
                         <div className="overflow-x-auto whitespace-nowrap">
@@ -152,7 +152,7 @@ const Anime: React.FC<Props> = ({
                     >
                         <button
                             onClick={() => onEditClick(anime)}
-                            className="hover:text-md flex h-[24px] w-[24px] items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-400 text-sm text-white"
+                            className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-400 text-sm text-white hover:text-base"
                         >
                             <MdEdit />
                         </button>
@@ -166,7 +166,7 @@ const Anime: React.FC<Props> = ({
                             anime.isManga ? "Manga" : "Anime"
                         }`}
                         onDeleteClick={() => onDeleteClick(anime)}
-                        className="hover:text-md my-1 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-400 text-sm text-white"
+                        className="my-1 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-400 text-sm text-white hover:text-base"
                     >
                         <MdDelete />
                     </DeleteButton>

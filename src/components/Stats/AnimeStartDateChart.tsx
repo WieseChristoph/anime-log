@@ -92,8 +92,8 @@ const AnimeStartDateChart: React.FC<Props> = ({ anime = [] }) => {
                 callbacks: {
                     title: (tooltipItem) => {
                         const index = tooltipItem.at(0)?.dataIndex ?? NaN;
-                        return `${data.titles.at(index)}\n${
-                            tooltipItem.at(0)?.label
+                        return `${data.titles.at(index) || "?"}\n${
+                            tooltipItem.at(0)?.label || "?"
                         }`;
                     },
                     label: (tooltipItem) => {

@@ -1,4 +1,4 @@
-import { FormEvent, Fragment, useEffect, useRef, useState } from "react";
+import { type FormEvent, Fragment, useEffect, useRef, useState } from "react";
 import { getImageByTitle } from "@/utils/animeInfo";
 import dayjs from "dayjs";
 
@@ -63,11 +63,12 @@ const AnimeEdit: React.FC<Props> = ({
             isManga: isManga,
         }));
         if (!anime.hasCustomImage && anime.title)
-            updateImage(anime.title, isManga);
+            void updateImage(anime.title, isManga);
     }
 
     function handleImageSearchToggle(enabled: boolean) {
-        if (!enabled && anime.title) updateImage(anime.title, anime.isManga);
+        if (!enabled && anime.title)
+            void updateImage(anime.title, anime.isManga);
         else clearTimeout(imageSearchTimeout);
 
         setAnime((prev) => ({ ...prev, hasCustomImage: enabled }));
@@ -78,8 +79,8 @@ const AnimeEdit: React.FC<Props> = ({
         if (!anime.hasCustomImage) {
             clearTimeout(imageSearchTimeout);
             setimageSearchTimeout(
-                setTimeout(async () => {
-                    if (title) updateImage(title, anime.isManga);
+                setTimeout(() => {
+                    if (title) void updateImage(title, anime.isManga);
                 }, IMAGE_SEARCH_TIMEOUT)
             );
         }
@@ -165,7 +166,7 @@ const AnimeEdit: React.FC<Props> = ({
 
                             <form
                                 className="flex flex-col"
-                                onSubmit={handleSubmit}
+                                onSubmit={(e) => void handleSubmit(e)}
                             >
                                 <section className="flex flex-col gap-4 pt-4 sm:flex-row">
                                     <div>

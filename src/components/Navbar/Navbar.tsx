@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { DiscordProfile } from "next-auth/providers/discord";
+import { type DiscordProfile } from "next-auth/providers/discord";
 
 import { FaToriiGate } from "react-icons/fa";
 import Link from "next/link";

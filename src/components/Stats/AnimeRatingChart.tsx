@@ -16,7 +16,7 @@ const AnimeRatingChart: React.FC<Props> = ({ anime = [] }) => {
         return anime.reduce((prev, curr) => {
             prev[curr.rating] += 1;
             return prev;
-        }, Array(12).fill(0));
+        }, Array<number>(12).fill(0));
     }, [anime]);
 
     const chartData: ChartData<"bar"> = {

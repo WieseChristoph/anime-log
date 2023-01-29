@@ -1,6 +1,6 @@
 import { signOut } from "next-auth/react";
 import { api } from "@/utils/api";
-import { User } from "next-auth";
+import { type User } from "next-auth";
 
 import { Menu, Transition } from "@headlessui/react";
 import { MdDelete, MdShare, MdContentCopy, MdLogout } from "react-icons/md";
@@ -19,21 +19,21 @@ const ProfileDropdown: React.FC<Props> = ({ user }) => {
     const addShareId = api.user.addShareId.useMutation({
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.user.getShareId.invalidate();
+            void ctx.user.getShareId.invalidate();
         },
     });
 
     const deleteShareId = api.user.deleteShareId.useMutation({
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.user.getShareId.invalidate();
+            void ctx.user.getShareId.invalidate();
         },
     });
 
     function shareLinkToClipboard() {
         // if shareId is set, put link with shareId in clipboard
         if (getShareId.data?.shareId)
-            navigator.clipboard.writeText(
+            void navigator.clipboard.writeText(
                 window.location.origin + "/" + getShareId.data.shareId
             );
     }
@@ -110,7 +110,7 @@ const ProfileDropdown: React.FC<Props> = ({ user }) => {
                             <Menu.Item
                                 as="button"
                                 className="flex w-full flex-row gap-2 px-2 py-2 text-sm hover:underline"
-                                onClick={() => signOut()}
+                                onClick={() => void signOut()}
                             >
                                 <MdLogout className="text-xl" />
                                 Sign out

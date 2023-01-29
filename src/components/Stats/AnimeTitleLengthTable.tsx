@@ -25,8 +25,9 @@ const AnimeTitleLenghtTable: React.FC<Props> = ({ anime = [] }) => {
                     <tr
                         key={a.id}
                         className={`${
-                            i !== array.length - 1 &&
-                            "border-b border-gray-400 dark:border-gray-700"
+                            i !== array.length - 1
+                                ? "border-b border-gray-400 dark:border-gray-700"
+                                : ""
                         }`}
                     >
                         <th className="whitespace-nowrap bg-gray-50 py-4 px-6 font-medium text-gray-900 dark:bg-gray-800 dark:text-white">

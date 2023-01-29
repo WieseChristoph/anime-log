@@ -16,7 +16,7 @@ const AnimeWeekdayChart: React.FC<Props> = ({ anime = [] }) => {
         return anime.reduce((prev, curr) => {
             if (curr.startDate) prev[curr.startDate.getDay()] += 1;
             return prev;
-        }, Array(7).fill(0));
+        }, Array<number>(7).fill(0));
     }, [anime]);
 
     const chartData: ChartData<"bar"> = {

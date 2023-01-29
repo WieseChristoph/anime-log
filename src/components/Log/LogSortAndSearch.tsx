@@ -35,7 +35,7 @@ const LogSortAndSearch: React.FC<Props> = ({
     return (
         <div className="border-b border-gray-200 text-center font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
             {/* Order buttons */}
-            <ul className="sm:text-md flex flex-wrap text-xs ">
+            <ul className="flex flex-wrap text-xs sm:text-base ">
                 <li className="mr-2">
                     <button
                         onClick={() => onOrderButtonClick(Order.TITLE)}

@@ -24,7 +24,7 @@ const DarkModeToggle: React.FC = () => {
                     theme === "dark"
                         ? "bg-blue-500 text-yellow-400"
                         : "bg-slate-900 text-white"
-                } text-md mr-4 rounded-full p-2`}
+                } mr-4 rounded-full p-2 text-base`}
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
         >
             {theme && theme === "dark" ? <FaSun /> : <FaMoon />}

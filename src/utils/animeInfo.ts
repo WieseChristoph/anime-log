@@ -1,4 +1,4 @@
-import { KitsuResponse } from "@/types/Kitsu";
+import { type KitsuResponse } from "@/types/Kitsu";
 
 const BASE_URL = "https://kitsu.io/api/edge";
 
@@ -9,7 +9,7 @@ async function kitsuRequest(query: string): Promise<KitsuResponse | undefined> {
         },
     });
 
-    if (response.ok) return await response.json();
+    if (response.ok) return (await response.json()) as KitsuResponse;
 
     return undefined;
 }

@@ -1,5 +1,5 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
-import { NextApiRequest, NextApiResponse } from "next";
+import NextAuth, { type NextAuthOptions } from "next-auth";
+import { type NextApiRequest, type NextApiResponse } from "next";
 import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/server/db";
@@ -33,5 +33,5 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     const ipAddress =
         req.headers["x-forwarded-for"]?.toString() || req.socket.remoteAddress;
 
-    return await NextAuth(req, res, getAuthOptions(ipAddress));
+    return (await NextAuth(req, res, getAuthOptions(ipAddress))) as unknown;
 }

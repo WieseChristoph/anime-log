@@ -19,14 +19,14 @@ const SavedUsersDropdown: React.FC<Props> = ({ urlShareId }) => {
     const addSavedUser = api.savedUser.add.useMutation({
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.savedUser.getAll.invalidate();
+            void ctx.savedUser.getAll.invalidate();
         },
     });
 
     const deleteSavedUser = api.savedUser.delete.useMutation({
         // Always refetch after error or success:
         onSettled: () => {
-            ctx.savedUser.getAll.invalidate();
+            void ctx.savedUser.getAll.invalidate();
         },
     });
 
@@ -61,13 +61,16 @@ const SavedUsersDropdown: React.FC<Props> = ({ urlShareId }) => {
                                         key={savedUserEntry.savedUser.shareId}
                                     >
                                         <Link
-                                            href={`/${savedUserEntry.savedUser.shareId}`}
+                                            href={`/${
+                                                savedUserEntry.savedUser
+                                                    .shareId || ""
+                                            }`}
                                             legacyBehavior={false}
                                             className={`flex gap-2 px-2 py-2 text-sm hover:underline ${
                                                 urlShareId ===
-                                                    savedUserEntry.savedUser
-                                                        .shareId &&
-                                                "bg-gray-300 dark:bg-slate-800"
+                                                savedUserEntry.savedUser.shareId
+                                                    ? "bg-gray-300 dark:bg-slate-800"
+                                                    : ""
                                             }`}
                                         >
                                             <ImageWithFallback

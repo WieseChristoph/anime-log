@@ -6,7 +6,7 @@ const LoginButton: React.FC = () => {
     return (
         <button
             className="rounded-md bg-[#7289DA] py-1 px-2"
-            onClick={() => signIn("discord")}
+            onClick={() => void signIn("discord")}
         >
             <span className="flex items-center text-white">
                 <FaDiscord className="mr-3 text-xl" />
