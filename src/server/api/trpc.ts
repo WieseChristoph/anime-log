@@ -24,7 +24,6 @@ import { prisma } from "../db";
 
 type CreateContextOptions = {
     session: Session | null;
-    ipAddress: string | undefined;
 };
 
 /**
@@ -40,7 +39,6 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
     return {
         session: opts.session,
         prisma,
-        ipAddress: opts.ipAddress,
     };
 };
 
@@ -55,14 +53,9 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
     // Get the session from the server using the unstable_getServerSession wrapper function
     const session = await getServerAuthSession({ req, res });
 
-    const ipAddress =
-        opts.req.headers["x-forwarded-for"]?.toString() ||
-        opts.req.socket.remoteAddress;
-
     return createInnerTRPCContext({
         session,
-        ipAddress,
-    } as CreateContextOptions);
+    });
 };
 
 /**
@@ -101,7 +94,7 @@ export const createTRPCRouter = t.router;
 
 export const loggerMiddleware = t.middleware(async ({ path, next, ctx }) => {
     const result = await next();
-    log(path, ctx.ipAddress, ctx.session?.user?.id, result.ok);
+    log(path, ctx.session?.user?.id, result.ok);
     return result;
 });
 
