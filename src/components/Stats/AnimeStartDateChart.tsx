@@ -53,7 +53,7 @@ const AnimeStartDateChart: React.FC<Props> = ({ anime = [] }) => {
 
     const options: ChartOptions<"line"> = {
         scales: {
-            xAxes: {
+            x: {
                 title: {
                     display: true,
                     text: "Date",
@@ -68,7 +68,7 @@ const AnimeStartDateChart: React.FC<Props> = ({ anime = [] }) => {
                     }),
                 },
             },
-            yAxes: {
+            y: {
                 min: 0,
                 title: {
                     display: true,

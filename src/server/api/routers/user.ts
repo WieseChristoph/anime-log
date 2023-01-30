@@ -1,5 +1,5 @@
 import { z } from "zod";
-import cuid from "cuid";
+import { createId } from "@paralleldrive/cuid2";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const userRouter = createTRPCRouter({
@@ -17,7 +17,7 @@ export const userRouter = createTRPCRouter({
                 id: ctx.session.user.id,
             },
             data: {
-                shareId: cuid(),
+                shareId: createId(),
             },
             select: {
                 shareId: true,

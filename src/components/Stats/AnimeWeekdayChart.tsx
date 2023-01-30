@@ -58,7 +58,7 @@ const AnimeWeekdayChart: React.FC<Props> = ({ anime = [] }) => {
 
     const options: ChartOptions<"bar"> = {
         scales: {
-            xAxes: {
+            x: {
                 title: {
                     display: true,
                     text: "Weekday",
@@ -69,7 +69,7 @@ const AnimeWeekdayChart: React.FC<Props> = ({ anime = [] }) => {
                     }),
                 },
             },
-            yAxes: {
+            y: {
                 min: 0,
                 title: {
                     display: true,
