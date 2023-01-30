@@ -83,7 +83,7 @@ const StatsLayout: React.FC<Props> = ({ shareId }) => {
         );
 
     return (
-        <div className="container mx-auto px-2">
+        <div className="container mx-auto px-2 py-4">
             {getUserByShareId.data && (
                 <>
                     <Head>
@@ -92,7 +92,7 @@ const StatsLayout: React.FC<Props> = ({ shareId }) => {
                             Log
                         </title>
                     </Head>
-                    <div className="mt-4 flex flex-row">
+                    <div className="flex flex-row">
                         <Link
                             className="flex flex-row items-center space-x-2"
                             href={`/${shareId ?? ""}`}
@@ -108,7 +108,7 @@ const StatsLayout: React.FC<Props> = ({ shareId }) => {
                 </>
             )}
 
-            <div className="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="rounded bg-gray-200 p-4 dark:bg-slate-900">
                     <span className="text-xl font-bold">
                         Rating distribution
