@@ -5,28 +5,29 @@
 
 @layer base {
     body {
-        @apply bg-white dark:bg-slate-800;
+        @apply overflow-y-scroll bg-white dark:bg-slate-800;
     }
 
     ::-webkit-scrollbar {
+        @apply w-[7px];
+    }
+
+    ::-webkit-scrollbar-track {
         @apply bg-slate-300 dark:bg-slate-700;
-        width: 7px;
-        height: 5px;
     }
 
     ::-webkit-scrollbar-thumb {
-        @apply bg-slate-500 dark:bg-slate-300;
-        border-radius: 50px;
+        @apply rounded bg-slate-500 dark:bg-slate-300;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-slate-700 dark:bg-slate-100;
     }
 }
 
 html,
 body {
     margin: 0;
-    /* margin right if no scrollbar is present to prevent
-       layout shift when scrollbar appears or disappears */
-    margin-right: calc(-1 * (100vw - 100%));
-    overflow-x: hidden;
 
     font-family: "Montserrat", sans-serif !important;
     -webkit-font-smoothing: antialiased;
