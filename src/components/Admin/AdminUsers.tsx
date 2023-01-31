@@ -40,7 +40,7 @@ const AdminUsers: FC = () => {
         );
 
     return (
-        <div className="my-4 grid grid-cols-1 gap-4 md:grid-cols-2 md:flex-row xl:grid-cols-3">
+        <div className="my-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
             {getAllUsers.data?.map((user, userIndex) => (
                 <Disclosure key={userIndex} as="div" className="grow">
                     <Disclosure.Button className="flex w-full items-center gap-2 rounded-t bg-gray-200 p-4 py-2 ui-not-open:rounded-b dark:bg-slate-900">
