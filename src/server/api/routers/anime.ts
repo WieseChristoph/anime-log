@@ -3,6 +3,7 @@ import { animeValidator } from "@/types/Anime";
 import { logOptionsValidator, Order } from "@/types/LogOptions";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
+import { UserRole } from "@prisma/client";
 
 export const animeRouter = createTRPCRouter({
     get: publicProcedure
@@ -221,4 +222,16 @@ export const animeRouter = createTRPCRouter({
                 where: { id: input.id },
             });
         }),
+    getCountByType: protectedProcedure.query(({ ctx }) => {
+        if (ctx.session.user.role !== UserRole.ADMIN)
+            throw new TRPCError({
+                code: "UNAUTHORIZED",
+                message: "Must be admin to access this path.",
+            });
+
+        return ctx.prisma.anime.groupBy({
+            by: ["isManga"],
+            _count: { _all: true },
+        });
+    }),
 });

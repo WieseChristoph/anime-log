@@ -1,8 +1,53 @@
 import { z } from "zod";
 import { createId } from "@paralleldrive/cuid2";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { UserRole } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 
 export const userRouter = createTRPCRouter({
+    delete: protectedProcedure
+        .input(z.object({ userId: z.string() }))
+        .mutation(async ({ ctx, input }) => {
+            if (ctx.session.user.role !== UserRole.ADMIN)
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Must be admin to access this path.",
+                });
+
+            return ctx.prisma.$transaction([
+                // delete saved users
+                ctx.prisma.savedUser.deleteMany({
+                    where: {
+                        OR: [
+                            { userId: input.userId },
+                            { savedUserId: input.userId },
+                        ],
+                    },
+                }),
+                // delete anime/manga
+                ctx.prisma.anime.deleteMany({
+                    where: {
+                        userId: input.userId,
+                    },
+                }),
+                // delete session
+                ctx.prisma.session.deleteMany({
+                    where: {
+                        userId: input.userId,
+                    },
+                }),
+                // delete account
+                ctx.prisma.account.deleteMany({
+                    where: {
+                        userId: input.userId,
+                    },
+                }),
+                // delete user
+                ctx.prisma.user.deleteMany({
+                    where: { id: input.userId },
+                }),
+            ]);
+        }),
     getShareId: protectedProcedure.query(({ ctx }) => {
         return ctx.prisma.user.findUnique({
             where: { id: ctx.session.user.id },
@@ -50,4 +95,28 @@ export const userRouter = createTRPCRouter({
                 where: { shareId: input.shareId },
             });
         }),
+    getAll: protectedProcedure.query(({ ctx }) => {
+        if (ctx.session.user.role !== UserRole.ADMIN)
+            throw new TRPCError({
+                code: "UNAUTHORIZED",
+                message: "Must be admin to access this path.",
+            });
+
+        return ctx.prisma.user.findMany({
+            include: {
+                savedUsers: true,
+                savedByUsers: true,
+                sessions: true,
+            },
+        });
+    }),
+    getCount: protectedProcedure.query(({ ctx }) => {
+        if (ctx.session.user.role !== UserRole.ADMIN)
+            throw new TRPCError({
+                code: "UNAUTHORIZED",
+                message: "Must be admin to access this path.",
+            });
+
+        return ctx.prisma.user.count();
+    }),
 });

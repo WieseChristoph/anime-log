@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { type DiscordProfile } from "next-auth/providers/discord";
+import { UserRole } from "@prisma/client";
 
 import { FaToriiGate } from "react-icons/fa";
 import Link from "next/link";
@@ -32,26 +32,29 @@ const Navbar: React.FC<Props> = ({ urlShareId }) => {
                 <ul className="order-last flex flex-row sm:mr-auto sm:space-x-8 sm:text-sm sm:font-medium">
                     {/* Only for logged in users */}
                     {status === "authenticated" && (
-                        <>
-                            <li className="block py-2 pr-4 sm:p-0">
-                                <SavedUsersDropdown urlShareId={urlShareId} />
-                            </li>
-                        </>
+                        <li className="block py-2 pr-4 sm:p-0">
+                            <SavedUsersDropdown urlShareId={urlShareId} />
+                        </li>
                     )}
                     {/* Only for logged in users or when a shareId is present */}
                     {(status === "authenticated" || urlShareId) && (
-                        <>
-                            <li className="block py-2 pr-4 pl-3 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white sm:p-0">
-                                <Link href={`/stats/${urlShareId ?? ""}`}>
-                                    Stats
-                                </Link>
-                            </li>
-                        </>
+                        <li className="block py-2 pr-4 pl-3 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white sm:p-0">
+                            <Link href={`/stats/${urlShareId ?? ""}`}>
+                                Stats
+                            </Link>
+                        </li>
                     )}
                     {/* Always visible */}
                     <li className="block py-2 pr-4 pl-3 sm:p-0">
                         <AboutDropdown />
                     </li>
+                    {/* Visible to admins */}
+                    {status === "authenticated" &&
+                        session.user.role === UserRole.ADMIN && (
+                            <li className="block py-2 pr-4 pl-3 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white sm:p-0">
+                                <Link href="/admin">Admin Panel</Link>
+                            </li>
+                        )}
                 </ul>
 
                 <div className="order-2 flex items-center sm:order-last">
@@ -59,9 +62,7 @@ const Navbar: React.FC<Props> = ({ urlShareId }) => {
 
                     {status !== "loading" &&
                         (status === "authenticated" ? (
-                            <ProfileDropdown
-                                user={session.user as DiscordProfile}
-                            />
+                            <ProfileDropdown user={session.user} />
                         ) : (
                             <LoginButton />
                         ))}

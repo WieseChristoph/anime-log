@@ -9,8 +9,8 @@ interface Props {
     successText: string;
     tooltip?: string;
     onDeleteClick: () => void;
-    children: React.ReactNode;
-    className: string;
+    children?: React.ReactNode;
+    className?: string;
 }
 
 const DeleteButton: React.FC<Props> = ({

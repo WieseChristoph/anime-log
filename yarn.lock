@@ -477,6 +477,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@headlessui/tailwindcss@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@headlessui/tailwindcss@npm:0.1.2"
+  peerDependencies:
+    tailwindcss: ^3.0
+  checksum: 3499f69eee3d127c2c43c3ba87f8d13bd5778cad4257801314b9aaf6bc085d8f9fcb9f400c4613df5faaa2b9c5e1721500a9abaf9138fa7ca74fe81e6fb9803d
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.8":
   version: 0.11.8
   resolution: "@humanwhocodes/config-array@npm:0.11.8"
@@ -1777,6 +1786,7 @@ __metadata:
   resolution: "anime-log@workspace:."
   dependencies:
     "@headlessui/react": ^1.7.8
+    "@headlessui/tailwindcss": ^0.1.2
     "@next-auth/prisma-adapter": ^1.0.5
     "@paralleldrive/cuid2": ^2.0.1
     "@prisma/client": ^4.9.0

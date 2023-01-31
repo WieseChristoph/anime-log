@@ -1,6 +1,7 @@
+import { type LogOptions, Order } from "@/types/LogOptions";
+
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { MdFilterList } from "react-icons/md";
-import { type LogOptions, Order } from "@/types/LogOptions";
 
 interface Props {
     logOptions: LogOptions;
@@ -20,7 +21,7 @@ const LogSortAndSearch: React.FC<Props> = ({
     onLogOptionsChange,
 }) => {
     const sortButtonStyle = (order: Order) =>
-        `inline-block flex items-center p-4 rounded-t-lg border-b-2 border-transparent ${
+        `flex items-center p-4 rounded-t-lg border-b-2 border-transparent ${
             logOptions.order === order
                 ? "active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500"
                 : "hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
