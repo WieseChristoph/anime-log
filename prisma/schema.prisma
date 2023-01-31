@@ -10,7 +10,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
+// needs to be all lower case
+enum user_role {
   USER
   ADMIN
 }
@@ -51,8 +52,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-
-  role UserRole @default(USER)
+  role          user_role @default(USER)
 
   anime        Anime[]
   shareId      String?     @unique

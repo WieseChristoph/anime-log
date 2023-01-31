@@ -3,7 +3,7 @@ import { animeValidator } from "@/types/Anime";
 import { logOptionsValidator, Order } from "@/types/LogOptions";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
-import { UserRole } from "@prisma/client";
+import { user_role } from "@prisma/client";
 
 export const animeRouter = createTRPCRouter({
     get: publicProcedure
@@ -223,7 +223,7 @@ export const animeRouter = createTRPCRouter({
             });
         }),
     getCountByType: protectedProcedure.query(({ ctx }) => {
-        if (ctx.session.user.role !== UserRole.ADMIN)
+        if (ctx.session.user.role !== user_role.ADMIN)
             throw new TRPCError({
                 code: "UNAUTHORIZED",
                 message: "Must be admin to access this path.",

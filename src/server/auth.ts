@@ -5,7 +5,7 @@ import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/server/db";
 import { log } from "@/server/utils/auditLog";
-import { type UserRole } from "@prisma/client";
+import { type user_role } from "@prisma/client";
 
 /**
  * Module augmentation for `next-auth` types
@@ -20,12 +20,12 @@ declare module "next-auth" {
     interface Session extends DefaultSession {
         user: {
             id: string;
-            role: UserRole;
+            role: user_role;
         } & DefaultSession["user"];
     }
 
     interface User {
-        role: UserRole;
+        role: user_role;
     }
 }
 

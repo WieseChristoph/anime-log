@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
-import { UserRole } from "@prisma/client";
+import { user_role } from "@prisma/client";
 
 import AdminLayout from "@/components/Admin/AdminLayout";
 import ErrorAlert from "@/components/Util/ErrorAlert";
@@ -25,7 +25,7 @@ const Admin: NextPage = () => {
             <Navbar />
 
             {status === "authenticated" &&
-            session.user.role === UserRole.ADMIN ? (
+            session.user.role === user_role.ADMIN ? (
                 <AdminLayout />
             ) : (
                 <div className="p-5">

@@ -1,6 +1,6 @@
 import { type FC } from "react";
 import { api } from "@/utils/api";
-import { UserRole } from "@prisma/client";
+import { user_role } from "@prisma/client";
 
 import { Disclosure, Transition } from "@headlessui/react";
 import ErrorAlert from "../Util/ErrorAlert";
@@ -58,7 +58,7 @@ const AdminUsers: FC = () => {
                         <span>{user.name}</span>
                         <span
                             className={`ml-auto rounded px-2.5 py-0.5 text-xs font-medium ${
-                                user.role === UserRole.ADMIN
+                                user.role === user_role.ADMIN
                                     ? "bg-red-200 text-red-800 dark:bg-red-900 dark:text-red-200"
                                     : "bg-blue-200 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
                             }`}
@@ -112,7 +112,7 @@ const AdminUsers: FC = () => {
                                                     getAllUsers.data.find(
                                                         (u) =>
                                                             u.id ===
-                                                            savedByUser.savedUserId
+                                                            savedByUser.userId
                                                     )?.name
                                             )
                                             .join(", ") || "-"}

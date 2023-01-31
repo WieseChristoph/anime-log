@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { UserRole } from "@prisma/client";
+import { user_role } from "@prisma/client";
 
 import { FaToriiGate } from "react-icons/fa";
 import Link from "next/link";
@@ -50,7 +50,7 @@ const Navbar: React.FC<Props> = ({ urlShareId }) => {
                     </li>
                     {/* Visible to admins */}
                     {status === "authenticated" &&
-                        session.user.role === UserRole.ADMIN && (
+                        session.user.role === user_role.ADMIN && (
                             <li className="block py-2 pr-4 pl-3 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white sm:p-0">
                                 <Link href="/admin">Admin Panel</Link>
                             </li>
