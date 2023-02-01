@@ -23,9 +23,9 @@ const AdminStats: FC = () => {
         );
 
     return (
-        <div className="my-4 grid w-full grid-cols-3 justify-between justify-items-center gap-24">
+        <div className="my-4 flex flex-row flex-wrap justify-around gap-2">
             {/* User count */}
-            <div className="w-full rounded-lg bg-gray-200 p-6 shadow dark:bg-slate-900">
+            <div className="grow rounded-lg bg-gray-200 p-6 shadow dark:bg-slate-900">
                 <span className="flex flex-row items-center gap-4">
                     <MdOutlineSupervisorAccount className="mb-2 h-10 w-10 text-gray-500 dark:text-gray-400" />
                     <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
@@ -38,7 +38,7 @@ const AdminStats: FC = () => {
             </div>
 
             {/* Anime count */}
-            <div className="w-full rounded-lg bg-gray-200 p-6 shadow dark:bg-slate-900">
+            <div className="grow rounded-lg bg-gray-200 p-6 shadow dark:bg-slate-900">
                 <span className="flex flex-row items-center gap-4">
                     <FaTv className="mb-2 h-10 w-10 text-gray-500 dark:text-gray-400" />
                     <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
@@ -54,7 +54,7 @@ const AdminStats: FC = () => {
             </div>
 
             {/* Manga count */}
-            <div className="w-full rounded-lg bg-gray-200 p-6 shadow dark:bg-slate-900">
+            <div className="grow rounded-lg bg-gray-200 p-6 shadow dark:bg-slate-900">
                 <span className="flex flex-row items-center gap-4">
                     <FaBook className="mb-2 h-10 w-10 text-gray-500 dark:text-gray-400" />
                     <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
