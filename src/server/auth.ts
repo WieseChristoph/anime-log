@@ -50,6 +50,10 @@ export const authOptions: NextAuthOptions = {
             return true;
         },
     },
+    session: {
+        // update every time a session is retrieved (for "last online")
+        updateAge: 0,
+    },
     adapter: PrismaAdapter(prisma),
     // Configure one or more authentication providers
     providers: [

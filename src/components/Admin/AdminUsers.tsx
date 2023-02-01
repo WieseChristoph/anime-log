@@ -134,7 +134,7 @@ const AdminUsers: FC = () => {
                                     </tr>
                                     <tr className="border-b border-gray-300 dark:border-slate-400">
                                         <td className="py-2 px-2">
-                                            <b>Total Anime</b>
+                                            <b>Total anime</b>
                                         </td>
                                         <td className="text-center">
                                             {getAnimeMangaCount.data?.find(
@@ -144,7 +144,7 @@ const AdminUsers: FC = () => {
                                     </tr>
                                     <tr className="border-b border-gray-300 dark:border-slate-400">
                                         <td className="w-32 py-2 px-2">
-                                            <b>Last Update</b>
+                                            <b>Last update</b>
                                         </td>
                                         <td className="text-center">
                                             {(() => {
@@ -158,6 +158,32 @@ const AdminUsers: FC = () => {
                                                           "DD.MM.YYYY HH:mm:ss"
                                                       )
                                                     : "-";
+                                            })()}
+                                        </td>
+                                    </tr>
+                                    <tr className="border-b border-gray-300 dark:border-slate-400">
+                                        <td className="w-32 py-2 px-2">
+                                            <b>Last online</b>
+                                        </td>
+                                        <td className="text-center">
+                                            {(() => {
+                                                const lastOnline = user.sessions
+                                                    .sort(
+                                                        (sessionA, sessionB) =>
+                                                            dayjs(
+                                                                sessionB.expires
+                                                            ).diff(
+                                                                sessionA.expires
+                                                            )
+                                                    )
+                                                    .at(0)?.expires;
+                                                return lastOnline
+                                                    ? dayjs(lastOnline)
+                                                          .subtract(30, "days")
+                                                          .format(
+                                                              "DD.MM.YYYY HH:mm:ss"
+                                                          )
+                                                    : "> 30 days ago";
                                             })()}
                                         </td>
                                     </tr>
