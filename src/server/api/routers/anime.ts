@@ -234,4 +234,30 @@ export const animeRouter = createTRPCRouter({
             _count: { _all: true },
         });
     }),
+    getCountByUser: protectedProcedure.query(({ ctx }) => {
+        if (ctx.session.user.role !== user_role.ADMIN)
+            throw new TRPCError({
+                code: "UNAUTHORIZED",
+                message: "Must be admin to access this path.",
+            });
+
+        return ctx.prisma.anime.groupBy({
+            by: ["userId"],
+            _count: { _all: true },
+        });
+    }),
+    getLastUpdateByUser: protectedProcedure.query(({ ctx }) => {
+        if (ctx.session.user.role !== user_role.ADMIN)
+            throw new TRPCError({
+                code: "UNAUTHORIZED",
+                message: "Must be admin to access this path.",
+            });
+
+        return ctx.prisma.anime.findMany({
+            orderBy: {
+                updatedAt: "desc",
+            },
+            distinct: ["userId"],
+        });
+    }),
 });

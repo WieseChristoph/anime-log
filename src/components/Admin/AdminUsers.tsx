@@ -1,16 +1,20 @@
 import { type FC } from "react";
 import { api } from "@/utils/api";
 import { user_role } from "@prisma/client";
+import dayjs from "dayjs";
 
 import { Disclosure, Transition } from "@headlessui/react";
 import ErrorAlert from "../Util/ErrorAlert";
 import DeleteButton from "../Util/DeleteButton";
 import { MdExpandMore } from "react-icons/md";
 import ImageWithFallback from "../Util/ImageWithFallback";
+import Link from "next/link";
 
 const AdminUsers: FC = () => {
     const ctx = api.useContext();
     const getAllUsers = api.user.getAll.useQuery();
+    const getAnimeMangaCount = api.anime.getCountByUser.useQuery();
+    const getLastUpdated = api.anime.getLastUpdateByUser.useQuery();
     const deleteUser = api.user.delete.useMutation({
         onMutate: async (deletedUser) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
@@ -28,12 +32,20 @@ const AdminUsers: FC = () => {
     });
 
     // Error Alert
-    if (getAllUsers.isError || deleteUser.isError)
+    if (
+        getAllUsers.isError ||
+        deleteUser.isError ||
+        getAnimeMangaCount.isError ||
+        getLastUpdated.isError
+    )
         return (
             <div className="p-5">
                 <ErrorAlert
                     message={
-                        getAllUsers.error?.message || deleteUser.error?.message
+                        getAllUsers.error?.message ||
+                        deleteUser.error?.message ||
+                        getAnimeMangaCount.error?.message ||
+                        getLastUpdated.error?.message
                     }
                 />
             </div>
@@ -75,66 +87,121 @@ const AdminUsers: FC = () => {
                         leaveFrom="transform scale-y-100 opacity-100"
                         leaveTo="transform scale-y-50 opacity-0 origin-top"
                     >
-                        <Disclosure.Panel className="flex flex-col rounded-b bg-gray-100 p-4 text-black dark:bg-slate-700 dark:text-white ">
+                        <Disclosure.Panel className="flex flex-col rounded-b bg-gray-100 pb-4 text-black dark:bg-slate-700 dark:text-white ">
                             <table>
-                                <tr className="border-b border-gray-300 dark:border-slate-400">
-                                    <td className="pr-4">
-                                        <b>User ID</b>
-                                    </td>
-                                    <td>{user.id || "-"}</td>
-                                </tr>
-                                <tr className="border-b border-gray-300 dark:border-slate-400">
-                                    <td className="pr-4">
-                                        <b>E-Mail</b>
-                                    </td>
-                                    <td>{user.email || "-"}</td>
-                                </tr>
-                                <tr className="border-b border-gray-300 dark:border-slate-400">
-                                    <td className="pr-4">
-                                        <b>Share ID</b>
-                                    </td>
-                                    <td>{user.shareId || "-"}</td>
-                                </tr>
-                                <tr className="border-b border-gray-300 dark:border-slate-400">
-                                    <td className="pr-4">
-                                        <b>Sessions</b>
-                                    </td>
-                                    <td>{user.sessions.length || "0"}</td>
-                                </tr>
-                                <tr className="border-b border-gray-300 dark:border-slate-400">
-                                    <td className="pr-4">
-                                        <b>Saved by</b>
-                                    </td>
-                                    <td>
-                                        {user.savedByUsers
-                                            .map(
-                                                (savedByUser) =>
-                                                    getAllUsers.data.find(
-                                                        (u) =>
-                                                            u.id ===
-                                                            savedByUser.userId
-                                                    )?.name
-                                            )
-                                            .join(", ") || "-"}
-                                    </td>
-                                </tr>
-                                <tr className="border-b border-gray-300 dark:border-slate-400">
-                                    <td className="pr-4">
-                                        <b>Saved</b>
-                                    </td>
-                                    <td>
-                                        {user.savedUsers
-                                            .map(
-                                                (savedUser) =>
-                                                    getAllUsers.data.find(
-                                                        (u) =>
-                                                            u.id ===
-                                                            savedUser.savedUserId
-                                                    )?.name
-                                            )
-                                            .join(", ") || "-"}
-                                    </td>
-                                </tr>
+                                <tbody>
+                                    <tr className="border-b border-gray-300 dark:border-slate-400">
+                                        <td className="py-2 px-2">
+                                            <b>User ID</b>
+                                        </td>
+                                        <td className="text-center">
+                                            {user.id || "-"}
+                                        </td>
+                                    </tr>
+                                    <tr className="border-b border-gray-300 dark:border-slate-400">
+                                        <td className="py-2 px-2">
+                                            <b>E-Mail</b>
+                                        </td>
+                                        <td className="text-center">
+                                            {user.email || "-"}
+                                        </td>
+                                    </tr>
+                                    <tr className="border-b border-gray-300 dark:border-slate-400">
+                                        <td className="py-2 px-2">
+                                            <b>Share ID</b>
+                                        </td>
+                                        <td className="text-center">
+                                            {user.shareId ? (
+                                                <Link
+                                                    href={`/${user.shareId}`}
+                                                    target="_blank"
+                                                    className="hover:underline"
+                                                >
+                                                    {user.shareId}
+                                                </Link>
+                                            ) : (
+                                                "-"
+                                            )}
+                                        </td>
+                                    </tr>
+                                    <tr className="border-b border-gray-300 dark:border-slate-400">
+                                        <td className="py-2 px-2">
+                                            <b>Sessions</b>
+                                        </td>
+                                        <td className="text-center">
+                                            {user.sessions.length || "0"}
+                                        </td>
+                                    </tr>
+                                    <tr className="border-b border-gray-300 dark:border-slate-400">
+                                        <td className="py-2 px-2">
+                                            <b>Total Anime</b>
+                                        </td>
+                                        <td className="text-center">
+                                            {getAnimeMangaCount.data?.find(
+                                                (e) => e.userId === user.id
+                                            )?._count._all || "-"}
+                                        </td>
+                                    </tr>
+                                    <tr className="border-b border-gray-300 dark:border-slate-400">
+                                        <td className="w-32 py-2 px-2">
+                                            <b>Last Update</b>
+                                        </td>
+                                        <td className="text-center">
+                                            {dayjs(
+                                                getLastUpdated.data?.find(
+                                                    (e) => e.userId === user.id
+                                                )?.updatedAt
+                                            ).format("DD.MM.YYYY HH:mm:ss") ||
+                                                "-"}
+                                        </td>
+                                    </tr>
+                                    <tr className="border-b border-gray-300 dark:border-slate-400">
+                                        <td className="py-2 px-2">
+                                            <b>Saved by</b>
+                                        </td>
+                                        <td className="flex flex-wrap justify-center gap-x-1 gap-y-0.5 py-2">
+                                            {user.savedByUsers.map(
+                                                (savedByUser) => (
+                                                    <span
+                                                        key={savedByUser.id}
+                                                        className="rounded bg-gray-200 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-slate-900 dark:text-gray-300"
+                                                    >
+                                                        {
+                                                            getAllUsers.data.find(
+                                                                (u) =>
+                                                                    u.id ===
+                                                                    savedByUser.userId
+                                                            )?.name
+                                                        }
+                                                    </span>
+                                                )
+                                            )}
+                                        </td>
+                                    </tr>
+                                    <tr className="border-b border-gray-300 dark:border-slate-400">
+                                        <td className="py-2 px-2">
+                                            <b>Saved</b>
+                                        </td>
+                                        <td className="flex flex-wrap justify-center gap-x-1 gap-y-0.5 py-2 ">
+                                            {user.savedUsers.map(
+                                                (savedUser) => (
+                                                    <span
+                                                        key={savedUser.id}
+                                                        className="rounded bg-gray-200 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-slate-900 dark:text-gray-300"
+                                                    >
+                                                        {
+                                                            getAllUsers.data.find(
+                                                                (u) =>
+                                                                    u.id ===
+                                                                    savedUser.savedUserId
+                                                            )?.name
+                                                        }
+                                                    </span>
+                                                )
+                                            )}
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
 
                             <DeleteButton
