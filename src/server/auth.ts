@@ -51,8 +51,8 @@ export const authOptions: NextAuthOptions = {
         },
     },
     session: {
-        // update every time a session is retrieved (for "last online")
-        updateAge: 0,
+        // set max update age of session to 5 min (for "last online")
+        updateAge: 5 * 60,
     },
     adapter: PrismaAdapter(prisma),
     // Configure one or more authentication providers
