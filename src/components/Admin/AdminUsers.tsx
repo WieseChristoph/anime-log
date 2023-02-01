@@ -147,12 +147,18 @@ const AdminUsers: FC = () => {
                                             <b>Last Update</b>
                                         </td>
                                         <td className="text-center">
-                                            {dayjs(
-                                                getLastUpdated.data?.find(
-                                                    (e) => e.userId === user.id
-                                                )?.updatedAt
-                                            ).format("DD.MM.YYYY HH:mm:ss") ||
-                                                "-"}
+                                            {(() => {
+                                                const updatedAt =
+                                                    getLastUpdated.data?.find(
+                                                        (e) =>
+                                                            e.userId === user.id
+                                                    )?.updatedAt;
+                                                return updatedAt
+                                                    ? dayjs(updatedAt).format(
+                                                          "DD.MM.YYYY HH:mm:ss"
+                                                      )
+                                                    : "-";
+                                            })()}
                                         </td>
                                     </tr>
                                     <tr className="border-b border-gray-300 dark:border-slate-400">
