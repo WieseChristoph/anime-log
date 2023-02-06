@@ -14,6 +14,7 @@ import { FaPlus } from "react-icons/fa";
 import Loading from "../Util/Loading";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
+import BackToTop from "../Util/BackToTop";
 
 interface Props {
     shareId?: string;
@@ -174,6 +175,9 @@ const Log: React.FC<Props> = ({ shareId }) => {
                     >
                         <Loading />
                     </div>
+
+                    {/* Back to top button */}
+                    <BackToTop />
                 </>
             )}
         </div>
