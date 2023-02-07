@@ -1,13 +1,16 @@
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { isConsecutive } from "@/utils/helper";
+import { type Anime as AnimeType } from "@/types/Anime";
 
 import { MdEdit, MdDelete } from "react-icons/md";
 import { FaBook, FaTv } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
-import { type Anime as AnimeType } from "@/types/Anime";
 import DeleteButton from "@/components/Util/DeleteButton";
+
+dayjs.extend(relativeTime);
 
 interface Props {
     anime: AnimeType;
@@ -100,12 +103,11 @@ const Anime: React.FC<Props> = ({
                             }
                         >
                             <div className="text-xs dark:text-slate-300">
-                                Last updated:
-                                {anime.updatedAt
-                                    ? dayjs(anime.updatedAt).format(
-                                          " DD.MM.YYYY"
-                                      )
-                                    : " -"}
+                                {`Last updated: ${
+                                    anime.updatedAt
+                                        ? dayjs(anime.updatedAt).fromNow()
+                                        : "-"
+                                }`}
                             </div>
                         </Tippy>
                         <hr className="border-black dark:border-white" />
