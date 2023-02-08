@@ -116,7 +116,7 @@ const AnimeEdit: React.FC<Props> = ({
                     leaveTo="opacity-0"
                 >
                     <div
-                        className="fixed inset-0 bg-black/60"
+                        className="fixed inset-0 z-50 bg-black/60"
                         aria-hidden="true"
                     />
                 </Transition.Child>
@@ -131,7 +131,7 @@ const AnimeEdit: React.FC<Props> = ({
                 >
                     {/* Full-screen container to center the panel */}
                     <div className="fixed inset-0 z-50 grid place-items-center overflow-y-auto p-4">
-                        <Dialog.Panel className="w-4/5 rounded bg-gray-200 p-4 shadow-md  shadow-gray-600 dark:bg-slate-900 md:w-3/5 lg:w-3/6">
+                        <Dialog.Panel className="w-4/5 rounded border border-gray-300 bg-gray-200 p-4 shadow-md dark:border-slate-800 dark:bg-slate-900 md:w-3/5 lg:w-3/6">
                             <Dialog.Title className="flex items-start justify-between border-b border-black px-4 pb-2 dark:border-white">
                                 {/* Title */}
                                 <span className="text-xl font-semibold">
@@ -203,7 +203,7 @@ const AnimeEdit: React.FC<Props> = ({
                                             <input
                                                 type="text"
                                                 id="title"
-                                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                                 placeholder="Title"
                                                 defaultValue={anime.title ?? ""}
                                                 maxLength={250}
@@ -235,7 +235,7 @@ const AnimeEdit: React.FC<Props> = ({
                                                 <input
                                                     id="rating"
                                                     type="range"
-                                                    className="mx-2 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-50 dark:bg-gray-700"
+                                                    className="mx-2 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-50 dark:bg-slate-800"
                                                     min="0"
                                                     max="11"
                                                     defaultValue={
@@ -287,7 +287,7 @@ const AnimeEdit: React.FC<Props> = ({
                                             <input
                                                 type="url"
                                                 id="imageUrl"
-                                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 disabled:cursor-not-allowed dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 disabled:cursor-not-allowed dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                                 placeholder="Image URL"
                                                 defaultValue={
                                                     anime.imageUrl ?? ""
@@ -314,7 +314,7 @@ const AnimeEdit: React.FC<Props> = ({
                                             <input
                                                 type="url"
                                                 id="link"
-                                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 disabled:cursor-not-allowed dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 disabled:cursor-not-allowed dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                                 placeholder="Link to e.g. Crunchyroll"
                                                 defaultValue={anime.link ?? ""}
                                                 maxLength={512}
@@ -337,7 +337,7 @@ const AnimeEdit: React.FC<Props> = ({
                                             <input
                                                 type="date"
                                                 id="startDate"
-                                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                                 defaultValue={
                                                     anime.startDate
                                                         ? dayjs(
@@ -367,7 +367,7 @@ const AnimeEdit: React.FC<Props> = ({
                                     </label>
                                     <textarea
                                         id="notes"
-                                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                         placeholder="Notes"
                                         defaultValue={anime.note ?? ""}
                                         maxLength={1000}
@@ -419,7 +419,7 @@ const AnimeEdit: React.FC<Props> = ({
                                 {/* Save button */}
                                 <button
                                     type="submit"
-                                    className="rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800"
+                                    className="rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800"
                                 >
                                     {loading ? (
                                         <>

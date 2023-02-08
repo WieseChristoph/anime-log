@@ -97,7 +97,7 @@ const Log: React.FC<Props> = ({ shareId }) => {
 
             <div className="my-4 flex flex-row items-center">
                 {/* Anime count */}
-                <div className="rounded bg-gradient-to-br from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
+                <div className="rounded bg-gradient-to-r from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
                     {getAnimeCount.data}
                     {logOptions.filter.anime && logOptions.filter.manga
                         ? " Anime / Manga "
@@ -107,7 +107,7 @@ const Log: React.FC<Props> = ({ shareId }) => {
                 </div>
                 {/* Shared Log Username */}
                 {getUserByShareId.data && (
-                    <div className="ml-auto rounded bg-gradient-to-br from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
+                    <div className="ml-auto rounded bg-gradient-to-r from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
                         Log of
                         <b> {getUserByShareId.data.name}</b>
                     </div>
@@ -120,7 +120,7 @@ const Log: React.FC<Props> = ({ shareId }) => {
                             onClick={() => {
                                 setShowEditAnime(!showEditAnime);
                             }}
-                            className="ml-auto rounded-full bg-gradient-to-br from-pink-500 to-orange-400 p-2 text-center text-lg font-medium text-white"
+                            className="ml-auto rounded-full bg-gradient-to-r from-pink-500 to-orange-400 p-2 text-center text-lg font-medium text-white"
                         >
                             <FaPlus />
                         </button>

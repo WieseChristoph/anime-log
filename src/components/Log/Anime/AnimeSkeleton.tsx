@@ -7,9 +7,9 @@ interface Props {
 const AnimeSkeleton: React.FC<Props> = ({ index }) => {
     return (
         <motion.div
-            className={`relative rounded
-            bg-gray-200 shadow-sm shadow-gray-400
-			dark:bg-slate-900 dark:text-white`}
+            className={`relative rounded border border-gray-300 bg-gray-200
+            shadow-md dark:border-slate-700
+			dark:bg-slate-800 dark:text-white`}
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{
                 opacity: 1,

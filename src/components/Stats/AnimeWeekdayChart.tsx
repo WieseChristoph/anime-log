@@ -62,10 +62,18 @@ const AnimeWeekdayChart: React.FC<Props> = ({ anime = [] }) => {
                 title: {
                     display: true,
                     text: "Weekday",
+                    ...(theme === "dark" && {
+                        color: "rgb(255, 255, 255, 0.7)",
+                    }),
+                },
+                ticks: {
+                    ...(theme === "dark" && {
+                        color: "rgb(255, 255, 255, 0.7)",
+                    }),
                 },
                 grid: {
                     ...(theme === "dark" && {
-                        color: "rgb(255, 255, 255, 0.2)",
+                        color: "rgb(255, 255, 255, 0.3)",
                     }),
                 },
             },
@@ -74,13 +82,19 @@ const AnimeWeekdayChart: React.FC<Props> = ({ anime = [] }) => {
                 title: {
                     display: true,
                     text: "Anime / Manga count",
+                    ...(theme === "dark" && {
+                        color: "rgb(255, 255, 255, 0.7)",
+                    }),
                 },
                 ticks: {
                     precision: 0,
+                    ...(theme === "dark" && {
+                        color: "rgb(255, 255, 255, 0.7)",
+                    }),
                 },
                 grid: {
                     ...(theme === "dark" && {
-                        color: "rgb(255, 255, 255, 0.2)",
+                        color: "rgb(255, 255, 255, 0.3)",
                     }),
                 },
             },

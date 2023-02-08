@@ -35,9 +35,7 @@ const Anime: React.FC<Props> = ({
 }) => {
     return (
         <motion.div
-            className={`relative
-            rounded bg-gray-200 shadow-sm
-			shadow-gray-400 dark:bg-slate-900 dark:text-white`}
+            className={`relative rounded border border-gray-300 bg-gray-200 shadow-md dark:border-slate-700 dark:bg-slate-800 dark:text-white`}
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{
                 opacity: 1,
@@ -84,7 +82,7 @@ const Anime: React.FC<Props> = ({
                 {/* Title, rating and notes */}
                 <div className="col-span-2 flex flex-col overflow-hidden px-2 py-2 sm:col-span-1">
                     <div>
-                        <span className="float-right mr-2 rounded bg-gradient-to-br from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
+                        <span className="float-right mr-2 rounded bg-gradient-to-r from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
                             {anime.rating} / 10
                         </span>
                         <div className="font-bold">{anime.title}</div>
@@ -154,7 +152,7 @@ const Anime: React.FC<Props> = ({
                     >
                         <button
                             onClick={() => onEditClick(anime)}
-                            className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-400 text-sm text-white hover:text-base"
+                            className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-orange-400 text-sm text-white hover:text-base"
                         >
                             <MdEdit />
                         </button>
@@ -168,7 +166,7 @@ const Anime: React.FC<Props> = ({
                             anime.isManga ? "Manga" : "Anime"
                         }`}
                         onDeleteClick={() => onDeleteClick(anime)}
-                        className="my-1 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-400 text-sm text-white hover:text-base"
+                        className="my-1 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-orange-400 text-sm text-white hover:text-base"
                     >
                         <MdDelete />
                     </DeleteButton>

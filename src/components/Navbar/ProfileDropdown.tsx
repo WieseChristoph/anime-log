@@ -67,8 +67,8 @@ const ProfileDropdown: React.FC<Props> = ({ user }) => {
                     >
                         <Menu.Items
                             className="text-dark absolute right-0 mt-2
-			w-44 origin-top-right divide-y divide-black rounded-md bg-gray-100
-			shadow-lg dark:divide-white dark:bg-slate-700 dark:text-white"
+			w-44 origin-top-right divide-y divide-gray-300 rounded-md bg-gray-100
+			shadow-lg dark:divide-slate-500 dark:bg-slate-700 dark:text-white"
                         >
                             {getShareId.data?.shareId ? (
                                 <>

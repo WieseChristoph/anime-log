@@ -43,14 +43,14 @@ const AnimeListInput: React.FC<Props> = ({ initialArray, onArrayChange }) => {
             <div className="flex flex-row">
                 <input
                     type="number"
-                    className="w-12 rounded-l-md border border-gray-300 bg-gray-50 p-1 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                    className="w-12 rounded-l-md border border-gray-300 bg-gray-50 p-1 text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400"
                     min="1"
                     value={arrayElement}
                     onChange={(e) => setArrayElement(parseInt(e.target.value))}
                 />
                 <Tippy content={`Add ${arrayElement} to list`}>
                     <button
-                        className="border border-r-0 border-gray-300 bg-gray-300 p-2 text-xs dark:border-gray-600 dark:bg-gray-600 dark:text-white"
+                        className="border border-r-0 border-gray-300 bg-gray-300 p-2 text-xs dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                         type="button"
                         onClick={addToArray}
                     >
@@ -59,7 +59,7 @@ const AnimeListInput: React.FC<Props> = ({ initialArray, onArrayChange }) => {
                 </Tippy>
                 <Tippy content={`Remove ${arrayElement} from list`}>
                     <button
-                        className="rounded-r-md border border-r-0 border-gray-300 bg-gray-300 p-2 text-xs dark:border-gray-600 dark:bg-gray-600 dark:text-white"
+                        className="rounded-r-md border border-r-0 border-gray-300 bg-gray-300 p-2 text-xs dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                         type="button"
                         onClick={removeFromArray}
                     >

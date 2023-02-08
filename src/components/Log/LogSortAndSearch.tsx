@@ -84,7 +84,7 @@ const LogSortAndSearch: React.FC<Props> = ({
 
                 {/* Type filter */}
                 <li className="mr-4 mt-2 flex items-center sm:mt-0 sm:ml-auto">
-                    <div className="flex flex-row rounded-lg border border-gray-300 bg-gray-50 px-2 py-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+                    <div className="flex flex-row rounded-lg border border-gray-300 bg-gray-200 px-2 py-2 text-sm text-gray-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400">
                         <MdFilterList className="mr-2 text-xl text-gray-500 dark:text-gray-400" />
                         <div className="border-x-[1px] border-gray-500 px-2 dark:border-gray-400">
                             <input
@@ -170,7 +170,7 @@ const LogSortAndSearch: React.FC<Props> = ({
                         <input
                             type="search"
                             name="search"
-                            className="w-full rounded-lg border border-gray-300 bg-gray-50 p-2 pl-10 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                            className="w-full rounded-lg border border-gray-300 bg-gray-200 p-2 pl-10 text-sm text-gray-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400"
                             placeholder="Search"
                             defaultValue={logOptions.searchTerm}
                             onChange={(e) =>

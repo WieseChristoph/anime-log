@@ -17,7 +17,7 @@ const Navbar: React.FC<Props> = ({ urlShareId }) => {
     const { data: session, status } = useSession();
 
     return (
-        <nav className="flex-wrap bg-gray-200 px-3 py-2.5 dark:bg-slate-900 sm:px-4">
+        <nav className="sticky top-0 z-40 flex-wrap bg-white px-3 py-2.5 shadow-lg dark:bg-slate-900 sm:px-4">
             <div className="container mx-auto flex flex-wrap items-center">
                 <Link
                     href="/"

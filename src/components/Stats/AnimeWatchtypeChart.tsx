@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { type ChartData, type ChartOptions } from "chart.js/auto";
 import { type Anime } from "@/types/Anime";
+import { useTheme } from "next-themes";
 
 import { Doughnut } from "react-chartjs-2";
 
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const AnimeWatchtypeChart: React.FC<Props> = ({ anime = [] }) => {
+    const { theme } = useTheme();
+
     const data = useMemo(() => {
         return anime.reduce((prev, curr) => {
             prev[0] += curr.seasons.length;
@@ -39,6 +42,9 @@ const AnimeWatchtypeChart: React.FC<Props> = ({ anime = [] }) => {
     };
 
     const options: ChartOptions<"doughnut"> = {
+        ...(theme === "dark" && {
+            color: "rgb(255, 255, 255, 0.7)",
+        }),
         plugins: {
             tooltip: {
                 callbacks: {

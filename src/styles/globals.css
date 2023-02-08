@@ -5,7 +5,7 @@
 
 @layer base {
     body {
-        @apply overflow-y-scroll bg-white dark:bg-slate-800;
+        @apply overflow-y-scroll bg-white dark:bg-slate-900;
     }
 
     ::-webkit-scrollbar {

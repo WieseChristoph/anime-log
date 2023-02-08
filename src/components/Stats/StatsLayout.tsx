@@ -100,7 +100,7 @@ const StatsLayout: React.FC<Props> = ({ shareId }) => {
                             <MdArrowBackIosNew />
                             <span>Back to log</span>
                         </Link>
-                        <div className="ml-auto rounded bg-gradient-to-br from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
+                        <div className="ml-auto rounded bg-gradient-to-r from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
                             Stats of
                             <b> {getUserByShareId.data.name}</b>
                         </div>
@@ -109,35 +109,35 @@ const StatsLayout: React.FC<Props> = ({ shareId }) => {
             )}
 
             <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div className="rounded bg-gray-200 p-4 dark:bg-slate-900">
+                <div className="rounded border border-gray-300 bg-gray-200 p-4 dark:border-slate-700 dark:bg-slate-800">
                     <span className="text-xl font-bold">
                         Rating distribution
                     </span>
                     <hr className="my-2 border-black dark:border-white" />
                     <AnimeRatingChart anime={getAnime.data} />
                 </div>
-                <div className="rounded bg-gray-200 p-4 dark:bg-slate-900">
+                <div className="rounded border border-gray-300 bg-gray-200 p-4 dark:border-slate-700 dark:bg-slate-800">
                     <span className="text-xl font-bold">
                         Anime / Manga count by weekdays
                     </span>
                     <hr className="my-2 border-black dark:border-white" />
                     <AnimeWeekdayChart anime={getAnime.data} />
                 </div>
-                <div className="rounded bg-gray-200 p-4 dark:bg-slate-900 sm:col-span-2">
+                <div className="rounded border border-gray-300 bg-gray-200 p-4 dark:border-slate-700 dark:bg-slate-800 sm:col-span-2">
                     <span className="text-xl font-bold">
                         Anime / Manga count over time
                     </span>
                     <hr className="my-2 border-black dark:border-white" />
                     <DynamicAnimeStartDateChart anime={getAnime.data} />
                 </div>
-                <div className="rounded bg-gray-200 p-4 dark:bg-slate-900">
+                <div className="rounded border border-gray-300 bg-gray-200 p-4 dark:border-slate-700 dark:bg-slate-800">
                     <span className="text-xl font-bold">Watchtype count</span>
                     <hr className="my-2 border-black dark:border-white" />
                     <div className="mx-auto w-2/3">
                         <AnimeWatchtypeChart anime={getAnime.data} />
                     </div>
                 </div>
-                <div className="rounded bg-gray-200 p-4 dark:bg-slate-900">
+                <div className="rounded border border-gray-300 bg-gray-200 p-4 dark:border-slate-700 dark:bg-slate-800">
                     <span className="text-xl font-bold">
                         Anime / Manga title length
                     </span>

@@ -51,8 +51,8 @@ const SavedUsersDropdown: React.FC<Props> = ({ urlShareId }) => {
                     >
                         <Menu.Items
                             className="absolute mt-2
-			w-52 divide-y divide-black rounded-md bg-gray-100 shadow-lg
-			dark:divide-white dark:bg-slate-700 dark:text-white"
+			w-52 divide-y divide-gray-300 rounded-md bg-gray-100 shadow-lg
+			dark:divide-slate-500 dark:bg-slate-700 dark:text-white"
                         >
                             {getSavedUsers.data &&
                             getSavedUsers.data.length > 0 ? (

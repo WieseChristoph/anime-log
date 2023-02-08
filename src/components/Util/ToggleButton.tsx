@@ -34,7 +34,7 @@ const ToggleButton: React.FC<Props> = ({
                     checked={value}
                     onChange={handleChange}
                     className={`relative inline-flex w-full items-center overflow-hidden rounded-lg border border-gray-300
-bg-white text-center text-sm transition-colors focus:border-blue-500 focus:ring-blue-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-500 dark:focus:ring-blue-500`}
+bg-white text-center text-sm transition-colors focus:border-blue-500 focus:ring-blue-500 focus:ring-offset-2 dark:border-slate-700 dark:bg-slate-800 dark:focus:border-blue-500 dark:focus:ring-blue-500`}
                 >
                     <span
                         className={`${

@@ -55,7 +55,7 @@ const AdminUsers: FC = () => {
         <div className="my-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
             {getAllUsers.data?.map((user, userIndex) => (
                 <Disclosure key={userIndex} as="div" className="grow">
-                    <Disclosure.Button className="flex w-full items-center gap-2 rounded-t bg-gray-200 p-4 py-2 ui-not-open:rounded-b dark:bg-slate-900">
+                    <Disclosure.Button className="flex w-full items-center gap-2 rounded-t border-x border-t border-gray-300 bg-gray-200 p-4 py-2 shadow-md ui-not-open:rounded-b ui-not-open:border-b dark:border-slate-700 dark:bg-slate-800">
                         <ImageWithFallback
                             className="rounded-full"
                             src={
@@ -87,7 +87,10 @@ const AdminUsers: FC = () => {
                         leaveFrom="transform scale-y-100 opacity-100"
                         leaveTo="transform scale-y-50 opacity-0 origin-top"
                     >
-                        <Disclosure.Panel className="flex flex-col rounded-b bg-gray-100 pb-4 text-black dark:bg-slate-700 dark:text-white ">
+                        <Disclosure.Panel
+                            className="flex flex-col rounded-b border-x border-b border-gray-300 bg-gray-200 pb-4 text-black dark:border-slate-700 dark:bg-slate-800
+dark:text-white"
+                        >
                             <table>
                                 <tbody>
                                     <tr className="border-b border-gray-300 dark:border-slate-400">
@@ -196,7 +199,7 @@ const AdminUsers: FC = () => {
                                                 (savedByUser) => (
                                                     <span
                                                         key={savedByUser.id}
-                                                        className="rounded bg-gray-200 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-slate-900 dark:text-gray-300"
+                                                        className="rounded bg-white px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-slate-900 dark:text-gray-300"
                                                     >
                                                         {
                                                             getAllUsers.data.find(
@@ -219,7 +222,7 @@ const AdminUsers: FC = () => {
                                                 (savedUser) => (
                                                     <span
                                                         key={savedUser.id}
-                                                        className="rounded bg-gray-200 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-slate-900 dark:text-gray-300"
+                                                        className="rounded bg-white px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-slate-900 dark:text-gray-300"
                                                     >
                                                         {
                                                             getAllUsers.data.find(
