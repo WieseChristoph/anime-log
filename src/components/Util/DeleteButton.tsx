@@ -54,6 +54,7 @@ const DeleteButton: React.FC<Props> = ({
                     })
                 }
                 className={className}
+                aria-label="Delete"
             >
                 {children}
             </button>

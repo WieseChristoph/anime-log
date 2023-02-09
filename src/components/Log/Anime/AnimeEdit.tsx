@@ -151,6 +151,7 @@ const AnimeEdit: React.FC<Props> = ({
                                         setAnime({} as Anime);
                                         onCancelButtonClick();
                                     }}
+                                    aria-label="Close edit menu"
                                 >
                                     <MdCancel className="text-xl" />
                                     <span className="sr-only">Close modal</span>
@@ -420,6 +421,7 @@ const AnimeEdit: React.FC<Props> = ({
                                 <button
                                     type="submit"
                                     className="rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800"
+                                    aria-label="Save changes"
                                 >
                                     {loading ? (
                                         <>

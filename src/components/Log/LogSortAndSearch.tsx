@@ -41,6 +41,7 @@ const LogSortAndSearch: React.FC<Props> = ({
                     <button
                         onClick={() => onOrderButtonClick(Order.TITLE)}
                         className={sortButtonStyle(Order.TITLE)}
+                        aria-label="Order by title"
                     >
                         Title
                         {logOptions.order === Order.TITLE && (
@@ -52,6 +53,7 @@ const LogSortAndSearch: React.FC<Props> = ({
                     <button
                         onClick={() => onOrderButtonClick(Order.RATING)}
                         className={sortButtonStyle(Order.RATING)}
+                        aria-label="Order by rating"
                     >
                         Rating
                         {logOptions.order === Order.RATING && (
@@ -63,6 +65,7 @@ const LogSortAndSearch: React.FC<Props> = ({
                     <button
                         onClick={() => onOrderButtonClick(Order.START_DATE)}
                         className={sortButtonStyle(Order.START_DATE)}
+                        aria-label="Order by start date"
                     >
                         Start date
                         {logOptions.order === Order.START_DATE && (
@@ -74,6 +77,7 @@ const LogSortAndSearch: React.FC<Props> = ({
                     <button
                         onClick={() => onOrderButtonClick(Order.UPDATED_AT)}
                         className={sortButtonStyle(Order.UPDATED_AT)}
+                        aria-label="Order by last update"
                     >
                         Last Update
                         {logOptions.order === Order.UPDATED_AT && (

@@ -26,6 +26,7 @@ const DarkModeToggle: React.FC = () => {
                         : "bg-slate-900 text-white"
                 } mr-4 rounded-full p-2 text-base`}
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            aria-label="Toggle theme"
         >
             {theme && theme === "dark" ? <FaSun /> : <FaMoon />}
         </button>

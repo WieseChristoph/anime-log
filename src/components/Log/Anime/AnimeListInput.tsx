@@ -53,6 +53,7 @@ const AnimeListInput: React.FC<Props> = ({ initialArray, onArrayChange }) => {
                         className="border border-r-0 border-gray-300 bg-gray-300 p-2 text-xs dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                         type="button"
                         onClick={addToArray}
+                        aria-label="Add"
                     >
                         <FaPlus />
                     </button>
@@ -62,6 +63,7 @@ const AnimeListInput: React.FC<Props> = ({ initialArray, onArrayChange }) => {
                         className="rounded-r-md border border-r-0 border-gray-300 bg-gray-300 p-2 text-xs dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                         type="button"
                         onClick={removeFromArray}
+                        aria-label="Remove"
                     >
                         <FaMinus />
                     </button>

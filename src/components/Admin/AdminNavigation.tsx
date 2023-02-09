@@ -23,6 +23,7 @@ const AdminNavigation: FC<Props> = ({ active, onNavItemChange }) => {
                                 ? "active border-blue-600 text-blue-600 dark:border-blue-500 dark:text-blue-500"
                                 : "hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
                         }`}
+                        aria-label="Statistics page"
                     >
                         Stats
                     </button>
@@ -35,6 +36,7 @@ const AdminNavigation: FC<Props> = ({ active, onNavItemChange }) => {
                                 ? "active border-blue-600 text-blue-600 dark:border-blue-500 dark:text-blue-500"
                                 : "hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
                         }`}
+                        aria-label="Users page"
                     >
                         Users
                     </button>

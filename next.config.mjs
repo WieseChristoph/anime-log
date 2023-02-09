@@ -3,8 +3,10 @@
 
 const nextConfig = {
     reactStrictMode: true,
-    // needed to be off for chartJs but could be fixed in future nextJs versions
-    swcMinify: false,
+    i18n: {
+        locales: ["en"],
+        defaultLocale: "en",
+    },
     images: {
         domains: ["cdn.discordapp.com", "media.kitsu.io"],
     },

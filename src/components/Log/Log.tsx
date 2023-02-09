@@ -121,6 +121,7 @@ const Log: React.FC<Props> = ({ shareId }) => {
                                 setShowEditAnime(!showEditAnime);
                             }}
                             className="ml-auto rounded-full bg-gradient-to-r from-pink-500 to-orange-400 p-2 text-center text-lg font-medium text-white"
+                            aria-label="Add new anime"
                         >
                             <FaPlus />
                         </button>

@@ -153,6 +153,7 @@ const Anime: React.FC<Props> = ({
                         <button
                             onClick={() => onEditClick(anime)}
                             className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-orange-400 text-sm text-white hover:text-base"
+                            aria-label="Edit anime"
                         >
                             <MdEdit />
                         </button>

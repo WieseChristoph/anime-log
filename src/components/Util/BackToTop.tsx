@@ -27,6 +27,7 @@ const BackToTop: FC = () => {
                 visible ? "block" : "hidden"
             } fixed bottom-5 right-5 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-orange-400 p-2 text-white shadow-md`}
             onClick={() => scrollToTop()}
+            aria-label="Back to top"
         >
             <RxDoubleArrowUp className="text-3xl" />
         </button>

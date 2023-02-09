@@ -7,6 +7,7 @@ const LoginButton: React.FC = () => {
         <button
             className="rounded-md bg-[#7289DA] py-1 px-2"
             onClick={() => void signIn("discord")}
+            aria-label="Login"
         >
             <span className="flex items-center text-white">
                 <FaDiscord className="mr-3 text-xl" />
