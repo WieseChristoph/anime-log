@@ -142,7 +142,7 @@ dark:text-white"
                                         <td className="text-center">
                                             {getAnimeMangaCount.data?.find(
                                                 (e) => e.userId === user.id
-                                            )?._count._all || "-"}
+                                            )?._count._all || "0"}
                                         </td>
                                     </tr>
                                     <tr className="border-b border-gray-300 dark:border-slate-400">
