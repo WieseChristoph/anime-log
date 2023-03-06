@@ -1162,18 +1162,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:4.24.4":
-  version: 4.24.4
-  resolution: "@tanstack/query-core@npm:4.24.4"
-  checksum: b357e950a41e5769878a3bfe9dd56a66828ccebb2f9396e568e8835bed71eb37926770a461e3aa5bafb7e1121c5141cee86aedf3ced88a2eacf754d545b107cd
+"@tanstack/query-core@npm:4.26.0":
+  version: 4.26.0
+  resolution: "@tanstack/query-core@npm:4.26.0"
+  checksum: cd5da19b7840e726b1c4ddfb367d1103806db17ccf3a396a207d11322d98b45d40b8a50a0d947342e05e1e68150a8671aaff843a4ba06e69ce104862ff76e9e3
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^4.23.0":
-  version: 4.24.4
-  resolution: "@tanstack/react-query@npm:4.24.4"
+"@tanstack/react-query@npm:^4.26.0":
+  version: 4.26.0
+  resolution: "@tanstack/react-query@npm:4.26.0"
   dependencies:
-    "@tanstack/query-core": 4.24.4
+    "@tanstack/query-core": 4.26.0
     use-sync-external-store: ^1.2.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -1184,7 +1184,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 8cf008d690fc5d336f6471ea2bc0751189f03874dcc7930cf8944fb57fa34e3b5347823775dbd36629d53a7aacb9ce87482b1adb3ad80d277a3a6c73b797f6a2
+  checksum: 4fcfe1fdd199b6da75baaf283e6523cef81e49b7129a67afe42bf8f98d58da3889ca662d882d8a0afded169570ab19b0756862d6c0f2df79faed6f4d1e4c4faf
   languageName: node
   linkType: hard
 
@@ -1768,7 +1768,7 @@ __metadata:
     "@next-auth/prisma-adapter": ^1.0.5
     "@paralleldrive/cuid2": ^2.0.1
     "@prisma/client": ^4.9.0
-    "@tanstack/react-query": ^4.23.0
+    "@tanstack/react-query": ^4.26.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
     "@tippyjs/react": ^4.2.6
@@ -3596,7 +3596,7 @@ __metadata:
 
 "fsevents@patch:fsevents@^2.3.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@~2.3.2#~builtin<compat/fsevents>":
   version: 2.3.2
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=18f3a7"
   dependencies:
     node-gyp: latest
   conditions: os=darwin
@@ -6602,7 +6602,7 @@ __metadata:
 
 "resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.20.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.1#~builtin<compat/resolve>":
   version: 1.22.1
-  resolution: "resolve@patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=07638b"
   dependencies:
     is-core-module: ^2.9.0
     path-parse: ^1.0.7
@@ -6615,7 +6615,7 @@ __metadata:
 
 "resolve@patch:resolve@^2.0.0-next.4#~builtin<compat/resolve>":
   version: 2.0.0-next.4
-  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.4#~builtin<compat/resolve>::version=2.0.0-next.4&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.4#~builtin<compat/resolve>::version=2.0.0-next.4&hash=07638b"
   dependencies:
     is-core-module: ^2.9.0
     path-parse: ^1.0.7
@@ -7390,11 +7390,11 @@ __metadata:
 
 "typescript@patch:typescript@^4.9.4#~builtin<compat/typescript>":
   version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=a1c5e5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 8f6260acc86b56bfdda6004bc53f32ea548f543e8baef7071c8e34d29d292f3e375c8416556c8de10b24deef6933cd1c16a8233dc84a3dd43a13a13265d0faab
+  checksum: 2eee5c37cad4390385db5db5a8e81470e42e8f1401b0358d7390095d6f681b410f2c4a0c496c6ff9ebd775423c7785cdace7bcdad76c7bee283df3d9718c0f20
   languageName: node
   linkType: hard
 
