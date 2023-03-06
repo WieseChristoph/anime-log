@@ -1280,16 +1280,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/react-query@npm:^10.9.0":
-  version: 10.10.0
-  resolution: "@trpc/react-query@npm:10.10.0"
+"@trpc/react-query@npm:^10.14.0":
+  version: 10.14.0
+  resolution: "@trpc/react-query@npm:10.14.0"
   peerDependencies:
     "@tanstack/react-query": ^4.3.8
-    "@trpc/client": 10.10.0
-    "@trpc/server": 10.10.0
+    "@trpc/client": 10.14.0
+    "@trpc/server": 10.14.0
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 7e26bcc33f6aa97986fbfcbcdf0a4864eba79beda33d9c98bd2293c48ff3d9195977716dd1bc4b4d93988e59791ee7291581924d7d98e34104b03e90826d6e2a
+  checksum: 302d5d280da3c6a99bb435d5b25c414d2b413077ea7d09b3e16bdfe215cfb3f2316f90adea665c4901e5ebe325d4b7829054ed197c7151ba3c8dbef2399eea55
   languageName: node
   linkType: hard
 
@@ -1774,7 +1774,7 @@ __metadata:
     "@tippyjs/react": ^4.2.6
     "@trpc/client": ^10.9.0
     "@trpc/next": ^10.9.0
-    "@trpc/react-query": ^10.9.0
+    "@trpc/react-query": ^10.14.0
     "@trpc/server": ^10.9.0
     "@types/node": ^18.11.18
     "@types/prettier": ^2.7.2
@@ -3596,7 +3596,7 @@ __metadata:
 
 "fsevents@patch:fsevents@^2.3.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@~2.3.2#~builtin<compat/fsevents>":
   version: 2.3.2
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=18f3a7"
   dependencies:
     node-gyp: latest
   conditions: os=darwin
@@ -6602,7 +6602,7 @@ __metadata:
 
 "resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.20.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.1#~builtin<compat/resolve>":
   version: 1.22.1
-  resolution: "resolve@patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=07638b"
   dependencies:
     is-core-module: ^2.9.0
     path-parse: ^1.0.7
@@ -6615,7 +6615,7 @@ __metadata:
 
 "resolve@patch:resolve@^2.0.0-next.4#~builtin<compat/resolve>":
   version: 2.0.0-next.4
-  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.4#~builtin<compat/resolve>::version=2.0.0-next.4&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.4#~builtin<compat/resolve>::version=2.0.0-next.4&hash=07638b"
   dependencies:
     is-core-module: ^2.9.0
     path-parse: ^1.0.7
@@ -7390,11 +7390,11 @@ __metadata:
 
 "typescript@patch:typescript@^4.9.4#~builtin<compat/typescript>":
   version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=a1c5e5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 8f6260acc86b56bfdda6004bc53f32ea548f543e8baef7071c8e34d29d292f3e375c8416556c8de10b24deef6933cd1c16a8233dc84a3dd43a13a13265d0faab
+  checksum: 2eee5c37cad4390385db5db5a8e81470e42e8f1401b0358d7390095d6f681b410f2c4a0c496c6ff9ebd775423c7785cdace7bcdad76c7bee283df3d9718c0f20
   languageName: node
   linkType: hard
 
