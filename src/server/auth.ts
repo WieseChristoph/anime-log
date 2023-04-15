@@ -6,6 +6,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/server/db";
 import { log } from "@/server/utils/auditLog";
 import { type user_role } from "@prisma/client";
+import { updateAvatarURL } from "./utils/discord";
 
 /**
  * Module augmentation for `next-auth` types
@@ -43,10 +44,23 @@ export const authOptions: NextAuthOptions = {
                 session.user.role = user.role;
             }
 
+            // update the user's avatar if needed
+            if (user.image)
+                fetch(user.image)
+                    .then((res) => {
+                        if (!res.ok)
+                            updateAvatarURL(user.id).catch(console.error);
+                    })
+                    .catch(console.error);
+
             return session;
         },
         signIn: ({ user }) => {
             log("auth", user.id, true, "Login");
+
+            // update the user's avatar
+            if (user.image) updateAvatarURL(user.id).catch(console.error);
+
             return true;
         },
     },
