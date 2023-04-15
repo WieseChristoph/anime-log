@@ -32,6 +32,7 @@ Set environment variables:
 ```
 DISCORD_CLIENT_ID=<YOUR_CLIENT_ID>
 DISCORD_CLIENT_SECRET=<YOUR_CLIENT_SECRET>
+DISCORD_BOT_TOKEN=<YOUR_BOT_TOKEN>
 ```
 
 ## Database Connection
