@@ -1366,12 +1366,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/client@npm:^10.18.0":
-  version: 10.41.0
-  resolution: "@trpc/client@npm:10.41.0"
+"@trpc/client@npm:^10.43.1":
+  version: 10.43.1
+  resolution: "@trpc/client@npm:10.43.1"
   peerDependencies:
-    "@trpc/server": 10.41.0
-  checksum: 0ff5d6a117ef9424bd35d1bc051d54f64b2757ff7c857d1aa83f015112725946cb9021d8814296dd3b3fb5d204122794ba2c50f7a3f7fe73783aca52cc1dd4eb
+    "@trpc/server": 10.43.1
+  checksum: 44877dcf2f8cf20b90841678dc7dad8466fe0ebb572bb78edd7a970fd7555e830bcb26454bfed89c82c64980b5d64fd9db964e5a3e7ba29096b8b06cf28d15f8
   languageName: node
   linkType: hard
 
@@ -1966,7 +1966,7 @@ __metadata:
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^14.0.0
     "@tippyjs/react": ^4.2.6
-    "@trpc/client": ^10.18.0
+    "@trpc/client": ^10.43.1
     "@trpc/next": ^10.18.0
     "@trpc/react-query": ^10.18.0
     "@trpc/server": ^10.18.0
