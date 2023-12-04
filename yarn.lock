@@ -1984,7 +1984,7 @@ __metadata:
     dayjs: ^1.11.7
     eslint: ^8.37.0
     eslint-config-next: ^13.2.4
-    framer-motion: ^10.10.0
+    framer-motion: ^10.16.12
     jest: ^29.5.0
     jest-environment-jsdom: ^29.5.0
     next: ^13.2.4
@@ -3971,9 +3971,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^10.10.0":
-  version: 10.16.4
-  resolution: "framer-motion@npm:10.16.4"
+"framer-motion@npm:^10.16.12":
+  version: 10.16.12
+  resolution: "framer-motion@npm:10.16.12"
   dependencies:
     "@emotion/is-prop-valid": ^0.8.2
     tslib: ^2.4.0
@@ -3988,7 +3988,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 57eb252f25a2c4ee14b024295c6a1162a53a05e0321bdb9c8a22ec266fbe777832823eaa0309e42854170fcde16c42915c6c5d0208b628fd000d6fab013c501f
+  checksum: 164f80bc5a93162f2211d1e88ee5808342c96d6bb734d63878505ffa88f480bad3c29c257dd4dd13d8267f901ddaf13082c0688f80880db8f1a4efb2ee8a4edf
   languageName: node
   linkType: hard
 
