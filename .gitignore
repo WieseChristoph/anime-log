@@ -36,6 +36,9 @@ yarn-error.log*
 # docker-compose
 docker-compose.yml
 
+# Postgres data
+/postgres-data
+
 # typescript
 tsconfig.tsbuildinfo
 

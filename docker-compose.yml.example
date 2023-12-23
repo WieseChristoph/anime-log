@@ -1,0 +1,38 @@
+version: "3.3"
+services:
+  web:
+    container_name: anime_log_web
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - anime_log_network
+    environment:
+      - DATABASE_URL=postgres://anime_log:<DATABASE_PASSWORD>@db:5432/anime_log
+      - DISCORD_CLIENT_SECRET=
+      - DISCORD_CLIENT_ID=
+      - DISCORD_BOT_TOKEN=
+      - NEXTAUTH_SECRET=
+      - NEXTAUTH_URL=
+    restart: always
+    depends_on:
+      - db
+  db:
+    container_name: anime_log_db
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: anime_log
+      POSTGRES_PASSWORD: <DATABASE_PASSWORD>
+      POSTGRES_DB: anime_log
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data/pgdata
+    networks:
+      - anime_log_network
+    restart: always
+
+networks:
+  anime_log_network:
+    driver: bridge

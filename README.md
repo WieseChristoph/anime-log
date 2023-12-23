@@ -62,3 +62,13 @@ yarn start
 ```
 
 The server will listen on `localhost:3000`.
+
+# Docker production
+
+- Change datasource provider in `prisma/schema.prisma` to `postgresql`
+- Uncomment `output: "standalone"` in `next.config.mjs`
+- Copy `docker-compose.yml.example` to `docker-compose.yml`
+- Set all environment variables in the `docker-compose.yml`
+- Set a database password in the `docker-compose.yml`
+- Run `docker compose up -d`
+- The server will listen on `localhost:80`
