@@ -24,12 +24,12 @@ jobs:
               uses: actions/setup-node@v3
               with:
                   node-version: ${{ matrix.node-version }}
-                  cache: "yarn"
+                  cache: "pnpm"
             - name: Install dependencies
-              run: yarn
+              run: pnpm
             - name: Run tsc
-              run: yarn tsc
+              run: pnpm tsc
             - name: Run lint
-              run: yarn lint
+              run: pnpm lint
             - name: Run jest
-              run: yarn jest
+              run: pnpm jest
