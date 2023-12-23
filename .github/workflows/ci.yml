@@ -29,7 +29,7 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   cache: "pnpm"
             - name: Install dependencies
-              run: pnpm
+              run: pnpm install
             - name: Run tsc
               run: pnpm tsc
             - name: Run lint
