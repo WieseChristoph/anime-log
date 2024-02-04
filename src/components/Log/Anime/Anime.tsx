@@ -2,18 +2,19 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { type Anime as AnimeType } from "@/types/Anime";
 
-import { MdEdit, MdDelete } from "react-icons/md";
-import {
-    FaBook,
-    FaTv,
-    FaRegNoteSticky,
-    FaArrowsRotate,
-    FaRegCalendar,
-} from "react-icons/fa6";
 import { motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import DeleteButton from "@/components/Util/DeleteButton";
+import {
+    BookOpenText,
+    Calendar,
+    Pencil,
+    RefreshCw,
+    StickyNote,
+    Trash,
+    Tv,
+} from "lucide-react";
 
 dayjs.extend(relativeTime);
 
@@ -97,9 +98,9 @@ const Anime: React.FC<Props> = ({
                         >
                             <div className="rounded-md bg-white/30 p-2 backdrop-blur-lg dark:bg-black/30">
                                 {anime.isManga ? (
-                                    <FaBook className="text-xl" />
+                                    <BookOpenText className="h-5 w-5" />
                                 ) : (
-                                    <FaTv className="text-xl" />
+                                    <Tv className="h-5 w-5" />
                                 )}
                             </div>
                         </Tippy>
@@ -119,7 +120,7 @@ const Anime: React.FC<Props> = ({
                                 placement="bottom"
                             >
                                 <div className="rounded-md bg-white/30 p-2 backdrop-blur-lg dark:bg-black/30">
-                                    <FaRegNoteSticky className="text-xl" />
+                                    <StickyNote className="h-5 w-5" />
                                 </div>
                             </Tippy>
                         )}
@@ -134,7 +135,7 @@ const Anime: React.FC<Props> = ({
                                     className="rounded-md bg-white/30 p-2 backdrop-blur-lg hover:text-yellow-400 dark:bg-black/30"
                                     onClick={() => onEditClick(anime)}
                                 >
-                                    <MdEdit className="text-xl" />
+                                    <Pencil className="h-5 w-5" />
                                 </button>
                             </Tippy>
 
@@ -149,7 +150,7 @@ const Anime: React.FC<Props> = ({
                                 onDeleteClick={() => onDeleteClick(anime)}
                                 className="rounded-md bg-white/30 p-2 backdrop-blur-lg hover:text-red-400 dark:bg-black/30"
                             >
-                                <MdDelete className="text-xl" />
+                                <Trash className="h-5 w-5" />
                             </DeleteButton>
                         </div>
                     )}
@@ -171,7 +172,7 @@ const Anime: React.FC<Props> = ({
                     <div className="flex flex-row gap-2">
                         {/* Start date */}
                         <div className="flex flex-row items-center gap-1 text-xs text-white">
-                            <FaRegCalendar />
+                            <Calendar className="h-4 w-4" />
                             {anime.startDate
                                 ? dayjs(anime.startDate).format("DD.MM.YYYY")
                                 : "-"}
@@ -188,7 +189,7 @@ const Anime: React.FC<Props> = ({
                             }
                         >
                             <div className="flex flex-row items-center gap-1 text-xs text-white">
-                                <FaArrowsRotate />
+                                <RefreshCw className="h-4 w-4" />
                                 {anime.updatedAt
                                     ? dayjs(anime.updatedAt).fromNow()
                                     : "-"}

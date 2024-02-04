@@ -2,10 +2,9 @@ import { api } from "@/utils/api";
 
 import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
-import { FaChevronDown } from "react-icons/fa";
-import { MdDelete, MdSave } from "react-icons/md";
 import DeleteButton from "../Util/DeleteButton";
 import ImageWithFallback from "../Util/ImageWithFallback";
+import { ChevronDown, Save, Trash } from "lucide-react";
 
 interface Props {
     urlShareId?: string;
@@ -36,7 +35,7 @@ const SavedUsersDropdown: React.FC<Props> = ({ urlShareId }) => {
                 <>
                     <Menu.Button className="flex items-center text-gray-700 hover:text-black  dark:text-gray-300 dark:hover:text-white">
                         Saved Logs
-                        <FaChevronDown className="ml-1 text-sm" />
+                        <ChevronDown className="ml-1 h-5 w-5 ui-open:rotate-180" />
                     </Menu.Button>
 
                     {/* Dropdown menu */}
@@ -123,7 +122,7 @@ const SavedUsersDropdown: React.FC<Props> = ({ urlShareId }) => {
                                                 })
                                             }
                                         >
-                                            <MdDelete className="text-xl" />
+                                            <Trash className="h-5 w-5" />
                                             <b>Delete current log</b>
                                         </DeleteButton>
                                     </Menu.Item>
@@ -137,7 +136,7 @@ const SavedUsersDropdown: React.FC<Props> = ({ urlShareId }) => {
                                             })
                                         }
                                     >
-                                        <MdSave className="text-xl" />
+                                        <Save className="h-5 w-5" />
                                         <b>Save current log</b>
                                     </Menu.Item>
                                 ))}

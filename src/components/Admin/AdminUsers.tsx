@@ -6,9 +6,9 @@ import dayjs from "dayjs";
 import { Disclosure, Transition } from "@headlessui/react";
 import ErrorAlert from "../Util/ErrorAlert";
 import DeleteButton from "../Util/DeleteButton";
-import { MdExpandMore } from "react-icons/md";
 import ImageWithFallback from "../Util/ImageWithFallback";
 import Link from "next/link";
+import { ChevronDown } from "lucide-react";
 
 const AdminUsers: FC = () => {
     const ctx = api.useContext();
@@ -77,7 +77,7 @@ const AdminUsers: FC = () => {
                         >
                             {user.role}
                         </span>
-                        <MdExpandMore className="text-3xl ui-open:rotate-180 ui-open:transform" />
+                        <ChevronDown className="ui-open:rotate-180" />
                     </Disclosure.Button>
                     <Transition
                         enter="transition duration-100 ease-out"
@@ -94,7 +94,7 @@ dark:text-white"
                             <table>
                                 <tbody>
                                     <tr className="border-b border-gray-300 dark:border-slate-400">
-                                        <td className="py-2 px-2">
+                                        <td className="px-2 py-2">
                                             <b>User ID</b>
                                         </td>
                                         <td className="text-center">
@@ -102,7 +102,7 @@ dark:text-white"
                                         </td>
                                     </tr>
                                     <tr className="border-b border-gray-300 dark:border-slate-400">
-                                        <td className="py-2 px-2">
+                                        <td className="px-2 py-2">
                                             <b>E-Mail</b>
                                         </td>
                                         <td className="text-center">
@@ -110,7 +110,7 @@ dark:text-white"
                                         </td>
                                     </tr>
                                     <tr className="border-b border-gray-300 dark:border-slate-400">
-                                        <td className="py-2 px-2">
+                                        <td className="px-2 py-2">
                                             <b>Share ID</b>
                                         </td>
                                         <td className="text-center">
@@ -128,7 +128,7 @@ dark:text-white"
                                         </td>
                                     </tr>
                                     <tr className="border-b border-gray-300 dark:border-slate-400">
-                                        <td className="py-2 px-2">
+                                        <td className="px-2 py-2">
                                             <b>Sessions</b>
                                         </td>
                                         <td className="text-center">
@@ -136,7 +136,7 @@ dark:text-white"
                                         </td>
                                     </tr>
                                     <tr className="border-b border-gray-300 dark:border-slate-400">
-                                        <td className="py-2 px-2">
+                                        <td className="px-2 py-2">
                                             <b>Total anime</b>
                                         </td>
                                         <td className="text-center">
@@ -146,7 +146,7 @@ dark:text-white"
                                         </td>
                                     </tr>
                                     <tr className="border-b border-gray-300 dark:border-slate-400">
-                                        <td className="w-32 py-2 px-2">
+                                        <td className="w-32 px-2 py-2">
                                             <b>Last update</b>
                                         </td>
                                         <td className="text-center">
@@ -165,7 +165,7 @@ dark:text-white"
                                         </td>
                                     </tr>
                                     <tr className="border-b border-gray-300 dark:border-slate-400">
-                                        <td className="w-32 py-2 px-2">
+                                        <td className="w-32 px-2 py-2">
                                             <b>Last online</b>
                                         </td>
                                         <td className="text-center">
@@ -191,7 +191,7 @@ dark:text-white"
                                         </td>
                                     </tr>
                                     <tr className="border-b border-gray-300 dark:border-slate-400">
-                                        <td className="py-2 px-2">
+                                        <td className="px-2 py-2">
                                             <b>Saved by</b>
                                         </td>
                                         <td className="flex flex-wrap justify-center gap-x-1 gap-y-0.5 py-2">
@@ -214,7 +214,7 @@ dark:text-white"
                                         </td>
                                     </tr>
                                     <tr className="border-b border-gray-300 dark:border-slate-400">
-                                        <td className="py-2 px-2">
+                                        <td className="px-2 py-2">
                                             <b>Saved</b>
                                         </td>
                                         <td className="flex flex-wrap justify-center gap-x-1 gap-y-0.5 py-2 ">

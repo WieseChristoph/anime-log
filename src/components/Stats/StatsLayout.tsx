@@ -22,8 +22,8 @@ import AnimeWeekdayChart from "./AnimeWeekdayChart";
 import ErrorAlert from "../Util/ErrorAlert";
 import AnimeWatchtypeChart from "./AnimeWatchtypeChart";
 import AnimeTitleLenghtTable from "./AnimeTitleLengthTable";
-import { MdArrowBackIosNew } from "react-icons/md";
 import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 
 ChartJS.register(
     BarElement,
@@ -97,7 +97,7 @@ const StatsLayout: React.FC<Props> = ({ shareId }) => {
                             className="flex flex-row items-center space-x-2"
                             href={`/${shareId ?? ""}`}
                         >
-                            <MdArrowBackIosNew />
+                            <ChevronLeft />
                             <span>Back to log</span>
                         </Link>
                         <div className="ml-auto rounded bg-gradient-to-r from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">

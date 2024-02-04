@@ -10,11 +10,11 @@ import { motion } from "framer-motion";
 import ErrorAlert from "../Util/ErrorAlert";
 import Anime from "./Anime/Anime";
 import AnimeEdit from "./Anime/AnimeEdit";
-import { FaPlus } from "react-icons/fa";
 import Loading from "../Util/Loading";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import BackToTop from "../Util/BackToTop";
+import { Plus } from "lucide-react";
 
 interface Props {
     shareId?: string;
@@ -123,7 +123,7 @@ const Log: React.FC<Props> = ({ shareId }) => {
                             className="ml-auto rounded-full bg-gradient-to-r from-pink-500 to-orange-400 p-2 text-center text-lg font-medium text-white"
                             aria-label="Add new anime"
                         >
-                            <FaPlus />
+                            <Plus className="scale-125" />
                         </button>
                     </Tippy>
                 )}

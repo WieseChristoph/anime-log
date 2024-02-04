@@ -1,9 +1,8 @@
 import { type FC } from "react";
 import { api } from "@/utils/api";
 
-import { MdOutlineSupervisorAccount } from "react-icons/md";
-import { FaBook, FaTv } from "react-icons/fa";
 import ErrorAlert from "../Util/ErrorAlert";
+import { BookOpenText, Tv, Users } from "lucide-react";
 
 const AdminStats: FC = () => {
     const getUserCount = api.user.getCount.useQuery();
@@ -27,7 +26,7 @@ const AdminStats: FC = () => {
             {/* User count */}
             <div className="grow rounded-lg border border-gray-300 bg-gray-200 p-6 shadow dark:border-slate-700 dark:bg-slate-800">
                 <span className="flex flex-row items-center gap-4">
-                    <MdOutlineSupervisorAccount className="mb-2 h-10 w-10 text-gray-500 dark:text-gray-400" />
+                    <Users className="mb-2 h-10 w-10 text-gray-500 dark:text-gray-400" />
                     <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
                         User count
                     </h5>
@@ -40,7 +39,7 @@ const AdminStats: FC = () => {
             {/* Anime count */}
             <div className="grow rounded-lg border border-gray-300 bg-gray-200 p-6 shadow dark:border-slate-700 dark:bg-slate-800">
                 <span className="flex flex-row items-center gap-4">
-                    <FaTv className="mb-2 h-10 w-10 text-gray-500 dark:text-gray-400" />
+                    <Tv className="mb-2 h-10 w-10 text-gray-500 dark:text-gray-400" />
                     <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
                         Anime count
                     </h5>
@@ -56,7 +55,7 @@ const AdminStats: FC = () => {
             {/* Manga count */}
             <div className="grow rounded-lg border border-gray-300 bg-gray-200 p-6 shadow dark:border-slate-700 dark:bg-slate-800">
                 <span className="flex flex-row items-center gap-4">
-                    <FaBook className="mb-2 h-10 w-10 text-gray-500 dark:text-gray-400" />
+                    <BookOpenText className="mb-2 h-10 w-10 text-gray-500 dark:text-gray-400" />
                     <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
                         Manga count
                     </h5>

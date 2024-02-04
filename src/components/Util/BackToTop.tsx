@@ -1,6 +1,5 @@
+import { ChevronsUp } from "lucide-react";
 import { useState, type FC } from "react";
-
-import { RxDoubleArrowUp } from "react-icons/rx";
 
 const BackToTop: FC = () => {
     const [visible, setVisible] = useState(false);
@@ -29,7 +28,7 @@ const BackToTop: FC = () => {
             onClick={() => scrollToTop()}
             aria-label="Back to top"
         >
-            <RxDoubleArrowUp className="text-3xl" />
+            <ChevronsUp className="h-7 w-7" />
         </button>
     );
 };

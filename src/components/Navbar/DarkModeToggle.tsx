@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
-
-import { FaSun, FaMoon } from "react-icons/fa";
+import { Moon, Sun } from "lucide-react";
 
 const DarkModeToggle: React.FC = () => {
     const [mounted, setMounted] = useState(false);
@@ -28,7 +27,11 @@ const DarkModeToggle: React.FC = () => {
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
             aria-label="Toggle theme"
         >
-            {theme && theme === "dark" ? <FaSun /> : <FaMoon />}
+            {theme && theme === "dark" ? (
+                <Sun className="h-6 w-6" />
+            ) : (
+                <Moon className="h-6 w-6" />
+            )}
         </button>
     );
 };

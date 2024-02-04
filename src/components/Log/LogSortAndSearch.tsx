@@ -1,7 +1,5 @@
 import { type LogOptions, Order } from "@/types/LogOptions";
-
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { MdFilterList } from "react-icons/md";
+import { ChevronDown, ChevronUp, ListFilter } from "lucide-react";
 
 interface Props {
     logOptions: LogOptions;
@@ -10,9 +8,9 @@ interface Props {
 
 function AscendingIcon({ ascending }: { ascending: boolean }) {
     return ascending ? (
-        <FaChevronUp className="ml-1 text-sm" />
+        <ChevronUp className="ml-1 h-5 w-5" />
     ) : (
-        <FaChevronDown className="ml-1 text-sm" />
+        <ChevronDown className="ml-1 h-5 w-5" />
     );
 }
 
@@ -82,8 +80,8 @@ const LogSortAndSearch: React.FC<Props> = ({
             <div className="flex flex-row flex-wrap items-center gap-4">
                 {/* Type filter */}
                 <div className="flex flex-row items-center rounded-lg border border-gray-300 bg-gray-200 p-2 text-sm text-gray-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400">
-                    <MdFilterList className="mr-2 text-xl text-gray-500 dark:text-gray-400" />
-                    <div className="border-x-[1px] border-gray-500 px-2 dark:border-gray-400">
+                    <ListFilter className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-400" />
+                    <div className="flex items-center border-x-[1px] border-gray-500 px-2 dark:border-gray-400">
                         <input
                             type="checkbox"
                             id="type-anime"
@@ -107,7 +105,7 @@ const LogSortAndSearch: React.FC<Props> = ({
                             Anime
                         </label>
                     </div>
-                    <div className="px-2">
+                    <div className="flex items-center px-2">
                         <input
                             type="checkbox"
                             id="type-manga"

@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 
-import { FaPlus, FaMinus } from "react-icons/fa";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
+import { Minus, Plus } from "lucide-react";
 
 interface Props {
     initialArray: number[];
@@ -55,7 +55,7 @@ const AnimeListInput: React.FC<Props> = ({ initialArray, onArrayChange }) => {
                         onClick={addToArray}
                         aria-label="Add"
                     >
-                        <FaPlus />
+                        <Plus className="h-3 w-3" />
                     </button>
                 </Tippy>
                 <Tippy content={`Remove ${arrayElement} from list`}>
@@ -65,7 +65,7 @@ const AnimeListInput: React.FC<Props> = ({ initialArray, onArrayChange }) => {
                         onClick={removeFromArray}
                         aria-label="Remove"
                     >
-                        <FaMinus />
+                        <Minus className="h-3 w-3" />
                     </button>
                 </Tippy>
             </div>

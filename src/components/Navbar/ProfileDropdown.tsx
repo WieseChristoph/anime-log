@@ -3,9 +3,9 @@ import { api } from "@/utils/api";
 import { type User } from "next-auth";
 
 import { Menu, Transition } from "@headlessui/react";
-import { MdDelete, MdShare, MdContentCopy, MdLogout } from "react-icons/md";
 import DeleteButton from "@/components/Util/DeleteButton";
 import ImageWithFallback from "../Util/ImageWithFallback";
+import { Copy, LogOut, Share, Trash } from "lucide-react";
 
 interface Props {
     user: User;
@@ -51,8 +51,8 @@ const ProfileDropdown: React.FC<Props> = ({ user }) => {
                             }
                             fallbackSrc="https://cdn.discordapp.com/embed/avatars/1.png"
                             alt={user.name || "-"}
-                            width={32}
-                            height={32}
+                            width={40}
+                            height={40}
                         />
                     </Menu.Button>
                     {/* Dropdown menu */}
@@ -83,7 +83,7 @@ const ProfileDropdown: React.FC<Props> = ({ user }) => {
                                             }
                                             className="flex w-full flex-row gap-2 px-2 py-2 text-sm hover:underline"
                                         >
-                                            <MdDelete className="text-xl" />
+                                            <Trash className="h-5 w-5" />
                                             Delete Share-Link
                                         </DeleteButton>
                                     </Menu.Item>
@@ -92,7 +92,7 @@ const ProfileDropdown: React.FC<Props> = ({ user }) => {
                                         className="flex w-full flex-row gap-2 px-2 py-2 text-sm hover:underline"
                                         onClick={() => shareLinkToClipboard()}
                                     >
-                                        <MdContentCopy className="text-xl" />
+                                        <Copy className="h-5 w-5" />
                                         Copy Share-Link
                                     </Menu.Item>
                                 </>
@@ -102,7 +102,7 @@ const ProfileDropdown: React.FC<Props> = ({ user }) => {
                                     className="flex w-full flex-row gap-2 px-2 py-2 text-sm hover:underline"
                                     onClick={() => addShareId.mutate()}
                                 >
-                                    <MdShare className="text-xl" />
+                                    <Share className="h-5 w-5" />
                                     Create Share-Link
                                 </Menu.Item>
                             )}
@@ -112,7 +112,7 @@ const ProfileDropdown: React.FC<Props> = ({ user }) => {
                                 className="flex w-full flex-row gap-2 px-2 py-2 text-sm hover:underline"
                                 onClick={() => void signOut()}
                             >
-                                <MdLogout className="text-xl" />
+                                <LogOut className="h-5 w-5" />
                                 Sign out
                             </Menu.Item>
                         </Menu.Items>

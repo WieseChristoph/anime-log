@@ -2,12 +2,12 @@ import { type FormEvent, Fragment, useEffect, useRef, useState } from "react";
 import { getImageByTitle } from "@/utils/animeInfo";
 import dayjs from "dayjs";
 
-import { MdCancel } from "react-icons/md";
 import { Dialog, Transition } from "@headlessui/react";
 import ListInput from "./AnimeListInput";
 import { type Anime } from "@/types/Anime";
 import ErrorAlert from "@/components/Util/ErrorAlert";
 import ToggleButton from "@/components/Util/ToggleButton";
+import { X } from "lucide-react";
 
 const IMAGE_HEIGHT = 315;
 const IMAGE_WIDTH = 225;
@@ -132,7 +132,7 @@ const AnimeEdit: React.FC<Props> = ({
                     {/* Full-screen container to center the panel */}
                     <div className="fixed inset-0 z-50 grid place-items-center overflow-y-auto p-4">
                         <Dialog.Panel className="w-4/5 rounded border border-gray-300 bg-gray-200 p-4 shadow-md dark:border-slate-800 dark:bg-slate-900 md:w-3/5 lg:w-3/6">
-                            <Dialog.Title className="flex items-start justify-between border-b border-black px-4 pb-2 dark:border-white">
+                            <Dialog.Title className="flex items-center justify-between border-b border-black px-4 pb-2 dark:border-white">
                                 {/* Title */}
                                 <span className="text-xl font-semibold">
                                     {initialAnime.id
@@ -153,7 +153,7 @@ const AnimeEdit: React.FC<Props> = ({
                                     }}
                                     aria-label="Close edit menu"
                                 >
-                                    <MdCancel className="text-xl" />
+                                    <X />
                                     <span className="sr-only">Close modal</span>
                                 </button>
                             </Dialog.Title>
