@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
+import { type Placement } from "tippy.js";
 
 interface Props {
     title: string;
@@ -8,6 +9,7 @@ interface Props {
     successTitle: string;
     successText: string;
     tooltip?: string;
+    tooltipPlacement?: Placement;
     onDeleteClick: () => void;
     children?: React.ReactNode;
     className?: string;
@@ -19,12 +21,17 @@ const DeleteButton: React.FC<Props> = ({
     successTitle,
     successText,
     tooltip,
+    tooltipPlacement = "top",
     onDeleteClick,
     children,
     className = "",
 }) => {
     return (
-        <Tippy content={tooltip} disabled={!tooltip}>
+        <Tippy
+            content={tooltip}
+            disabled={!tooltip}
+            placement={tooltipPlacement}
+        >
             <button
                 onClick={() =>
                     void Swal.fire({

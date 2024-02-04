@@ -11,7 +11,7 @@ function useLog(shareId: string | undefined) {
     const queryInput = {
         shareId: shareId,
         logOptions: logOptions,
-        limit: 16,
+        limit: 24,
     };
 
     const ctx = api.useContext();

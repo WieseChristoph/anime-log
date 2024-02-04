@@ -1,10 +1,15 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { isConsecutive } from "@/utils/helper";
 import { type Anime as AnimeType } from "@/types/Anime";
 
 import { MdEdit, MdDelete } from "react-icons/md";
-import { FaBook, FaTv } from "react-icons/fa";
+import {
+    FaBook,
+    FaTv,
+    FaRegNoteSticky,
+    FaArrowsRotate,
+    FaRegCalendar,
+} from "react-icons/fa6";
 import { motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
@@ -20,10 +25,28 @@ interface Props {
     index: number;
 }
 
-function arrayToString(array: number[]): string {
-    if (array?.length > 1 && isConsecutive(array))
-        return `${array[0] || "?"}-${array[array.length - 1] || "?"}`;
-    else return array?.join(", ");
+function arrayToCompactString(array: number[]): string {
+    if (array.length == 0) return "";
+    if (array.length == 1) return array[0]?.toString() ?? "";
+
+    let compactString = array[0]?.toString() ?? "";
+    for (let i = 1; i < array.length; i++) {
+        const curr = array[i];
+        const prev = array[i - 1];
+
+        if (!prev || !curr) continue;
+
+        if (prev + 1 == curr) {
+            // if consecutive
+            if (i == array.length - 1) compactString += `-${curr}`;
+        } else {
+            // if not consecutive
+            if (prev !== prev) compactString += `-${prev}`;
+            compactString += `, ${curr}`;
+        }
+    }
+
+    return compactString;
 }
 
 const Anime: React.FC<Props> = ({
@@ -35,62 +58,127 @@ const Anime: React.FC<Props> = ({
 }) => {
     return (
         <motion.div
-            className={`relative rounded border border-gray-300 bg-gray-200 shadow-md dark:border-slate-700 dark:bg-slate-800 dark:text-white`}
+            className="w-full"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{
                 opacity: 1,
                 scale: 1,
-                transition: { duration: 0.3, delay: index * 0.05 },
+                transition: { duration: 0.2, delay: index * 0.05 },
             }}
             exit={{
                 opacity: 0,
                 scale: 0.5,
-                transition: { duration: 0.3 },
+                transition: { duration: 0.1 },
             }}
             layout
         >
-            <div className="grid grid-cols-[150px_1fr] grid-rows-[210px_1fr] sm:grid-cols-[150px_1fr_1fr] sm:grid-rows-[210px]">
-                {/* Type symbol */}
-                <Tippy
-                    content={anime.isManga ? "Manga" : "Anime"}
-                    placement="right"
-                >
-                    <div className="absolute top-1 left-1 rounded-lg bg-white/30 p-2 backdrop-blur-lg dark:bg-black/30">
-                        {anime.isManga ? (
-                            <FaBook className="text-xl" />
-                        ) : (
-                            <FaTv className="text-xl" />
+            <motion.div
+                className="relative aspect-[55/78] overflow-hidden rounded-md bg-cover bg-center shadow-lg"
+                style={{
+                    backgroundImage: `url('${
+                        anime.imageUrl || "/placeholder.jpg"
+                    }')`,
+                }}
+                animate={{
+                    scale: 1,
+                    transition: { duration: 0.05 },
+                }}
+                whileHover={{
+                    scale: 1.05,
+                    transition: { duration: 0.05 },
+                }}
+            >
+                <div className="absolute left-1 top-1 flex flex-col gap-2 ">
+                    <div className="flex flex-row gap-2">
+                        {/* Type symbol */}
+                        <Tippy
+                            content={anime.isManga ? "Manga" : "Anime"}
+                            placement="right"
+                        >
+                            <div className="rounded-md bg-white/30 p-2 backdrop-blur-lg dark:bg-black/30">
+                                {anime.isManga ? (
+                                    <FaBook className="text-xl" />
+                                ) : (
+                                    <FaTv className="text-xl" />
+                                )}
+                            </div>
+                        </Tippy>
+
+                        {/* Note button */}
+                        {anime.note && anime.note.length > 0 && (
+                            <Tippy
+                                allowHTML={true}
+                                content={
+                                    <>
+                                        <strong>Note</strong>
+                                        <br />
+                                        <pre className="whitespace-pre-wrap">
+                                            {anime.note}
+                                        </pre>
+                                    </>
+                                }
+                                placement="bottom"
+                            >
+                                <div className="rounded-md bg-white/30 p-2 backdrop-blur-lg dark:bg-black/30">
+                                    <FaRegNoteSticky className="text-xl" />
+                                </div>
+                            </Tippy>
                         )}
                     </div>
-                </Tippy>
-                {/* Image */}
-                <a
-                    className={`block h-[210px] w-[150px] self-center`}
-                    target="_blank"
-                    {...(anime.link && { href: anime.link })}
-                >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                        className="h-full w-full rounded-l"
-                        src={anime.imageUrl || "/placeholder.jpg"}
-                        alt={anime.title}
-                        height={210}
-                        width={150}
-                    />
-                </a>
 
-                {/* Title, rating and notes */}
-                <div className="col-span-2 flex flex-col overflow-hidden px-2 py-2 sm:col-span-1">
-                    <div>
-                        <span className="float-right mr-2 rounded bg-gradient-to-r from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
-                            {anime.rating} / 10
-                        </span>
-                        <div className="font-bold">{anime.title}</div>
-                        <div className="text-sm dark:text-slate-300">
+                    {/* Edit and delete button */}
+                    {!isSharedLog && (
+                        <div className="z-10 mr-auto flex flex-col gap-2">
+                            {/* Edit button */}
+                            <Tippy content="Edit" placement="right">
+                                <button
+                                    className="rounded-md bg-white/30 p-2 backdrop-blur-lg hover:text-yellow-400 dark:bg-black/30"
+                                    onClick={() => onEditClick(anime)}
+                                >
+                                    <MdEdit className="text-xl" />
+                                </button>
+                            </Tippy>
+
+                            {/* Delete button */}
+                            <DeleteButton
+                                title={`Delete "${anime.title}"`}
+                                text="Are you sure you want to delete this anime?"
+                                successTitle="Deleted!"
+                                successText={`"${anime.title}" has been deleted.`}
+                                tooltip="Delete"
+                                tooltipPlacement="right"
+                                onDeleteClick={() => onDeleteClick(anime)}
+                                className="rounded-md bg-white/30 p-2 backdrop-blur-lg hover:text-red-400 dark:bg-black/30"
+                            >
+                                <MdDelete className="text-xl" />
+                            </DeleteButton>
+                        </div>
+                    )}
+                </div>
+                {/* Rating */}
+                <div className="absolute right-1 top-1 rounded-md bg-gradient-to-r from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
+                    {anime.rating} / 10
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 flex h-3/4 flex-col items-center justify-end bg-gradient-to-b from-transparent to-black/75 p-3">
+                    {/* Title */}
+                    <div
+                        className={`break-words text-center font-bold text-white ${
+                            anime.title.length > 50 ? "text-md" : "text-xl"
+                        }`}
+                        style={{ textShadow: "1px 1px 5px black" }}
+                    >
+                        {anime.title}
+                    </div>
+                    <div className="flex flex-row gap-2">
+                        {/* Start date */}
+                        <div className="flex flex-row items-center gap-1 text-xs text-white">
+                            <FaRegCalendar />
                             {anime.startDate
                                 ? dayjs(anime.startDate).format("DD.MM.YYYY")
                                 : "-"}
                         </div>
+                        &bull;
+                        {/* Last update */}
                         <Tippy
                             content={
                                 anime.updatedAt
@@ -100,79 +188,41 @@ const Anime: React.FC<Props> = ({
                                     : "-"
                             }
                         >
-                            <div className="text-xs dark:text-slate-300">
-                                {`Last updated: ${
-                                    anime.updatedAt
-                                        ? dayjs(anime.updatedAt).fromNow()
-                                        : "-"
-                                }`}
+                            <div className="flex flex-row items-center gap-1 text-xs text-white">
+                                <FaArrowsRotate />
+                                {anime.updatedAt
+                                    ? dayjs(anime.updatedAt).format(
+                                          "DD.MM.YYYY"
+                                      )
+                                    : "-"}
                             </div>
                         </Tippy>
-                        <hr className="border-black dark:border-white" />
                     </div>
-                    <div className="h-full overflow-y-auto pt-1">
-                        <span className="whitespace-pre-line break-words">
-                            {anime.note}
-                        </span>
-                    </div>
-                </div>
-
-                {/* Season, Movie, OVA */}
-                <div className="col-start-2 row-start-1 flex flex-col border-black px-2 py-2 dark:border-white sm:col-start-3 sm:border-l">
-                    <div className="basis-1/3">
-                        <div className="font-semibold">Seasons</div>
-                        <div className="overflow-x-auto whitespace-nowrap">
-                            {arrayToString(anime.seasons) || "-"}
+                    {/* Season, Movie, OVA */}
+                    <div className="flex w-full flex-col gap-1 text-sm">
+                        <div className="flex flex-row font-semibold ">
+                            <span>Season&nbsp;</span>
+                            <span className="max-h-10 overflow-auto break-words">
+                                {arrayToCompactString(anime.seasons) || "-"}
+                            </span>
                         </div>
-                    </div>
-                    <div className="basis-1/3">
-                        <hr className="border-black dark:border-white" />
-                        <div className="font-semibold">Movies</div>
-                        <div className="overflow-x-auto whitespace-nowrap">
-                            {arrayToString(anime.movies) || "-"}
+                        <hr />
+                        <div className="flex flex-row font-semibold">
+                            <span>Movie&nbsp;</span>
+                            <span className="break-words">
+                                {arrayToCompactString(anime.movies) || "-"}
+                            </span>
                         </div>
-                    </div>
-                    <div className="basis-1/3">
-                        <hr className="border-black dark:border-white" />
-                        <div className="font-semibold">OVAs</div>
-                        <div className="overflow-x-auto whitespace-nowrap">
-                            {arrayToString(anime.ovas) || "-"}
+                        <hr />
+                        <div className="flex flex-row font-semibold">
+                            <span>OVA&nbsp;</span>
+                            <span className="break-words">
+                                {arrayToCompactString(anime.ovas) || "-"}
+                            </span>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            {/* Edit and Delete Button */}
-            {!isSharedLog && (
-                <div className="absolute top-1 right-1 columns-1">
-                    <Tippy
-                        content={`Edit this ${
-                            anime.isManga ? "Manga" : "Anime"
-                        }`}
-                    >
-                        <button
-                            onClick={() => onEditClick(anime)}
-                            className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-orange-400 text-sm text-white hover:text-base"
-                            aria-label="Edit anime"
-                        >
-                            <MdEdit />
-                        </button>
-                    </Tippy>
-                    <DeleteButton
-                        title={`Delete "${anime.title}"?`}
-                        text="You won't be able to revert this!"
-                        successTitle="Deleted!"
-                        successText={`"${anime.title}" has been deleted.`}
-                        tooltip={`Delete this ${
-                            anime.isManga ? "Manga" : "Anime"
-                        }`}
-                        onDeleteClick={() => onDeleteClick(anime)}
-                        className="my-1 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-orange-400 text-sm text-white hover:text-base"
-                    >
-                        <MdDelete />
-                    </DeleteButton>
-                </div>
-            )}
+            </motion.div>
         </motion.div>
     );
 };

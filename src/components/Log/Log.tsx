@@ -81,7 +81,7 @@ const Log: React.FC<Props> = ({ shareId }) => {
         );
 
     return (
-        <div className="container mx-auto px-2 py-4">
+        <div className="container mx-auto p-4">
             {getUserByShareId.data && (
                 <Head>
                     <title>
@@ -148,7 +148,7 @@ const Log: React.FC<Props> = ({ shareId }) => {
                 <>
                     {/* Log */}
                     <motion.div
-                        className="grid grid-cols-1 justify-start gap-4 xl:grid-cols-2"
+                        className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
                         layout
                     >
                         {/* All entries */}

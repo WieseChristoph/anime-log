@@ -38,20 +38,20 @@ const Navbar: React.FC<Props> = ({ urlShareId }) => {
                     )}
                     {/* Only for logged in users or when a shareId is present */}
                     {(status === "authenticated" || urlShareId) && (
-                        <li className="block py-2 pr-4 pl-3 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white sm:p-0">
+                        <li className="block py-2 pl-3 pr-4 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white sm:p-0">
                             <Link href={`/stats/${urlShareId ?? ""}`}>
                                 Stats
                             </Link>
                         </li>
                     )}
                     {/* Always visible */}
-                    <li className="block py-2 pr-4 pl-3 sm:p-0">
+                    <li className="block py-2 pl-3 pr-4 sm:p-0">
                         <AboutDropdown />
                     </li>
                     {/* Visible to admins */}
                     {status === "authenticated" &&
                         session.user.role === user_role.ADMIN && (
-                            <li className="block py-2 pr-4 pl-3 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white sm:p-0">
+                            <li className="block py-2 pl-3 pr-4 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white sm:p-0">
                                 <Link href="/admin">Admin Panel</Link>
                             </li>
                         )}

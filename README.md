@@ -43,9 +43,9 @@ Set environment variable `DATABASE_URL` with an [CockroachDB](https://www.cockro
 
 ```bash
 # install dependencies
-yarn
+pnpm install
 # run project
-yarn dev
+pnpm run dev
 ```
 
 The server will listen on `localhost:3000`.
@@ -54,11 +54,11 @@ The server will listen on `localhost:3000`.
 
 ```bash
 # install dependencies
-yarn
+pnpm install
 # build project
-yarn build
+pnpm run build
 # run project
-yarn start
+pnpm run start
 ```
 
 The server will listen on `localhost:3000`.

@@ -2,99 +2,99 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "cockroachdb" // "postgresql", "mysql", "sqlite", "cockroachdb"
-  url      = env("DATABASE_URL")
+    provider = "cockroachdb" // "postgresql", "mysql", "sqlite", "cockroachdb"
+    url      = env("DATABASE_URL")
 }
 
 // needs to be all lower case
 enum user_role {
-  USER
-  ADMIN
+    USER
+    ADMIN
 }
 
 // next-auth stuff
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String?
+    access_token      String?
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String?
+    session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId])
+    @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  role          user_role @default(USER)
+    id            String    @id @default(cuid())
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+    role          user_role @default(USER)
 
-  anime        Anime[]
-  shareId      String?     @unique
-  savedUsers   SavedUser[] @relation("SavedUser_savedUser")
-  savedByUsers SavedUser[] @relation("SavedUser_savedByUser")
+    anime        Anime[]
+    shareId      String?     @unique
+    savedUsers   SavedUser[] @relation("SavedUser_savedUser")
+    savedByUsers SavedUser[] @relation("SavedUser_savedByUser")
 }
 
 model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+    identifier String
+    token      String   @unique
+    expires    DateTime
 
-  @@unique([identifier, token])
+    @@unique([identifier, token])
 }
 
 // anime-log stuff
 
 model Anime {
-  id             String    @id @default(cuid())
-  user           User      @relation(fields: [userId], references: [id])
-  userId         String
-  isManga        Boolean   @default(false)
-  title          String
-  seasons        Int[]
-  movies         Int[]
-  ovas           Int[]
-  rating         Int       @default(0)
-  link           String?
-  note           String?
-  imageUrl       String?
-  hasCustomImage Boolean   @default(false)
-  startDate      DateTime?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+    id             String    @id @default(cuid())
+    user           User      @relation(fields: [userId], references: [id])
+    userId         String
+    isManga        Boolean   @default(false)
+    title          String
+    seasons        Int[]
+    movies         Int[]
+    ovas           Int[]
+    rating         Int       @default(0)
+    link           String?
+    note           String?
+    imageUrl       String?
+    hasCustomImage Boolean   @default(false)
+    startDate      DateTime?
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
 }
 
 model SavedUser {
-  id          String @id @default(cuid())
-  user        User   @relation("SavedUser_savedUser", fields: [userId], references: [id])
-  userId      String
-  savedUser   User   @relation("SavedUser_savedByUser", fields: [savedUserId], references: [id])
-  savedUserId String
+    id          String @id @default(cuid())
+    user        User   @relation("SavedUser_savedUser", fields: [userId], references: [id])
+    userId      String
+    savedUser   User   @relation("SavedUser_savedByUser", fields: [savedUserId], references: [id])
+    savedUserId String
 
-  @@unique([userId, savedUserId])
+    @@unique([userId, savedUserId])
 }
