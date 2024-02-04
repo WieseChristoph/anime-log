@@ -73,7 +73,7 @@ const Anime: React.FC<Props> = ({
             layout
         >
             <motion.div
-                className="relative aspect-[55/78] overflow-hidden rounded-md bg-cover bg-center shadow-lg"
+                className="relative aspect-[55/78] overflow-hidden rounded-md bg-cover bg-center shadow-md shadow-black/50"
                 style={{
                     backgroundImage: `url('${
                         anime.imageUrl || "/placeholder.jpg"
@@ -196,7 +196,7 @@ const Anime: React.FC<Props> = ({
                         </Tippy>
                     </div>
                     {/* Season, Movie, OVA */}
-                    <div className="flex w-full flex-col gap-1 text-sm">
+                    <div className="flex w-full flex-col gap-1 text-sm text-white">
                         <div className="flex flex-row font-semibold ">
                             <span>Season&nbsp;</span>
                             <span className="max-h-10 overflow-auto break-words">
