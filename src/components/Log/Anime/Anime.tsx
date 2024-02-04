@@ -63,7 +63,7 @@ const Anime: React.FC<Props> = ({
             animate={{
                 opacity: 1,
                 scale: 1,
-                transition: { duration: 0.2, delay: index * 0.05 },
+                transition: { duration: 0.2, delay: index * 0.025 },
             }}
             exit={{
                 opacity: 0,
@@ -107,7 +107,6 @@ const Anime: React.FC<Props> = ({
                         {/* Note button */}
                         {anime.note && anime.note.length > 0 && (
                             <Tippy
-                                allowHTML={true}
                                 content={
                                     <>
                                         <strong>Note</strong>
@@ -191,9 +190,7 @@ const Anime: React.FC<Props> = ({
                             <div className="flex flex-row items-center gap-1 text-xs text-white">
                                 <FaArrowsRotate />
                                 {anime.updatedAt
-                                    ? dayjs(anime.updatedAt).format(
-                                          "DD.MM.YYYY"
-                                      )
+                                    ? dayjs(anime.updatedAt).fromNow()
                                     : "-"}
                             </div>
                         </Tippy>
