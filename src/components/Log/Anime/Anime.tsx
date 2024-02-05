@@ -84,10 +84,14 @@ const Anime: React.FC<Props> = ({
                     scale: 1,
                     transition: { duration: 0.05 },
                 }}
-                whileHover={{
-                    scale: 1.05,
-                    transition: { duration: 0.05 },
-                }}
+                whileHover={
+                    window.innerWidth > 768
+                        ? {
+                              scale: 1.05,
+                              transition: { duration: 0.05 },
+                          }
+                        : {}
+                }
             >
                 <div className="absolute left-1 top-1 flex flex-col gap-2 ">
                     <div className="flex flex-row gap-2">
