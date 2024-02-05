@@ -4,8 +4,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
 @layer base {
+    html {
+        @apply overflow-y-scroll;
+    }
+
     body {
-        @apply overflow-y-scroll bg-white dark:bg-slate-900;
+        @apply bg-white dark:bg-slate-900;
     }
 }
 
