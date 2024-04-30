@@ -25,7 +25,13 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV BUILD_STANDALONE true
 
-RUN npx prisma generate && yarn build
+RUN npx prisma generate
+RUN \
+  if [ -f yarn.lock ]; then yarn build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then pnpm build; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
 # Production image, copy all the files and run next
 FROM base AS runner
