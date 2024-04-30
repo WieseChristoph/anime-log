@@ -8,7 +8,7 @@
         "postinstall": "prisma generate",
         "lint": "next lint",
         "jest": "jest",
-        "test": "yarn run tsc && yarn run lint && yarn run jest",
+        "test": "pnpm run tsc && pnpm run lint && pnpm run jest",
         "start": "next start"
     },
     "dependencies": {

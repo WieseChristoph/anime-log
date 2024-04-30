@@ -27,9 +27,9 @@ ENV BUILD_STANDALONE true
 
 RUN npx prisma generate
 RUN \
-  if [ -f yarn.lock ]; then yarn build; \
+  if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
-  elif [ -f pnpm-lock.yaml ]; then pnpm build; \
+  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm run build; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
