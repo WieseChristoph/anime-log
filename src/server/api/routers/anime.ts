@@ -42,10 +42,17 @@ export const animeRouter = createTRPCRouter({
                         }),
                 },
                 orderBy: {
-                    [input.logOptions?.order ?? Order.TITLE]: input.logOptions
-                        ?.asc
-                        ? "asc"
-                        : "desc",
+                    [input.logOptions?.order ?? Order.TITLE]:
+                        input.logOptions?.order === Order.START_DATE
+                            ? {
+                                  sort: input.logOptions?.asc ? "asc" : "desc",
+                                  nulls: input.logOptions?.asc
+                                      ? "first"
+                                      : "last",
+                              }
+                            : input.logOptions?.asc
+                            ? "asc"
+                            : "desc",
                 },
                 select: {
                     id: true,
@@ -111,10 +118,17 @@ export const animeRouter = createTRPCRouter({
                 },
                 cursor: cursor ? { id: cursor } : undefined,
                 orderBy: {
-                    [input.logOptions?.order ?? Order.TITLE]: input.logOptions
-                        ?.asc
-                        ? "asc"
-                        : "desc",
+                    [input.logOptions?.order ?? Order.TITLE]:
+                        input.logOptions?.order === Order.START_DATE
+                            ? {
+                                  sort: input.logOptions?.asc ? "asc" : "desc",
+                                  nulls: input.logOptions?.asc
+                                      ? "first"
+                                      : "last",
+                              }
+                            : input.logOptions?.asc
+                            ? "asc"
+                            : "desc",
                 },
                 select: {
                     id: true,
