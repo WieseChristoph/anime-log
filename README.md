@@ -39,6 +39,15 @@ DISCORD_BOT_TOKEN=<YOUR_BOT_TOKEN>
 
 Set environment variable `DATABASE_URL` with an [CockroachDB](https://www.cockroachlabs.com/) database URL. Alternatively you can use a Postgres database URL, but you need to change the datasource provider in `prisma/schema.prisma` from `cockroach` to `postgresql`.
 
+## Umami Analytics
+
+Set environment variables (when using docker, these variables must be set before building the image):
+
+```
+NEXT_PUBLIC_UMAMI_SCRIPT_URL
+NEXT_PUBLIC_UMAMI_WEBSITE_ID
+```
+
 # Developement Run
 
 ```bash
