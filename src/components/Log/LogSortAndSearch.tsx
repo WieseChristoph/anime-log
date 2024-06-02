@@ -1,5 +1,10 @@
+import { useMemo } from "react";
+import { debounce } from "@/utils/helper";
 import { type LogOptions, Order } from "@/types/LogOptions";
+
 import { ChevronDown, ChevronUp, ListFilter } from "lucide-react";
+
+const SEARCH_TIMEOUT = 250;
 
 interface Props {
     logOptions: LogOptions;
@@ -30,6 +35,16 @@ const LogSortAndSearch: React.FC<Props> = ({
             onLogOptionsChange({ ...logOptions, asc: !logOptions.asc });
         else onLogOptionsChange({ ...logOptions, asc: true, order: order });
     }
+
+    const handleSearchChange = useMemo(
+        () => debounce((searchTerm: string) => {
+            onLogOptionsChange({
+                ...logOptions,
+                searchTerm,
+            });
+        }, SEARCH_TIMEOUT),
+        [onLogOptionsChange, logOptions]
+    );
 
     return (
         <div className="flex flex-wrap border-b border-gray-200 text-center text-gray-500 dark:border-gray-700 dark:text-gray-400">
@@ -132,20 +147,7 @@ const LogSortAndSearch: React.FC<Props> = ({
                 </div>
 
                 {/* Search box */}
-                <form
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        const searchElement =
-                            e.currentTarget.elements.namedItem(
-                                "search"
-                            ) as HTMLInputElement;
-                        onLogOptionsChange({
-                            ...logOptions,
-                            searchTerm: searchElement.value,
-                        });
-                    }}
-                    className="relative w-full sm:w-auto"
-                >
+                <div className="relative w-full sm:w-auto">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex w-full items-center pl-3">
                         <svg
                             className="h-5 w-5 text-gray-500 dark:text-gray-400"
@@ -166,16 +168,9 @@ const LogSortAndSearch: React.FC<Props> = ({
                         className="w-full rounded-lg border border-gray-300 bg-gray-200 p-2 pl-10 text-sm text-gray-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400"
                         placeholder="Search"
                         defaultValue={logOptions.searchTerm}
-                        onChange={(e) =>
-                            // reset on clear
-                            !e.target.value &&
-                            onLogOptionsChange({
-                                ...logOptions,
-                                searchTerm: e.target.value,
-                            })
-                        }
+                        onChange={(e) => handleSearchChange(e.target.value)}
                     />
-                </form>
+                </div>
             </div>
         </div>
     );

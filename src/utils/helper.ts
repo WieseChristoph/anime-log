@@ -23,3 +23,16 @@ export function getBaseUrl() {
     // assume localhost
     return `http://localhost:${process.env.PORT ?? 3000}`;
 }
+
+// https://www.joshwcomeau.com/snippets/javascript/debounce/
+export function debounce<T extends (...args: Parameters<T>) => void>(callback: T, wait?: number) {
+    let timeoutId: number | undefined = undefined;
+
+    return (...args: Parameters<T>) => {
+        window.clearTimeout(timeoutId);
+
+        timeoutId = window.setTimeout(() => {
+            callback.call(null, ...args);
+        }, wait);
+    }
+}

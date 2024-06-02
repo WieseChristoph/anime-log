@@ -1,5 +1,6 @@
-import { type FormEvent, Fragment, useEffect, useRef, useState } from "react";
+import { type FormEvent, Fragment, useEffect, useRef, useState, useMemo } from "react";
 import { getImageByTitle } from "@/utils/animeInfo";
+import { debounce } from "@/utils/helper";
 import dayjs from "dayjs";
 
 import { Dialog, Transition } from "@headlessui/react";
@@ -11,7 +12,7 @@ import { X } from "lucide-react";
 
 const IMAGE_HEIGHT = 315;
 const IMAGE_WIDTH = 225;
-const IMAGE_SEARCH_TIMEOUT = 1000;
+const IMAGE_SEARCH_TIMEOUT = 500;
 
 interface Props {
     isOpen: boolean;
@@ -53,7 +54,7 @@ const AnimeEdit: React.FC<Props> = ({
     }
 
     async function updateImage(title: string, isManga: boolean) {
-        const image = await getImageByTitle(title, isManga);
+        const image = title.length > 0 ? await getImageByTitle(title, isManga) : null;
         setAnime((prev) => ({ ...prev, imageUrl: image }));
     }
 
@@ -75,16 +76,14 @@ const AnimeEdit: React.FC<Props> = ({
     }
 
     // wait without input in the title field before fetching new image
-    function handleImageSearchTimeout(title: string) {
-        if (!anime.hasCustomImage) {
-            clearTimeout(imageSearchTimeout);
-            setimageSearchTimeout(
-                setTimeout(() => {
-                    if (title) void updateImage(title, anime.isManga);
-                }, IMAGE_SEARCH_TIMEOUT)
-            );
-        }
-    }
+    const handleImageSearch = useMemo(
+        () => debounce((title: string) => {
+            if (!anime.hasCustomImage) {
+                void updateImage(title, anime.isManga);
+            }
+        }, IMAGE_SEARCH_TIMEOUT),
+        [anime.hasCustomImage, anime.isManga]
+    );
 
     async function handleSubmit(event: FormEvent) {
         event.preventDefault();
@@ -214,7 +213,7 @@ const AnimeEdit: React.FC<Props> = ({
                                                         ...prevAnime,
                                                         title: e.target.value,
                                                     }));
-                                                    handleImageSearchTimeout(
+                                                    handleImageSearch(
                                                         e.target.value
                                                     );
                                                 }}
