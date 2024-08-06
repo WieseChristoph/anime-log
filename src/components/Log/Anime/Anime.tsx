@@ -10,11 +10,13 @@ import {
     BookOpenText,
     Calendar,
     Pencil,
+    ExternalLink,
     RefreshCw,
     StickyNote,
     Trash,
     Tv,
 } from "lucide-react";
+import Link from "next/link";
 
 dayjs.extend(relativeTime);
 
@@ -126,6 +128,17 @@ const Anime: React.FC<Props> = ({
                                 <div className="rounded-md bg-white/30 p-2 backdrop-blur-lg dark:bg-black/30">
                                     <StickyNote className="h-5 w-5" />
                                 </div>
+                            </Tippy>
+                        )}
+
+                        {/* Link button */}
+                        {anime.link && anime.link.length > 0 && (
+                            <Tippy content="Open link" placement="bottom">
+                                <Link href={anime.link}>
+                                    <div className="rounded-md bg-white/30 p-2 backdrop-blur-lg dark:bg-black/30">
+                                        <ExternalLink className="h-5 w-5" />
+                                    </div>
+                                </Link>
                             </Tippy>
                         )}
                     </div>
