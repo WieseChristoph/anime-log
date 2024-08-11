@@ -9,7 +9,7 @@ const nextConfig = {
         defaultLocale: "en",
     },
     images: {
-        domains: ["cdn.discordapp.com", "media.kitsu.io"],
+        domains: ["cdn.discordapp.com", "media.kitsu.app"],
     },
 };
 

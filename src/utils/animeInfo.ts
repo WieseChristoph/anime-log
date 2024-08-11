@@ -1,6 +1,6 @@
 import { type KitsuResponse } from "@/types/Kitsu";
 
-const BASE_URL = "https://kitsu.io/api/edge";
+const BASE_URL = "https://kitsu.app/api/edge";
 
 async function kitsuRequest(query: string): Promise<KitsuResponse | undefined> {
     const response = await fetch(`${BASE_URL}/${query}`, {
