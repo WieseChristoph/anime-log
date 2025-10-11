@@ -1,41 +1,38 @@
-import { z } from "zod";
-import { animeValidator } from "@/types/Anime";
-import { logOptionsValidator, Order } from "@/types/LogOptions";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
-import { TRPCError } from "@trpc/server";
-import { user_role } from "@prisma/client";
+import { z } from 'zod';
+import { animeValidator } from '@/types/Anime';
+import { LogOptionsSchema, Order } from '@/types/LogOptions';
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
+import { TRPCError } from '@trpc/server';
+import { user_role } from '@prisma/client';
 
 export const animeRouter = createTRPCRouter({
     get: publicProcedure
         .input(
             z.object({
                 shareId: z.string().nullish(),
-                logOptions: logOptionsValidator.nullish(),
-            })
+                logOptions: LogOptionsSchema.nullish(),
+            }),
         )
         .query(({ ctx, input }) => {
             if (!input.shareId && !ctx.session)
                 throw new TRPCError({
-                    code: "UNAUTHORIZED",
-                    message: "Must be logged in to access own log.",
+                    code: 'UNAUTHORIZED',
+                    message: 'Must be logged in to access own log.',
                 });
 
             return ctx.prisma.anime.findMany({
                 where: {
                     user: {
-                        ...(input.shareId
-                            ? { shareId: input.shareId }
-                            : { id: ctx.session?.user?.id }),
+                        ...(input.shareId ? { shareId: input.shareId } : { id: ctx.session?.user?.id }),
                     },
                     ...(input.logOptions?.searchTerm && {
                         title: {
                             contains: input.logOptions.searchTerm,
-                            mode: "insensitive",
+                            mode: 'insensitive',
                         },
                     }),
                     ...(input.logOptions?.filter &&
-                        input.logOptions.filter.anime !==
-                            input.logOptions.filter.manga && {
+                        input.logOptions.filter.anime !== input.logOptions.filter.manga && {
                             isManga: {
                                 equals: input.logOptions.filter.manga,
                             },
@@ -45,14 +42,12 @@ export const animeRouter = createTRPCRouter({
                     [input.logOptions?.order ?? Order.TITLE]:
                         input.logOptions?.order === Order.START_DATE
                             ? {
-                                  sort: input.logOptions?.asc ? "asc" : "desc",
-                                  nulls: input.logOptions?.asc
-                                      ? "first"
-                                      : "last",
+                                  sort: input.logOptions?.asc ? 'asc' : 'desc',
+                                  nulls: input.logOptions?.asc ? 'first' : 'last',
                               }
                             : input.logOptions?.asc
-                            ? "asc"
-                            : "desc",
+                              ? 'asc'
+                              : 'desc',
                 },
                 select: {
                     id: true,
@@ -79,10 +74,10 @@ export const animeRouter = createTRPCRouter({
         .input(
             z.object({
                 shareId: z.string().nullish(),
-                logOptions: logOptionsValidator.nullish(),
+                logOptions: LogOptionsSchema.nullish(),
                 limit: z.number().min(1).max(100).nullish(),
                 cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
-            })
+            }),
         )
         .query(async ({ ctx, input }) => {
             const limit = input.limit ?? 50;
@@ -90,27 +85,24 @@ export const animeRouter = createTRPCRouter({
 
             if (!input.shareId && !ctx.session)
                 throw new TRPCError({
-                    code: "UNAUTHORIZED",
-                    message: "Must be logged in to access own log.",
+                    code: 'UNAUTHORIZED',
+                    message: 'Must be logged in to access own log.',
                 });
 
             const items = await ctx.prisma.anime.findMany({
                 take: limit + 1, // get an extra item at the end which we'll use as next cursor
                 where: {
                     user: {
-                        ...(input.shareId
-                            ? { shareId: input.shareId }
-                            : { id: ctx.session?.user?.id }),
+                        ...(input.shareId ? { shareId: input.shareId } : { id: ctx.session?.user?.id }),
                     },
                     ...(input.logOptions?.searchTerm && {
                         title: {
                             contains: input.logOptions.searchTerm,
-                            mode: "insensitive",
+                            mode: 'insensitive',
                         },
                     }),
                     ...(input.logOptions?.filter &&
-                        input.logOptions.filter.anime !==
-                            input.logOptions.filter.manga && {
+                        input.logOptions.filter.anime !== input.logOptions.filter.manga && {
                             isManga: {
                                 equals: input.logOptions.filter.manga,
                             },
@@ -121,14 +113,12 @@ export const animeRouter = createTRPCRouter({
                     [input.logOptions?.order ?? Order.TITLE]:
                         input.logOptions?.order === Order.START_DATE
                             ? {
-                                  sort: input.logOptions?.asc ? "asc" : "desc",
-                                  nulls: input.logOptions?.asc
-                                      ? "first"
-                                      : "last",
+                                  sort: input.logOptions?.asc ? 'asc' : 'desc',
+                                  nulls: input.logOptions?.asc ? 'first' : 'last',
                               }
                             : input.logOptions?.asc
-                            ? "asc"
-                            : "desc",
+                              ? 'asc'
+                              : 'desc',
                 },
                 select: {
                     id: true,
@@ -164,32 +154,29 @@ export const animeRouter = createTRPCRouter({
         .input(
             z.object({
                 shareId: z.string().nullish(),
-                logOptions: logOptionsValidator.nullish(),
-            })
+                logOptions: LogOptionsSchema.nullish(),
+            }),
         )
         .query(({ ctx, input }) => {
             if (!input.shareId && !ctx.session)
                 throw new TRPCError({
-                    code: "UNAUTHORIZED",
-                    message: "Must be logged in to access own log.",
+                    code: 'UNAUTHORIZED',
+                    message: 'Must be logged in to access own log.',
                 });
 
             return ctx.prisma.anime.count({
                 where: {
                     user: {
-                        ...(input.shareId
-                            ? { shareId: input.shareId }
-                            : { id: ctx.session?.user?.id }),
+                        ...(input.shareId ? { shareId: input.shareId } : { id: ctx.session?.user?.id }),
                     },
                     ...(input.logOptions?.searchTerm && {
                         title: {
                             contains: input.logOptions.searchTerm,
-                            mode: "insensitive",
+                            mode: 'insensitive',
                         },
                     }),
                     ...(input.logOptions?.filter &&
-                        input.logOptions.filter.anime !==
-                            input.logOptions.filter.manga && {
+                        input.logOptions.filter.anime !== input.logOptions.filter.manga && {
                             isManga: {
                                 equals: input.logOptions.filter.manga,
                             },
@@ -199,14 +186,12 @@ export const animeRouter = createTRPCRouter({
         }),
     add: protectedProcedure
         .input(
-            animeValidator
-                .omit({ id: true, updatedAt: true, createdAt: true })
-                .partial({
-                    startDate: true,
-                    link: true,
-                    note: true,
-                    imageUrl: true,
-                })
+            animeValidator.omit({ id: true, updatedAt: true, createdAt: true }).partial({
+                startDate: true,
+                link: true,
+                note: true,
+                imageUrl: true,
+            }),
         )
         .mutation(({ ctx, input }) => {
             return ctx.prisma.anime.create({
@@ -217,61 +202,57 @@ export const animeRouter = createTRPCRouter({
                 },
             });
         }),
-    update: protectedProcedure
-        .input(animeValidator.partial({ imageUrl: true }))
-        .mutation(({ ctx, input }) => {
-            return ctx.prisma.anime.update({
-                where: { id: input.id },
-                data: {
-                    ...input,
-                    user: { connect: { id: ctx.session.user.id } },
-                    updatedAt: undefined,
-                },
-            });
-        }),
-    delete: protectedProcedure
-        .input(animeValidator)
-        .mutation(({ ctx, input }) => {
-            return ctx.prisma.anime.delete({
-                where: { id: input.id },
-            });
-        }),
+    update: protectedProcedure.input(animeValidator.partial({ imageUrl: true })).mutation(({ ctx, input }) => {
+        return ctx.prisma.anime.update({
+            where: { id: input.id },
+            data: {
+                ...input,
+                user: { connect: { id: ctx.session.user.id } },
+                updatedAt: undefined,
+            },
+        });
+    }),
+    delete: protectedProcedure.input(animeValidator).mutation(({ ctx, input }) => {
+        return ctx.prisma.anime.delete({
+            where: { id: input.id },
+        });
+    }),
     getCountByType: protectedProcedure.query(({ ctx }) => {
         if (ctx.session.user.role !== user_role.ADMIN)
             throw new TRPCError({
-                code: "UNAUTHORIZED",
-                message: "Must be admin to access this path.",
+                code: 'UNAUTHORIZED',
+                message: 'Must be admin to access this path.',
             });
 
         return ctx.prisma.anime.groupBy({
-            by: ["isManga"],
+            by: ['isManga'],
             _count: { _all: true },
         });
     }),
     getCountByUser: protectedProcedure.query(({ ctx }) => {
         if (ctx.session.user.role !== user_role.ADMIN)
             throw new TRPCError({
-                code: "UNAUTHORIZED",
-                message: "Must be admin to access this path.",
+                code: 'UNAUTHORIZED',
+                message: 'Must be admin to access this path.',
             });
 
         return ctx.prisma.anime.groupBy({
-            by: ["userId"],
+            by: ['userId'],
             _count: { _all: true },
         });
     }),
     getLastUpdateByUser: protectedProcedure.query(({ ctx }) => {
         if (ctx.session.user.role !== user_role.ADMIN)
             throw new TRPCError({
-                code: "UNAUTHORIZED",
-                message: "Must be admin to access this path.",
+                code: 'UNAUTHORIZED',
+                message: 'Must be admin to access this path.',
             });
 
         return ctx.prisma.anime.findMany({
             orderBy: {
-                updatedAt: "desc",
+                updatedAt: 'desc',
             },
-            distinct: ["userId"],
+            distinct: ['userId'],
         });
     }),
 });

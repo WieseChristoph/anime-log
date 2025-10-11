@@ -1,24 +1,20 @@
-import z from "zod";
+import z from 'zod';
 
 export enum Order {
-    TITLE = "title",
-    START_DATE = "startDate",
-    RATING = "rating",
-    UPDATED_AT = "updatedAt",
+    TITLE = 'title',
+    START_DATE = 'startDate',
+    RATING = 'rating',
+    UPDATED_AT = 'updatedAt',
 }
 
-export const logOptionsValidator = z
-    .object({
-        order: z.nativeEnum(Order).default(Order.TITLE),
-        asc: z.boolean().default(true),
-        searchTerm: z.string().default(""),
-        filter: z
-            .object({
-                anime: z.boolean().default(true),
-                manga: z.boolean().default(true),
-            })
-            .default({}),
-    })
-    .default({});
+export const LogOptionsSchema = z.object({
+    order: z.enum(Order),
+    asc: z.boolean(),
+    searchTerm: z.string(),
+    filter: z.object({
+        anime: z.boolean(),
+        manga: z.boolean(),
+    }),
+});
 
-export type LogOptions = z.infer<typeof logOptionsValidator>;
+export type LogOptions = z.infer<typeof LogOptionsSchema>;

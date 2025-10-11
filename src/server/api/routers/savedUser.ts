@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { z } from 'zod';
+import { createTRPCRouter, protectedProcedure } from '../trpc';
 
 export const savedUserRouter = createTRPCRouter({
     getAll: protectedProcedure.query(({ ctx }) => {
@@ -12,14 +12,14 @@ export const savedUserRouter = createTRPCRouter({
         .input(
             z.object({
                 shareId: z.string(),
-            })
+            }),
         )
         .mutation(async ({ ctx, input }) => {
             const savedUser = await ctx.prisma.user.findUnique({
                 where: { shareId: input.shareId },
             });
 
-            if (!savedUser) throw new Error("No user found with this share id");
+            if (!savedUser) throw new Error('No user found with this share id');
 
             return ctx.prisma.savedUser.create({
                 data: {
@@ -32,14 +32,14 @@ export const savedUserRouter = createTRPCRouter({
         .input(
             z.object({
                 shareId: z.string(),
-            })
+            }),
         )
         .mutation(async ({ ctx, input }) => {
             const savedUser = await ctx.prisma.user.findUnique({
                 where: { shareId: input.shareId },
             });
 
-            if (!savedUser) throw new Error("No user found with this share id");
+            if (!savedUser) throw new Error('No user found with this share id');
 
             return ctx.prisma.savedUser.delete({
                 where: {

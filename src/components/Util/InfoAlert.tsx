@@ -4,10 +4,7 @@ interface Props {
 
 const InfoAlert: React.FC<Props> = ({ message }) => {
     return (
-        <div
-            className="mb-4 flex border-t-4 border-blue-500 bg-blue-100 p-4 dark:bg-blue-200"
-            role="alert"
-        >
+        <div className="mb-4 flex border-t-4 border-blue-500 bg-blue-100 p-4 dark:bg-blue-200" role="alert">
             <svg
                 className="h-5 w-5 flex-shrink-0 text-blue-700"
                 fill="currentColor"
@@ -20,9 +17,7 @@ const InfoAlert: React.FC<Props> = ({ message }) => {
                     clipRule="evenodd"
                 ></path>
             </svg>
-            <div className="ml-3 text-sm font-medium text-blue-700">
-                {message}
-            </div>
+            <div className="ml-3 text-sm font-medium text-blue-700">{message}</div>
         </div>
     );
 };

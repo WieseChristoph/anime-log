@@ -1,14 +1,14 @@
-import { type FormEvent, Fragment, useEffect, useRef, useState, useMemo } from "react";
-import { getImageByTitle } from "@/utils/animeInfo";
-import { debounce } from "@/utils/helper";
-import dayjs from "dayjs";
+import { type FormEvent, Fragment, useEffect, useRef, useState, useMemo } from 'react';
+import { getImageByTitle } from '@/utils/animeInfo';
+import { debounce } from '@/utils/helper';
+import dayjs from 'dayjs';
 
-import { Dialog, Transition } from "@headlessui/react";
-import ListInput from "./AnimeListInput";
-import { type Anime } from "@/types/Anime";
-import ErrorAlert from "@/components/Util/ErrorAlert";
-import ToggleButton from "@/components/Util/ToggleButton";
-import { X } from "lucide-react";
+import { Dialog, Transition } from '@headlessui/react';
+import ListInput from './AnimeListInput';
+import { type Anime } from '@/types/Anime';
+import ErrorAlert from '@/components/Util/ErrorAlert';
+import ToggleButton from '@/components/Util/ToggleButton';
+import { X } from 'lucide-react';
 
 const IMAGE_HEIGHT = 315;
 const IMAGE_WIDTH = 225;
@@ -24,12 +24,7 @@ interface Props {
     }>;
 }
 
-const AnimeEdit: React.FC<Props> = ({
-    isOpen,
-    initialAnime = {} as Anime,
-    onCancelButtonClick,
-    onSaveButtonClick,
-}) => {
+const AnimeEdit: React.FC<Props> = ({ isOpen, initialAnime = {} as Anime, onCancelButtonClick, onSaveButtonClick }) => {
     // use ref to avoid call of useEffect on every rerender
     const initialAnimeRef = useRef(initialAnime);
 
@@ -37,9 +32,7 @@ const AnimeEdit: React.FC<Props> = ({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string>();
 
-    const [imageSearchTimeout, _setimageSearchTimeout] = useState<
-        NodeJS.Timeout | undefined
-    >();
+    const [imageSearchTimeout, _setimageSearchTimeout] = useState<NodeJS.Timeout | undefined>();
 
     useEffect(() => {
         // set current anime to the anime given via initalAnime
@@ -63,13 +56,11 @@ const AnimeEdit: React.FC<Props> = ({
             ...prev,
             isManga: isManga,
         }));
-        if (!anime.hasCustomImage && anime.title)
-            void updateImage(anime.title, isManga);
+        if (!anime.hasCustomImage && anime.title) void updateImage(anime.title, isManga);
     }
 
     function handleImageSearchToggle(enabled: boolean) {
-        if (!enabled && anime.title)
-            void updateImage(anime.title, anime.isManga);
+        if (!enabled && anime.title) void updateImage(anime.title, anime.isManga);
         else clearTimeout(imageSearchTimeout);
 
         setAnime((prev) => ({ ...prev, hasCustomImage: enabled }));
@@ -77,12 +68,13 @@ const AnimeEdit: React.FC<Props> = ({
 
     // wait without input in the title field before fetching new image
     const handleImageSearch = useMemo(
-        () => debounce((title: string) => {
-            if (!anime.hasCustomImage) {
-                void updateImage(title, anime.isManga);
-            }
-        }, IMAGE_SEARCH_TIMEOUT),
-        [anime.hasCustomImage, anime.isManga]
+        () =>
+            debounce((title: string) => {
+                if (!anime.hasCustomImage) {
+                    void updateImage(title, anime.isManga);
+                }
+            }, IMAGE_SEARCH_TIMEOUT),
+        [anime.hasCustomImage, anime.isManga],
     );
 
     async function handleSubmit(event: FormEvent) {
@@ -114,10 +106,7 @@ const AnimeEdit: React.FC<Props> = ({
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div
-                        className="fixed inset-0 z-50 bg-black/60"
-                        aria-hidden="true"
-                    />
+                    <div className="fixed inset-0 z-50 bg-black/60" aria-hidden="true" />
                 </Transition.Child>
                 <Transition.Child
                     as={Fragment}
@@ -130,17 +119,13 @@ const AnimeEdit: React.FC<Props> = ({
                 >
                     {/* Full-screen container to center the panel */}
                     <div className="fixed inset-0 z-50 grid place-items-center overflow-y-auto">
-                        <Dialog.Panel className="w-4/5 rounded border border-gray-300 bg-gray-200 p-4 shadow-md dark:border-slate-800 dark:bg-slate-900 md:w-3/5 lg:w-3/6">
+                        <Dialog.Panel className="w-4/5 rounded border border-gray-300 bg-gray-200 p-4 shadow-md md:w-3/5 lg:w-3/6 dark:border-slate-800 dark:bg-slate-900">
                             <Dialog.Title className="flex items-center justify-between border-b border-black px-4 pb-2 dark:border-white">
                                 {/* Title */}
                                 <span className="text-xl font-semibold">
                                     {initialAnime.id
-                                        ? `Update ${
-                                              anime.isManga ? "Manga" : "Anime"
-                                          }`
-                                        : `Add ${
-                                              anime.isManga ? "Manga" : "Anime"
-                                          }`}
+                                        ? `Update ${anime.isManga ? 'Manga' : 'Anime'}`
+                                        : `Add ${anime.isManga ? 'Manga' : 'Anime'}`}
                                 </span>
                                 {/* Close button */}
                                 <button
@@ -164,10 +149,7 @@ const AnimeEdit: React.FC<Props> = ({
                                 </div>
                             )}
 
-                            <form
-                                className="flex flex-col"
-                                onSubmit={(e) => void handleSubmit(e)}
-                            >
+                            <form className="flex flex-col" onSubmit={(e) => void handleSubmit(e)}>
                                 <section className="flex flex-col gap-4 pt-4 sm:flex-row">
                                     <div>
                                         {/* Anime-Manga toggle */}
@@ -182,10 +164,7 @@ const AnimeEdit: React.FC<Props> = ({
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img
                                             className="mx-auto shadow shadow-gray-400"
-                                            src={
-                                                anime.imageUrl ||
-                                                "placeholder.jpg"
-                                            }
+                                            src={anime.imageUrl || 'placeholder.jpg'}
                                             alt={anime.title}
                                             height={IMAGE_HEIGHT}
                                             width={IMAGE_WIDTH}
@@ -205,7 +184,7 @@ const AnimeEdit: React.FC<Props> = ({
                                                 id="title"
                                                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                                 placeholder="Title"
-                                                defaultValue={anime.title ?? ""}
+                                                defaultValue={anime.title ?? ''}
                                                 maxLength={250}
                                                 required
                                                 onChange={(e) => {
@@ -213,9 +192,7 @@ const AnimeEdit: React.FC<Props> = ({
                                                         ...prevAnime,
                                                         title: e.target.value,
                                                     }));
-                                                    handleImageSearch(
-                                                        e.target.value
-                                                    );
+                                                    handleImageSearch(e.target.value);
                                                 }}
                                             />
                                         </div>
@@ -225,49 +202,33 @@ const AnimeEdit: React.FC<Props> = ({
                                                 htmlFor="rating"
                                                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300"
                                             >
-                                                Rating:{" "}
-                                                <b>{anime.rating ?? 5}</b>
+                                                Rating: <b>{anime.rating ?? 5}</b>
                                             </label>
                                             <div className="flex items-center">
-                                                <span className="text-sm font-semibold">
-                                                    0
-                                                </span>
+                                                <span className="text-sm font-semibold">0</span>
                                                 <input
                                                     id="rating"
                                                     type="range"
                                                     className="mx-2 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-50 dark:bg-slate-800"
                                                     min="0"
                                                     max="11"
-                                                    defaultValue={
-                                                        anime.rating ?? 5
-                                                    }
+                                                    defaultValue={anime.rating ?? 5}
                                                     step="1"
                                                     required
                                                     onChange={(e) =>
-                                                        setAnime(
-                                                            (prevAnime) => ({
-                                                                ...prevAnime,
-                                                                rating: parseInt(
-                                                                    e.target
-                                                                        .value
-                                                                ),
-                                                            })
-                                                        )
+                                                        setAnime((prevAnime) => ({
+                                                            ...prevAnime,
+                                                            rating: parseInt(e.target.value),
+                                                        }))
                                                     }
                                                 />
-                                                <span className="text-sm font-semibold">
-                                                    11
-                                                </span>
+                                                <span className="text-sm font-semibold">11</span>
                                             </div>
                                         </div>
                                         {/* Automatic Image Search Toggle */}
                                         <ToggleButton
-                                            initialValue={
-                                                anime.hasCustomImage || false
-                                            }
-                                            onValueChange={
-                                                handleImageSearchToggle
-                                            }
+                                            initialValue={anime.hasCustomImage || false}
+                                            onValueChange={handleImageSearchToggle}
                                             label="Image"
                                             valueLeft="Automatic"
                                             valueRight="Manual"
@@ -289,16 +250,13 @@ const AnimeEdit: React.FC<Props> = ({
                                                 id="imageUrl"
                                                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 disabled:cursor-not-allowed dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                                 placeholder="Image URL"
-                                                defaultValue={
-                                                    anime.imageUrl ?? ""
-                                                }
+                                                defaultValue={anime.imageUrl ?? ''}
                                                 maxLength={512}
                                                 disabled={!anime.hasCustomImage}
                                                 onChange={(e) =>
                                                     setAnime((prevAnime) => ({
                                                         ...prevAnime,
-                                                        imageUrl:
-                                                            e.target.value,
+                                                        imageUrl: e.target.value,
                                                     }))
                                                 }
                                             />
@@ -316,7 +274,7 @@ const AnimeEdit: React.FC<Props> = ({
                                                 id="link"
                                                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 disabled:cursor-not-allowed dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                                 placeholder="Link to e.g. Crunchyroll"
-                                                defaultValue={anime.link ?? ""}
+                                                defaultValue={anime.link ?? ''}
                                                 maxLength={512}
                                                 onChange={(e) =>
                                                     setAnime((prevAnime) => ({
@@ -340,17 +298,13 @@ const AnimeEdit: React.FC<Props> = ({
                                                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                                 defaultValue={
                                                     anime.startDate
-                                                        ? dayjs(
-                                                              anime.startDate
-                                                          ).format("YYYY-MM-DD")
+                                                        ? dayjs(anime.startDate).format('YYYY-MM-DD')
                                                         : undefined
                                                 }
                                                 onChange={(e) =>
                                                     setAnime((prevAnime) => ({
                                                         ...prevAnime,
-                                                        startDate: new Date(
-                                                            e.target.value
-                                                        ),
+                                                        startDate: new Date(e.target.value),
                                                     }))
                                                 }
                                             />
@@ -369,7 +323,7 @@ const AnimeEdit: React.FC<Props> = ({
                                         id="notes"
                                         className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                         placeholder="Notes"
-                                        defaultValue={anime.note ?? ""}
+                                        defaultValue={anime.note ?? ''}
                                         maxLength={1000}
                                         rows={2}
                                         onChange={(e) =>
@@ -381,16 +335,14 @@ const AnimeEdit: React.FC<Props> = ({
                                     />
                                 </div>
                                 {/* Seasons, Movies ans OVAs input */}
-                                <div className="mb-4 flex flex-col divide-black dark:divide-white sm:flex-row sm:divide-x">
+                                <div className="mb-4 flex flex-col divide-black sm:flex-row sm:divide-x dark:divide-white">
                                     <div className="basis-1/3 p-2">
                                         <div className="mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                             Seasons
                                         </div>
                                         <ListInput
                                             initialArray={anime.seasons ?? []}
-                                            onArrayChange={(a) =>
-                                                updateArray("seasons", a)
-                                            }
+                                            onArrayChange={(a) => updateArray('seasons', a)}
                                         />
                                     </div>
                                     <div className="basis-1/3 p-2">
@@ -399,9 +351,7 @@ const AnimeEdit: React.FC<Props> = ({
                                         </div>
                                         <ListInput
                                             initialArray={anime.movies ?? []}
-                                            onArrayChange={(a) =>
-                                                updateArray("movies", a)
-                                            }
+                                            onArrayChange={(a) => updateArray('movies', a)}
                                         />
                                     </div>
                                     <div className="basis-1/3 p-2">
@@ -410,16 +360,14 @@ const AnimeEdit: React.FC<Props> = ({
                                         </div>
                                         <ListInput
                                             initialArray={anime.ovas ?? []}
-                                            onArrayChange={(a) =>
-                                                updateArray("ovas", a)
-                                            }
+                                            onArrayChange={(a) => updateArray('ovas', a)}
                                         />
                                     </div>
                                 </div>
                                 {/* Save button */}
                                 <button
                                     type="submit"
-                                    className="rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800"
+                                    className="rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-5 py-2.5 text-center text-sm font-medium text-white focus:ring-4 focus:ring-green-300 focus:outline-none dark:focus:ring-green-800"
                                     aria-label="Save changes"
                                 >
                                     {loading ? (
@@ -444,7 +392,7 @@ const AnimeEdit: React.FC<Props> = ({
                                             Loading...
                                         </>
                                     ) : (
-                                        "Save"
+                                        'Save'
                                     )}
                                 </button>
                             </form>

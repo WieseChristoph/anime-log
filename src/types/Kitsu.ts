@@ -15,10 +15,10 @@ type KitsuAnimeAttributes = {
     endDate: string;
     popularityRank: number;
     ratingRank: number;
-    ageRating: "G" | "PG" | "R" | "R18";
+    ageRating: 'G' | 'PG' | 'R' | 'R18';
     ageRatingGuide: string;
-    subtype: "ONA" | "OVA" | "TV" | "movie" | "music" | "special";
-    status: "current" | "finished" | "tba" | "unreleased" | "upcoming";
+    subtype: 'ONA' | 'OVA' | 'TV' | 'movie' | 'music' | 'special';
+    status: 'current' | 'finished' | 'tba' | 'unreleased' | 'upcoming';
     tba: string;
     posterImage: {
         tiny: string;
@@ -72,7 +72,7 @@ type KitsuAnimeAttributes = {
     episodeCount: number;
     episodeLength: number;
     youtubeVideoId: string;
-    showType: "ONA" | "OVA" | "TV" | "movie" | "music" | "special";
+    showType: 'ONA' | 'OVA' | 'TV' | 'movie' | 'music' | 'special';
     nsfw: boolean;
 };
 
@@ -93,10 +93,10 @@ type KitsuMangaAttributes = {
     endDate: string;
     popularityRank: number;
     ratingRank: number;
-    ageRating: "G" | "PG" | "R" | "R18";
+    ageRating: 'G' | 'PG' | 'R' | 'R18';
     ageRatingGuide: string;
-    subtype: "ONA" | "OVA" | "TV" | "movie" | "music" | "special";
-    status: "current" | "finished" | "tba" | "unreleased" | "upcoming";
+    subtype: 'ONA' | 'OVA' | 'TV' | 'movie' | 'music' | 'special';
+    status: 'current' | 'finished' | 'tba' | 'unreleased' | 'upcoming';
     tba: string;
     posterImage: {
         tiny: string;
@@ -150,14 +150,7 @@ type KitsuMangaAttributes = {
     chapterCount: number;
     volumeCount: number;
     serialization: string;
-    mangaType:
-        | "doujin"
-        | "manga"
-        | "manhua"
-        | "manhwa"
-        | "novel"
-        | "oel"
-        | "oneshot";
+    mangaType: 'doujin' | 'manga' | 'manhua' | 'manhwa' | 'novel' | 'oel' | 'oneshot';
 };
 
 export type KitsuResponse = {

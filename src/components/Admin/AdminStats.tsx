@@ -1,23 +1,18 @@
-import { type FC } from "react";
-import { api } from "@/utils/api";
+import { type FC } from 'react';
+import { trpc } from '@/utils/trpc';
 
-import ErrorAlert from "../Util/ErrorAlert";
-import { BookOpenText, Tv, Users } from "lucide-react";
+import ErrorAlert from '../Util/ErrorAlert';
+import { BookOpenText, Tv, Users } from 'lucide-react';
 
 const AdminStats: FC = () => {
-    const getUserCount = api.user.getCount.useQuery();
-    const getAnimeMangaCount = api.anime.getCountByType.useQuery();
+    const getUserCount = trpc.user.getCount.useQuery();
+    const getAnimeMangaCount = trpc.anime.getCountByType.useQuery();
 
     // Error Alert
     if (getUserCount.isError || getAnimeMangaCount.isError)
         return (
             <div className="p-5">
-                <ErrorAlert
-                    message={
-                        getAnimeMangaCount.error?.message ||
-                        getAnimeMangaCount.error?.message
-                    }
-                />
+                <ErrorAlert message={getAnimeMangaCount.error?.message || getAnimeMangaCount.error?.message} />
             </div>
         );
 
@@ -31,9 +26,7 @@ const AdminStats: FC = () => {
                         User count
                     </h5>
                 </span>
-                <p className="text-center text-6xl font-normal text-gray-500 dark:text-gray-400">
-                    {getUserCount.data}
-                </p>
+                <p className="text-center text-6xl font-normal text-gray-500 dark:text-gray-400">{getUserCount.data}</p>
             </div>
 
             {/* Anime count */}
@@ -45,10 +38,7 @@ const AdminStats: FC = () => {
                     </h5>
                 </span>
                 <p className="text-center text-6xl font-normal text-gray-500 dark:text-gray-400">
-                    {
-                        getAnimeMangaCount.data?.find((e) => !e.isManga)?._count
-                            ._all
-                    }
+                    {getAnimeMangaCount.data?.find((e) => !e.isManga)?._count._all}
                 </p>
             </div>
 
@@ -61,10 +51,7 @@ const AdminStats: FC = () => {
                     </h5>
                 </span>
                 <p className="text-center text-6xl font-normal text-gray-500 dark:text-gray-400">
-                    {
-                        getAnimeMangaCount.data?.find((e) => e.isManga)?._count
-                            ._all
-                    }
+                    {getAnimeMangaCount.data?.find((e) => e.isManga)?._count._all}
                 </p>
             </div>
         </div>

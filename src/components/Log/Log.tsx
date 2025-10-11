@@ -1,20 +1,20 @@
-import { useState } from "react";
-import { useInView } from "react-intersection-observer";
-import { type Anime as AnimeType } from "@/types/Anime";
-import { api } from "@/utils/api";
-import useLog from "@/hooks/useLog";
+import { useState } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { type Anime as AnimeType } from '@/types/Anime';
+import { trpc } from '@/utils/trpc';
+import useLog from '@/hooks/useLog';
 
-import SortAndSearch from "./LogSortAndSearch";
-import Head from "next/head";
-import { motion } from "framer-motion";
-import ErrorAlert from "../Util/ErrorAlert";
-import Anime from "./Anime/Anime";
-import AnimeEdit from "./Anime/AnimeEdit";
-import Loading from "../Util/Loading";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
-import BackToTop from "../Util/BackToTop";
-import { Plus } from "lucide-react";
+import SortAndSearch from './LogSortAndSearch';
+import Head from 'next/head';
+import { motion } from 'framer-motion';
+import ErrorAlert from '../Util/ErrorAlert';
+import Anime from './Anime/Anime';
+import AnimeEdit from './Anime/AnimeEdit';
+import Loading from '../Util/Loading';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+import BackToTop from '../Util/BackToTop';
+import { Plus } from 'lucide-react';
 
 interface Props {
     shareId?: string;
@@ -28,25 +28,14 @@ const Log: React.FC<Props> = ({ shareId }) => {
         onChange: (inView) => inView && void getAnime.fetchNextPage(),
     });
 
-    const {
-        getAnime,
-        addAnime,
-        updateAnime,
-        deleteAnime,
-        getAnimeCount,
-        logOptions,
-        setLogOptions,
-    } = useLog(shareId);
+    const { getAnime, addAnime, updateAnime, deleteAnime, getAnimeCount, logOptions, setLogOptions } = useLog(shareId);
 
-    const getUserByShareId = api.user.getByShareId.useQuery(
-        { shareId: shareId as string },
-        { enabled: !!shareId }
-    );
+    const getUserByShareId = trpc.user.getByShareId.useQuery({ shareId: shareId as string }, { enabled: !!shareId });
 
     async function handleSaveButtonClick(anime: AnimeType) {
         try {
             if (anime.id) {
-                await updateAnime.mutateAsync(anime)
+                await updateAnime.mutateAsync(anime);
             } else {
                 await addAnime.mutateAsync(anime);
             }
@@ -66,12 +55,7 @@ const Log: React.FC<Props> = ({ shareId }) => {
     if (getAnime.isError || getUserByShareId.isError)
         return (
             <div className="p-5">
-                <ErrorAlert
-                    message={
-                        getAnime.error?.message ||
-                        getUserByShareId.error?.message
-                    }
-                />
+                <ErrorAlert message={getAnime.error?.message || getUserByShareId.error?.message} />
             </div>
         );
 
@@ -87,26 +71,21 @@ const Log: React.FC<Props> = ({ shareId }) => {
         <div className="container mx-auto p-4">
             {getUserByShareId.data && (
                 <Head>
-                    <title>
-                        {getUserByShareId.data.name}&apos;s Log | Anime Log
-                    </title>
+                    <title>{getUserByShareId.data.name}&apos;s Log | Anime Log</title>
                 </Head>
             )}
 
-            <SortAndSearch
-                logOptions={logOptions}
-                onLogOptionsChange={setLogOptions}
-            />
+            <SortAndSearch logOptions={logOptions} onLogOptionsChange={setLogOptions} />
 
             <div className="my-4 flex flex-row items-center">
                 {/* Anime count */}
                 <div className="rounded bg-gradient-to-r from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
                     {getAnimeCount.data}
                     {logOptions.filter.anime && logOptions.filter.manga
-                        ? " Anime / Manga "
+                        ? ' Anime / Manga '
                         : logOptions.filter.anime
-                        ? " Anime "
-                        : " Manga "}
+                          ? ' Anime '
+                          : ' Manga '}
                 </div>
                 {/* Shared Log Username */}
                 {getUserByShareId.data && (
@@ -168,15 +147,12 @@ const Log: React.FC<Props> = ({ shareId }) => {
                                     isSharedLog={shareId !== undefined}
                                     index={iIndex}
                                 />
-                            ))
+                            )),
                         )}
                     </motion.div>
 
                     {/* Loading spinner for infinite query */}
-                    <div
-                        ref={inViewRef}
-                        className={!getAnime.hasNextPage ? "hidden" : ""}
-                    >
+                    <div ref={inViewRef} className={!getAnime.hasNextPage ? 'hidden' : ''}>
                         <Loading />
                     </div>
 

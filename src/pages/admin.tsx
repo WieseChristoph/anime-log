@@ -1,11 +1,11 @@
-import { type NextPage } from "next";
-import { useSession } from "next-auth/react";
-import { user_role } from "@prisma/client";
+import { type NextPage } from 'next';
+import { useSession } from 'next-auth/react';
+import { user_role } from '@prisma/client';
 
-import AdminLayout from "@/components/Admin/AdminLayout";
-import ErrorAlert from "@/components/Util/ErrorAlert";
-import Navbar from "@/components/Navbar/Navbar";
-import Head from "next/head";
+import AdminLayout from '@/components/Admin/AdminLayout';
+import ErrorAlert from '@/components/Util/ErrorAlert';
+import Navbar from '@/components/Navbar/Navbar';
+import Head from 'next/head';
 
 const Admin: NextPage = () => {
     const { status, data: session } = useSession();
@@ -14,18 +14,14 @@ const Admin: NextPage = () => {
         <>
             <Head>
                 <title>Admin Panel | Anime Log</title>
-                <meta
-                    name="description"
-                    content="Manage and share your watched Anime!"
-                />
+                <meta name="description" content="Manage and share your watched Anime!" />
                 <meta property="og:image" content="/torii-gate.png" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
             <Navbar />
 
-            {status === "authenticated" &&
-            session.user.role === user_role.ADMIN ? (
+            {status === 'authenticated' && session.user.role === user_role.ADMIN ? (
                 <AdminLayout />
             ) : (
                 <div className="p-5">

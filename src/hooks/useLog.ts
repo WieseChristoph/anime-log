@@ -1,12 +1,18 @@
-import { useState } from "react";
-import { type Anime } from "@/types/Anime";
-import { logOptionsValidator } from "@/types/LogOptions";
-import { api } from "@/utils/api";
+import { useState } from 'react';
+import { type Anime } from '@/types/Anime';
+import { type LogOptions, Order } from '@/types/LogOptions';
+import { trpc } from '@/utils/trpc';
 
 function useLog(shareId: string | undefined) {
-    const [logOptions, setLogOptions] = useState(
-        logOptionsValidator.parse(undefined)
-    );
+    const [logOptions, setLogOptions] = useState<LogOptions>({
+        order: Order.TITLE,
+        asc: true,
+        searchTerm: '',
+        filter: {
+            anime: true,
+            manga: true,
+        },
+    });
 
     const queryInput = {
         shareId: shareId,
@@ -14,18 +20,18 @@ function useLog(shareId: string | undefined) {
         limit: 24,
     };
 
-    const ctx = api.useContext();
+    const ctx = trpc.useContext();
 
-    const getAnimeCount = api.anime.count.useQuery({
+    const getAnimeCount = trpc.anime.count.useQuery({
         shareId: shareId,
         logOptions,
     });
 
-    const getAnime = api.anime.infinite.useInfiniteQuery(queryInput, {
+    const getAnime = trpc.anime.infinite.useInfiniteQuery(queryInput, {
         getNextPageParam: (lastPage) => lastPage.nextCursor,
     });
 
-    const addAnime = api.anime.add.useMutation({
+    const addAnime = trpc.anime.add.useMutation({
         onMutate: async (addedAnime) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await ctx.anime.infinite.cancel(queryInput);
@@ -44,19 +50,13 @@ function useLog(shareId: string | undefined) {
                     ...data,
                     pages: data.pages.map((page) => ({
                         ...page,
-                        items: [
-                            { ...addedAnime, id: "temp-id" },
-                            ...page.items,
-                        ] as Anime[],
+                        items: [{ ...addedAnime, id: 'temp-id' }, ...page.items] as Anime[],
                     })),
                 };
             });
 
             // Optimistically update anime count
-            ctx.anime.count.setData(
-                { shareId: shareId },
-                (data) => (data ?? 0) + 1
-            );
+            ctx.anime.count.setData({ shareId: shareId }, (data) => (data ?? 0) + 1);
         },
         // Always refetch after error or success:
         onSettled: () => {
@@ -65,7 +65,7 @@ function useLog(shareId: string | undefined) {
         },
     });
 
-    const updateAnime = api.anime.update.useMutation({
+    const updateAnime = trpc.anime.update.useMutation({
         onMutate: async (updatedAnime) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await ctx.anime.infinite.cancel(queryInput);
@@ -89,7 +89,7 @@ function useLog(shareId: string | undefined) {
                                       ...updatedAnime,
                                       updatedAt: new Date(),
                                   } as Anime)
-                                : a
+                                : a,
                         ),
                     })),
                 };
@@ -101,7 +101,7 @@ function useLog(shareId: string | undefined) {
         },
     });
 
-    const deleteAnime = api.anime.delete.useMutation({
+    const deleteAnime = trpc.anime.delete.useMutation({
         onMutate: async (deletedAnime) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await ctx.anime.infinite.cancel(queryInput);
@@ -120,17 +120,12 @@ function useLog(shareId: string | undefined) {
                     ...data,
                     pages: data.pages.map((page) => ({
                         ...page,
-                        items: page.items.filter(
-                            (a) => a.id !== deletedAnime.id
-                        ),
+                        items: page.items.filter((a) => a.id !== deletedAnime.id),
                     })),
                 };
             });
             // Optimistically update anime count
-            ctx.anime.count.setData(
-                { shareId: shareId },
-                (data) => (data ?? 0) - 1
-            );
+            ctx.anime.count.setData({ shareId: shareId }, (data) => (data ?? 0) - 1);
         },
         // Always refetch after error or success:
         onSettled: () => {

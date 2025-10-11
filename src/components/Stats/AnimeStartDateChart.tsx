@@ -1,14 +1,14 @@
-import { useMemo } from "react";
-import { useTheme } from "next-themes";
-import { type ChartData, type ChartOptions } from "chart.js/auto";
-import "@/utils/chartjsDayjsAdapter";
-import zoomPlugin from "chartjs-plugin-zoom";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
+import { useMemo } from 'react';
+import { useTheme } from 'next-themes';
+import { type ChartData, type ChartOptions } from 'chart.js/auto';
+import '@/utils/chartjsDayjsAdapter';
+import zoomPlugin from 'chartjs-plugin-zoom';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
-import { type Anime } from "@/types/Anime";
+import { type Anime } from '@/types/Anime';
 
-import { Line } from "react-chartjs-2";
+import { Line } from 'react-chartjs-2';
 
 interface Props {
     anime?: Anime[];
@@ -27,7 +27,7 @@ const AnimeStartDateChart: React.FC<Props> = ({ anime = [] }) => {
         anime.forEach((a) => {
             count += 1;
             if (a.startDate) {
-                const date = dayjs.utc(a.startDate).startOf("day");
+                const date = dayjs.utc(a.startDate).startOf('day');
                 dates.push(date);
                 counts.push(count);
                 titles.push(a.title);
@@ -37,42 +37,42 @@ const AnimeStartDateChart: React.FC<Props> = ({ anime = [] }) => {
         return { dates, counts, titles };
     }, [anime]);
 
-    const chartData: ChartData<"line"> = {
+    const chartData: ChartData<'line'> = {
         labels: data.dates,
         datasets: [
             {
                 data: data.counts,
-                pointBackgroundColor: "rgb(222, 66, 91)",
-                backgroundColor: "rgb(72, 143, 49, 0.2)",
-                borderColor: "rgb(72, 143, 49)",
+                pointBackgroundColor: 'rgb(222, 66, 91)',
+                backgroundColor: 'rgb(72, 143, 49, 0.2)',
+                borderColor: 'rgb(72, 143, 49)',
                 pointRadius: 4,
                 fill: true,
             },
         ],
     };
 
-    const options: ChartOptions<"line"> = {
+    const options: ChartOptions<'line'> = {
         scales: {
             x: {
                 title: {
                     display: true,
-                    text: "Date",
-                    ...(theme === "dark" && {
-                        color: "rgb(255, 255, 255, 0.7)",
+                    text: 'Date',
+                    ...(theme === 'dark' && {
+                        color: 'rgb(255, 255, 255, 0.7)',
                     }),
                 },
                 ticks: {
-                    ...(theme === "dark" && {
-                        color: "rgb(255, 255, 255, 0.7)",
+                    ...(theme === 'dark' && {
+                        color: 'rgb(255, 255, 255, 0.7)',
                     }),
                 },
-                type: "time",
+                type: 'time',
                 time: {
-                    tooltipFormat: "DD/MM/YYYY",
+                    tooltipFormat: 'DD/MM/YYYY',
                 },
                 grid: {
-                    ...(theme === "dark" && {
-                        color: "rgb(255, 255, 255, 0.3)",
+                    ...(theme === 'dark' && {
+                        color: 'rgb(255, 255, 255, 0.3)',
                     }),
                 },
             },
@@ -80,20 +80,20 @@ const AnimeStartDateChart: React.FC<Props> = ({ anime = [] }) => {
                 min: 0,
                 title: {
                     display: true,
-                    text: "Anime / Manga count",
-                    ...(theme === "dark" && {
-                        color: "rgb(255, 255, 255, 0.7)",
+                    text: 'Anime / Manga count',
+                    ...(theme === 'dark' && {
+                        color: 'rgb(255, 255, 255, 0.7)',
                     }),
                 },
                 ticks: {
                     precision: 0,
-                    ...(theme === "dark" && {
-                        color: "rgb(255, 255, 255, 0.7)",
+                    ...(theme === 'dark' && {
+                        color: 'rgb(255, 255, 255, 0.7)',
                     }),
                 },
                 grid: {
-                    ...(theme === "dark" && {
-                        color: "rgb(255, 255, 255, 0.3)",
+                    ...(theme === 'dark' && {
+                        color: 'rgb(255, 255, 255, 0.3)',
                     }),
                 },
             },
@@ -106,9 +106,7 @@ const AnimeStartDateChart: React.FC<Props> = ({ anime = [] }) => {
                 callbacks: {
                     title: (tooltipItem) => {
                         const index = tooltipItem.at(0)?.dataIndex ?? NaN;
-                        return `${data.titles.at(index) || "?"}\n${
-                            tooltipItem.at(0)?.label || "?"
-                        }`;
+                        return `${data.titles.at(index) || '?'}\n${tooltipItem.at(0)?.label || '?'}`;
                     },
                     label: (tooltipItem) => {
                         return `${tooltipItem.formattedValue} Anime / Manga in total`;

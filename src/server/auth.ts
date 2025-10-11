@@ -1,12 +1,12 @@
-import { type GetServerSidePropsContext } from "next";
-import { type NextAuthOptions, type DefaultSession } from "next-auth";
-import { getServerSession } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "@/server/db";
-import { log } from "@/server/utils/auditLog";
-import { type user_role } from "@prisma/client";
-import { updateAvatarURL } from "./utils/discord";
+import { type GetServerSidePropsContext } from 'next';
+import { type NextAuthOptions, type DefaultSession } from 'next-auth';
+import { getServerSession } from 'next-auth';
+import DiscordProvider from 'next-auth/providers/discord';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { prisma } from '@/server/db';
+import { log } from '@/server/utils/auditLog';
+import { type user_role } from '@prisma/client';
+import { updateAvatarURL } from './utils/discord';
 
 /**
  * Module augmentation for `next-auth` types
@@ -14,7 +14,7 @@ import { updateAvatarURL } from "./utils/discord";
  * and keep type safety
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  **/
-declare module "next-auth" {
+declare module 'next-auth' {
     /**
      * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
      */
@@ -22,7 +22,7 @@ declare module "next-auth" {
         user: {
             id: string;
             role: user_role;
-        } & DefaultSession["user"];
+        } & DefaultSession['user'];
     }
 
     interface User {
@@ -48,15 +48,14 @@ export const authOptions: NextAuthOptions = {
             if (user.image)
                 fetch(user.image)
                     .then((res) => {
-                        if (!res.ok)
-                            updateAvatarURL(user.id).catch(console.error);
+                        if (!res.ok) updateAvatarURL(user.id).catch(console.error);
                     })
                     .catch(console.error);
 
             return session;
         },
         signIn: ({ user }) => {
-            log("auth", user.id, true, "Login");
+            log('auth', user.id, true, 'Login');
 
             // update the user's avatar
             if (user.image) updateAvatarURL(user.id).catch(console.error);
@@ -85,8 +84,8 @@ export const authOptions: NextAuthOptions = {
  * @see https://next-auth.js.org/configuration/nextjs
  **/
 export const getServerAuthSession = (ctx: {
-    req: GetServerSidePropsContext["req"];
-    res: GetServerSidePropsContext["res"];
+    req: GetServerSidePropsContext['req'];
+    res: GetServerSidePropsContext['res'];
 }) => {
     return getServerSession(ctx.req, ctx.res, authOptions);
 };

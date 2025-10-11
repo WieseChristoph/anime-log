@@ -1,7 +1,7 @@
-import Swal from "sweetalert2";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
-import { type Placement } from "tippy.js";
+import Swal from 'sweetalert2';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+import { type Placement } from 'tippy.js';
 
 interface Props {
     title: string;
@@ -21,29 +21,25 @@ const DeleteButton: React.FC<Props> = ({
     successTitle,
     successText,
     tooltip,
-    tooltipPlacement = "top",
+    tooltipPlacement = 'top',
     onDeleteClick,
     children,
-    className = "",
+    className = '',
 }) => {
     return (
-        <Tippy
-            content={tooltip}
-            disabled={!tooltip}
-            placement={tooltipPlacement}
-        >
+        <Tippy content={tooltip} disabled={!tooltip} placement={tooltipPlacement}>
             <button
                 onClick={() =>
                     void Swal.fire({
                         title: title,
                         text: text,
-                        icon: "warning",
+                        icon: 'warning',
                         showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, delete it!",
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!',
                         customClass: {
-                            popup: "bg-gray-200 dark:bg-slate-900 dark:text-white",
+                            popup: 'bg-gray-200 dark:bg-slate-900 dark:text-white',
                         },
                     }).then((result) => {
                         if (result.isConfirmed) {
@@ -51,10 +47,10 @@ const DeleteButton: React.FC<Props> = ({
                             void Swal.fire({
                                 title: successTitle,
                                 text: successText,
-                                icon: "success",
-                                confirmButtonColor: "#3085d6",
+                                icon: 'success',
+                                confirmButtonColor: '#3085d6',
                                 customClass: {
-                                    popup: "bg-gray-200 dark:bg-slate-900 dark:text-white",
+                                    popup: 'bg-gray-200 dark:bg-slate-900 dark:text-white',
                                 },
                             });
                         }

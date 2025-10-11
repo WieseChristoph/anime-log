@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { Switch } from "@headlessui/react";
+import { Switch } from '@headlessui/react';
 
 interface Props {
     initialValue: boolean;
@@ -10,13 +10,7 @@ interface Props {
     valueRight: string;
 }
 
-const ToggleButton: React.FC<Props> = ({
-    initialValue = false,
-    onValueChange,
-    label,
-    valueLeft,
-    valueRight,
-}) => {
+const ToggleButton: React.FC<Props> = ({ initialValue = false, onValueChange, label, valueLeft, valueRight }) => {
     const [value, setValue] = useState(initialValue);
 
     function handleChange(newValue: boolean) {
@@ -33,20 +27,13 @@ const ToggleButton: React.FC<Props> = ({
                 <Switch
                     checked={value}
                     onChange={handleChange}
-                    className={`relative inline-flex w-full items-center overflow-hidden rounded-lg border border-gray-300
-bg-white text-center text-sm transition-colors focus:border-blue-500 focus:ring-blue-500 focus:ring-offset-2 dark:border-slate-700 dark:bg-slate-800 dark:focus:border-blue-500 dark:focus:ring-blue-500`}
+                    className={`relative inline-flex w-full items-center overflow-hidden rounded-lg border border-gray-300 bg-white text-center text-sm transition-colors focus:border-blue-500 focus:ring-blue-500 focus:ring-offset-2 dark:border-slate-700 dark:bg-slate-800 dark:focus:border-blue-500 dark:focus:ring-blue-500`}
                 >
                     <span
-                        className={`${
-                            value ? "translate-x-full" : "translate-x-0"
-                        } absolute h-full w-1/2 transform bg-blue-600 transition-transform`}
+                        className={`${value ? 'translate-x-full' : 'translate-x-0'} absolute h-full w-1/2 transform bg-blue-600 transition-transform`}
                     />
-                    <Switch.Label className="z-10 w-full p-2.5 hover:cursor-pointer">
-                        {valueLeft}
-                    </Switch.Label>
-                    <Switch.Label className="z-10 w-full p-2.5 hover:cursor-pointer">
-                        {valueRight}
-                    </Switch.Label>
+                    <Switch.Label className="z-10 w-full p-2.5 hover:cursor-pointer">{valueLeft}</Switch.Label>
+                    <Switch.Label className="z-10 w-full p-2.5 hover:cursor-pointer">{valueRight}</Switch.Label>
                 </Switch>
             </div>
         </Switch.Group>

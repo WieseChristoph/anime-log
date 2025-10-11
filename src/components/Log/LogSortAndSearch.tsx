@@ -1,8 +1,8 @@
-import { useMemo } from "react";
-import { debounce } from "@/utils/helper";
-import { type LogOptions, Order } from "@/types/LogOptions";
+import { useMemo } from 'react';
+import { debounce } from '@/utils/helper';
+import { type LogOptions, Order } from '@/types/LogOptions';
 
-import { ChevronDown, ChevronUp, ListFilter } from "lucide-react";
+import { ChevronDown, ChevronUp, ListFilter } from 'lucide-react';
 
 const SEARCH_TIMEOUT = 250;
 
@@ -12,38 +12,31 @@ interface Props {
 }
 
 function AscendingIcon({ ascending }: { ascending: boolean }) {
-    return ascending ? (
-        <ChevronUp className="ml-1 h-5 w-5" />
-    ) : (
-        <ChevronDown className="ml-1 h-5 w-5" />
-    );
+    return ascending ? <ChevronUp className="ml-1 h-5 w-5" /> : <ChevronDown className="ml-1 h-5 w-5" />;
 }
 
-const LogSortAndSearch: React.FC<Props> = ({
-    logOptions,
-    onLogOptionsChange,
-}) => {
+const LogSortAndSearch: React.FC<Props> = ({ logOptions, onLogOptionsChange }) => {
     const sortButtonStyle = (order: Order) =>
         `flex items-center p-4 rounded-t-lg border-b-2 border-transparent ${
             logOptions.order === order
-                ? "active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500"
-                : "hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                ? 'active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
         }`;
 
     function onOrderButtonClick(order: Order) {
-        if (logOptions.order === order)
-            onLogOptionsChange({ ...logOptions, asc: !logOptions.asc });
+        if (logOptions.order === order) onLogOptionsChange({ ...logOptions, asc: !logOptions.asc });
         else onLogOptionsChange({ ...logOptions, asc: true, order: order });
     }
 
     const handleSearchChange = useMemo(
-        () => debounce((searchTerm: string) => {
-            onLogOptionsChange({
-                ...logOptions,
-                searchTerm,
-            });
-        }, SEARCH_TIMEOUT),
-        [onLogOptionsChange, logOptions]
+        () =>
+            debounce((searchTerm: string) => {
+                onLogOptionsChange({
+                    ...logOptions,
+                    searchTerm,
+                });
+            }, SEARCH_TIMEOUT),
+        [onLogOptionsChange, logOptions],
     );
 
     return (
@@ -56,9 +49,7 @@ const LogSortAndSearch: React.FC<Props> = ({
                     aria-label="Order by title"
                 >
                     Title
-                    {logOptions.order === Order.TITLE && (
-                        <AscendingIcon ascending={logOptions.asc} />
-                    )}
+                    {logOptions.order === Order.TITLE && <AscendingIcon ascending={logOptions.asc} />}
                 </button>
                 <button
                     onClick={() => onOrderButtonClick(Order.RATING)}
@@ -66,9 +57,7 @@ const LogSortAndSearch: React.FC<Props> = ({
                     aria-label="Order by rating"
                 >
                     Rating
-                    {logOptions.order === Order.RATING && (
-                        <AscendingIcon ascending={logOptions.asc} />
-                    )}
+                    {logOptions.order === Order.RATING && <AscendingIcon ascending={logOptions.asc} />}
                 </button>
                 <button
                     onClick={() => onOrderButtonClick(Order.START_DATE)}
@@ -76,9 +65,7 @@ const LogSortAndSearch: React.FC<Props> = ({
                     aria-label="Order by start date"
                 >
                     Start date
-                    {logOptions.order === Order.START_DATE && (
-                        <AscendingIcon ascending={logOptions.asc} />
-                    )}
+                    {logOptions.order === Order.START_DATE && <AscendingIcon ascending={logOptions.asc} />}
                 </button>
                 <button
                     onClick={() => onOrderButtonClick(Order.UPDATED_AT)}
@@ -86,9 +73,7 @@ const LogSortAndSearch: React.FC<Props> = ({
                     aria-label="Order by last update"
                 >
                     Last Update
-                    {logOptions.order === Order.UPDATED_AT && (
-                        <AscendingIcon ascending={logOptions.asc} />
-                    )}
+                    {logOptions.order === Order.UPDATED_AT && <AscendingIcon ascending={logOptions.asc} />}
                 </button>
             </ul>
 
@@ -103,9 +88,7 @@ const LogSortAndSearch: React.FC<Props> = ({
                             defaultChecked={logOptions.filter.anime}
                             onChange={(e) =>
                                 // check if needed, that one checkmark stays checked
-                                !e.target.checked &&
-                                logOptions.filter.anime !==
-                                    logOptions.filter.manga
+                                !e.target.checked && logOptions.filter.anime !== logOptions.filter.manga
                                     ? (e.target.checked = !e.target.checked)
                                     : onLogOptionsChange({
                                           ...logOptions,
@@ -127,9 +110,7 @@ const LogSortAndSearch: React.FC<Props> = ({
                             defaultChecked={logOptions.filter.manga}
                             onChange={(e) =>
                                 // check if needed, that one checkmark stays checked
-                                !e.target.checked &&
-                                logOptions.filter.anime !==
-                                    logOptions.filter.manga
+                                !e.target.checked && logOptions.filter.anime !== logOptions.filter.manga
                                     ? (e.target.checked = !e.target.checked)
                                     : onLogOptionsChange({
                                           ...logOptions,

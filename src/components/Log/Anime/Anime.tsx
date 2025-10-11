@@ -1,22 +1,13 @@
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-import { type Anime as AnimeType } from "@/types/Anime";
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import { type Anime as AnimeType } from '@/types/Anime';
 
-import { motion } from "framer-motion";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
-import DeleteButton from "@/components/Util/DeleteButton";
-import {
-    BookOpenText,
-    Calendar,
-    Pencil,
-    ExternalLink,
-    RefreshCw,
-    StickyNote,
-    Trash,
-    Tv,
-} from "lucide-react";
-import Link from "next/link";
+import { motion } from 'framer-motion';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+import DeleteButton from '@/components/Util/DeleteButton';
+import { BookOpenText, Calendar, Pencil, ExternalLink, RefreshCw, StickyNote, Trash, Tv } from 'lucide-react';
+import Link from 'next/link';
 
 dayjs.extend(relativeTime);
 
@@ -29,10 +20,10 @@ interface Props {
 }
 
 function arrayToCompactString(array: number[]): string {
-    if (array.length == 0) return "";
-    if (array.length == 1) return array[0]?.toString() ?? "";
+    if (array.length == 0) return '';
+    if (array.length == 1) return array[0]?.toString() ?? '';
 
-    let compactString = array[0]?.toString() ?? "";
+    let compactString = array[0]?.toString() ?? '';
     for (let i = 1; i < array.length; i++) {
         const curr = array[i];
         const prev = array[i - 1];
@@ -52,13 +43,7 @@ function arrayToCompactString(array: number[]): string {
     return compactString;
 }
 
-const Anime: React.FC<Props> = ({
-    anime,
-    onDeleteClick,
-    onEditClick,
-    isSharedLog = false,
-    index,
-}) => {
+const Anime: React.FC<Props> = ({ anime, onDeleteClick, onEditClick, isSharedLog = false, index }) => {
     return (
         <motion.div
             className="w-full"
@@ -78,9 +63,7 @@ const Anime: React.FC<Props> = ({
             <motion.div
                 className="relative aspect-[55/78] overflow-hidden rounded-md bg-cover bg-center shadow-md shadow-black/50"
                 style={{
-                    backgroundImage: `url('${
-                        anime.imageUrl || "/placeholder.jpg"
-                    }')`,
+                    backgroundImage: `url('${anime.imageUrl || '/placeholder.jpg'}')`,
                 }}
                 animate={{
                     scale: 1,
@@ -95,19 +78,12 @@ const Anime: React.FC<Props> = ({
                         : {}
                 }
             >
-                <div className="absolute left-1 top-1 flex flex-col gap-2 ">
+                <div className="absolute top-1 left-1 flex flex-col gap-2">
                     <div className="flex flex-row gap-2">
                         {/* Type symbol */}
-                        <Tippy
-                            content={anime.isManga ? "Manga" : "Anime"}
-                            placement="right"
-                        >
+                        <Tippy content={anime.isManga ? 'Manga' : 'Anime'} placement="right">
                             <div className="rounded-md bg-white/30 p-2 backdrop-blur-lg dark:bg-black/30">
-                                {anime.isManga ? (
-                                    <BookOpenText className="h-5 w-5" />
-                                ) : (
-                                    <Tv className="h-5 w-5" />
-                                )}
+                                {anime.isManga ? <BookOpenText className="h-5 w-5" /> : <Tv className="h-5 w-5" />}
                             </div>
                         </Tippy>
 
@@ -118,9 +94,7 @@ const Anime: React.FC<Props> = ({
                                     <>
                                         <strong>Note</strong>
                                         <br />
-                                        <pre className="whitespace-pre-wrap">
-                                            {anime.note}
-                                        </pre>
+                                        <pre className="whitespace-pre-wrap">{anime.note}</pre>
                                     </>
                                 }
                                 placement="bottom"
@@ -173,16 +147,14 @@ const Anime: React.FC<Props> = ({
                     )}
                 </div>
                 {/* Rating */}
-                <div className="absolute right-1 top-1 rounded-md bg-gradient-to-r from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
+                <div className="absolute top-1 right-1 rounded-md bg-gradient-to-r from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
                     {anime.rating} / 10
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 flex h-3/4 flex-col items-center justify-end bg-gradient-to-b from-transparent to-black/75 p-3">
+                <div className="absolute right-0 bottom-0 left-0 flex h-3/4 flex-col items-center justify-end bg-gradient-to-b from-transparent to-black/75 p-3">
                     {/* Title */}
                     <div
-                        className={`break-words text-center font-bold text-white ${
-                            anime.title.length > 50 ? "text-md" : "text-xl"
-                        }`}
-                        style={{ textShadow: "1px 1px 5px black" }}
+                        className={`text-center font-bold break-words text-white ${anime.title.length > 50 ? 'text-md' : 'text-xl'}`}
+                        style={{ textShadow: '1px 1px 5px black' }}
                     >
                         {anime.title}
                     </div>
@@ -190,50 +162,34 @@ const Anime: React.FC<Props> = ({
                         {/* Start date */}
                         <div className="flex flex-row items-center gap-1 text-xs text-white">
                             <Calendar className="h-4 w-4" />
-                            {anime.startDate
-                                ? dayjs(anime.startDate).format("DD.MM.YYYY")
-                                : "-"}
+                            {anime.startDate ? dayjs(anime.startDate).format('DD.MM.YYYY') : '-'}
                         </div>
                         &bull;
                         {/* Last update */}
-                        <Tippy
-                            content={
-                                anime.updatedAt
-                                    ? dayjs(anime.updatedAt).format(
-                                          "DD.MM.YYYY HH:mm:ss"
-                                      )
-                                    : "-"
-                            }
-                        >
+                        <Tippy content={anime.updatedAt ? dayjs(anime.updatedAt).format('DD.MM.YYYY HH:mm:ss') : '-'}>
                             <div className="flex flex-row items-center gap-1 text-xs text-white">
                                 <RefreshCw className="h-4 w-4" />
-                                {anime.updatedAt
-                                    ? dayjs(anime.updatedAt).fromNow()
-                                    : "-"}
+                                {anime.updatedAt ? dayjs(anime.updatedAt).fromNow() : '-'}
                             </div>
                         </Tippy>
                     </div>
                     {/* Season, Movie, OVA */}
                     <div className="flex w-full flex-col gap-1 text-sm text-white">
-                        <div className="flex flex-row font-semibold ">
+                        <div className="flex flex-row font-semibold">
                             <span>Season&nbsp;</span>
                             <span className="max-h-10 overflow-auto break-words">
-                                {arrayToCompactString(anime.seasons) || "-"}
+                                {arrayToCompactString(anime.seasons) || '-'}
                             </span>
                         </div>
                         <hr />
                         <div className="flex flex-row font-semibold">
                             <span>Movie&nbsp;</span>
-                            <span className="break-words">
-                                {arrayToCompactString(anime.movies) || "-"}
-                            </span>
+                            <span className="break-words">{arrayToCompactString(anime.movies) || '-'}</span>
                         </div>
                         <hr />
                         <div className="flex flex-row font-semibold">
                             <span>OVA&nbsp;</span>
-                            <span className="break-words">
-                                {arrayToCompactString(anime.ovas) || "-"}
-                            </span>
+                            <span className="break-words">{arrayToCompactString(anime.ovas) || '-'}</span>
                         </div>
                     </div>
                 </div>

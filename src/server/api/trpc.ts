@@ -16,11 +16,11 @@
  * processing a request
  *
  */
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-import { type Session } from "next-auth";
+import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
+import { type Session } from 'next-auth';
 
-import { getServerAuthSession } from "../auth";
-import { prisma } from "../db";
+import { getServerAuthSession } from '../auth';
+import { prisma } from '../db';
 
 type CreateContextOptions = {
     session: Session | null;
@@ -64,9 +64,9 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  * This is where the trpc api is initialized, connecting the context and
  * transformer
  */
-import { initTRPC, TRPCError } from "@trpc/server";
-import superjson from "superjson";
-import { log } from "../utils/auditLog";
+import { initTRPC, TRPCError } from '@trpc/server';
+import { log } from '../utils/auditLog';
+import superjson from 'superjson';
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
     transformer: superjson,
@@ -113,7 +113,7 @@ export const publicProcedure = t.procedure.use(loggerMiddleware);
  */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
     if (!ctx.session || !ctx.session.user) {
-        throw new TRPCError({ code: "UNAUTHORIZED" });
+        throw new TRPCError({ code: 'UNAUTHORIZED' });
     }
     return next({
         ctx: {
@@ -132,6 +132,4 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure
-    .use(loggerMiddleware)
-    .use(enforceUserIsAuthed);
+export const protectedProcedure = t.procedure.use(loggerMiddleware).use(enforceUserIsAuthed);

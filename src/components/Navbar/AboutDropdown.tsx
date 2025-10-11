@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { Menu, Transition } from "@headlessui/react";
-import { ChevronDown } from "lucide-react";
+import Link from 'next/link';
+import { Menu, Transition } from '@headlessui/react';
+import { ChevronDown } from 'lucide-react';
 
 const AboutDropdown: React.FC = () => {
     return (
@@ -9,7 +9,7 @@ const AboutDropdown: React.FC = () => {
                 <>
                     <Menu.Button className="flex items-center text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white">
                         About
-                        <ChevronDown className="ml-1 h-5 w-5 ui-open:rotate-180" />
+                        <ChevronDown className="ui-open:rotate-180 ml-1 h-5 w-5" />
                     </Menu.Button>
 
                     {/* Dropdown menu */}
@@ -22,11 +22,7 @@ const AboutDropdown: React.FC = () => {
                         leaveFrom="transform scale-100 opacity-100"
                         leaveTo="transform scale-50 opacity-0"
                     >
-                        <Menu.Items
-                            className="absolute mt-2
-			w-32 divide-y divide-gray-300 rounded-md bg-gray-100 shadow-lg
-			dark:divide-slate-500 dark:bg-slate-700 dark:text-white"
-                        >
+                        <Menu.Items className="absolute mt-2 w-32 divide-y divide-gray-300 rounded-md bg-gray-100 shadow-lg dark:divide-slate-500 dark:bg-slate-700 dark:text-white">
                             <Menu.Item as="div">
                                 <Link
                                     href="https://github.com/WieseChristoph/anime-log"

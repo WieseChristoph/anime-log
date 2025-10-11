@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from 'react';
 
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
-import { Minus, Plus } from "lucide-react";
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+import { Minus, Plus } from 'lucide-react';
 
 interface Props {
     initialArray: number[];
@@ -21,11 +21,7 @@ const AnimeListInput: React.FC<Props> = ({ initialArray, onArrayChange }) => {
 
     function addToArray() {
         // add element to array
-        setArray(
-            array.includes(arrayElement)
-                ? array
-                : [...array, arrayElement].sort((a, b) => a - b)
-        );
+        setArray(array.includes(arrayElement) ? array : [...array, arrayElement].sort((a, b) => a - b));
 
         setArrayElement(arrayElement + 1);
     }
@@ -70,7 +66,7 @@ const AnimeListInput: React.FC<Props> = ({ initialArray, onArrayChange }) => {
                 </Tippy>
             </div>
             <hr className="my-2 border-dotted border-black dark:border-white" />
-            <span>{array.join(", ") || "-"}</span>
+            <span>{array.join(', ') || '-'}</span>
         </>
     );
 };

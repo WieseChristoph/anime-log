@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import Image from "next/image";
+import Image from 'next/image';
 
 interface Props {
     src: string;
@@ -16,8 +16,8 @@ const ImageWithFallback: React.FC<Props> = ({
     src,
     fallbackSrc,
     children,
-    className = "",
-    alt = "",
+    className = '',
+    alt = '',
     width,
     height,
 }) => {

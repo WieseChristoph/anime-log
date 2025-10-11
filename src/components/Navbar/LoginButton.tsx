@@ -1,10 +1,10 @@
-import { signIn } from "next-auth/react";
+import { signIn } from 'next-auth/react';
 
 const LoginButton: React.FC = () => {
     return (
         <button
             className="h-10 rounded-md bg-[#5865F2] px-2 py-1"
-            onClick={() => void signIn("discord")}
+            onClick={() => void signIn('discord')}
             aria-label="Login"
         >
             <span className="flex items-center text-white">

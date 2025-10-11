@@ -1,28 +1,28 @@
-import { api } from "@/utils/api";
+import { trpc } from '@/utils/trpc';
 
-import Link from "next/link";
-import { Menu, Transition } from "@headlessui/react";
-import DeleteButton from "../Util/DeleteButton";
-import ImageWithFallback from "../Util/ImageWithFallback";
-import { ChevronDown, Save, Trash } from "lucide-react";
+import Link from 'next/link';
+import { Menu, Transition } from '@headlessui/react';
+import DeleteButton from '../Util/DeleteButton';
+import ImageWithFallback from '../Util/ImageWithFallback';
+import { ChevronDown, Save, Trash } from 'lucide-react';
 
 interface Props {
     urlShareId?: string;
 }
 
 const SavedUsersDropdown: React.FC<Props> = ({ urlShareId }) => {
-    const ctx = api.useContext();
+    const ctx = trpc.useContext();
 
-    const getSavedUsers = api.savedUser.getAll.useQuery();
+    const getSavedUsers = trpc.savedUser.getAll.useQuery();
 
-    const addSavedUser = api.savedUser.add.useMutation({
+    const addSavedUser = trpc.savedUser.add.useMutation({
         // Always refetch after error or success:
         onSettled: () => {
             void ctx.savedUser.getAll.invalidate();
         },
     });
 
-    const deleteSavedUser = api.savedUser.delete.useMutation({
+    const deleteSavedUser = trpc.savedUser.delete.useMutation({
         // Always refetch after error or success:
         onSettled: () => {
             void ctx.savedUser.getAll.invalidate();
@@ -33,9 +33,9 @@ const SavedUsersDropdown: React.FC<Props> = ({ urlShareId }) => {
         <Menu as="div" className="relative z-20 inline-block text-left">
             {({ open }) => (
                 <>
-                    <Menu.Button className="flex items-center text-gray-700 hover:text-black  dark:text-gray-300 dark:hover:text-white">
+                    <Menu.Button className="flex items-center text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white">
                         Saved Logs
-                        <ChevronDown className="ml-1 h-5 w-5 ui-open:rotate-180" />
+                        <ChevronDown className="ui-open:rotate-180 ml-1 h-5 w-5" />
                     </Menu.Button>
 
                     {/* Dropdown menu */}
@@ -48,48 +48,31 @@ const SavedUsersDropdown: React.FC<Props> = ({ urlShareId }) => {
                         leaveFrom="transform scale-100 opacity-100"
                         leaveTo="transform scale-50 opacity-0"
                     >
-                        <Menu.Items
-                            className="absolute mt-2
-			w-52 divide-y divide-gray-300 rounded-md bg-gray-100 shadow-lg
-			dark:divide-slate-500 dark:bg-slate-700 dark:text-white"
-                        >
-                            {getSavedUsers.data &&
-                            getSavedUsers.data.length > 0 ? (
+                        <Menu.Items className="absolute mt-2 w-52 divide-y divide-gray-300 rounded-md bg-gray-100 shadow-lg dark:divide-slate-500 dark:bg-slate-700 dark:text-white">
+                            {getSavedUsers.data && getSavedUsers.data.length > 0 ? (
                                 getSavedUsers.data.map((savedUserEntry) => (
-                                    <Menu.Item
-                                        key={savedUserEntry.savedUser.shareId}
-                                    >
+                                    <Menu.Item key={savedUserEntry.savedUser.shareId}>
                                         <Link
-                                            href={`/${
-                                                savedUserEntry.savedUser
-                                                    .shareId || ""
-                                            }`}
+                                            href={`/${savedUserEntry.savedUser.shareId || ''}`}
                                             legacyBehavior={false}
                                             className={`flex gap-2 px-2 py-2 text-sm hover:underline ${
-                                                urlShareId ===
-                                                savedUserEntry.savedUser.shareId
-                                                    ? "bg-gray-300 dark:bg-slate-800"
-                                                    : ""
+                                                urlShareId === savedUserEntry.savedUser.shareId
+                                                    ? 'bg-gray-300 dark:bg-slate-800'
+                                                    : ''
                                             }`}
                                         >
                                             <ImageWithFallback
                                                 className="inline rounded-full"
                                                 src={
-                                                    savedUserEntry.savedUser
-                                                        .image ||
-                                                    "https://cdn.discordapp.com/embed/avatars/1.png"
+                                                    savedUserEntry.savedUser.image ||
+                                                    'https://cdn.discordapp.com/embed/avatars/1.png'
                                                 }
                                                 fallbackSrc="https://cdn.discordapp.com/embed/avatars/1.png"
-                                                alt={
-                                                    savedUserEntry.savedUser
-                                                        .name || "-"
-                                                }
+                                                alt={savedUserEntry.savedUser.name || '-'}
                                                 width={24}
                                                 height={24}
                                             />
-                                            <b>
-                                                {savedUserEntry.savedUser.name}
-                                            </b>
+                                            <b>{savedUserEntry.savedUser.name}</b>
                                         </Link>
                                     </Menu.Item>
                                 ))
@@ -105,9 +88,7 @@ const SavedUsersDropdown: React.FC<Props> = ({ urlShareId }) => {
                             {urlShareId &&
                                 getSavedUsers.data &&
                                 (getSavedUsers.data.find(
-                                    (savedUserEntry) =>
-                                        savedUserEntry.savedUser.shareId ===
-                                        urlShareId
+                                    (savedUserEntry) => savedUserEntry.savedUser.shareId === urlShareId,
                                 ) ? (
                                     <Menu.Item>
                                         <DeleteButton

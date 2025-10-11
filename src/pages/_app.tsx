@@ -1,20 +1,17 @@
-import { type AppType } from "next/app";
-import { type Session } from "next-auth";
-import { api } from "@/utils/api";
+import { type AppType } from 'next/app';
+import { type Session } from 'next-auth';
+import { trpc } from '@/utils/trpc';
 
-import { SessionProvider } from "next-auth/react";
-import { ThemeProvider } from "next-themes";
-import Script from "next/script";
+import { SessionProvider } from 'next-auth/react';
+import { ThemeProvider } from 'next-themes';
+import Script from 'next/script';
 
-import "@/styles/globals.css";
+import '@/styles/globals.css';
 
 const NEXT_PUBLIC_UMAMI_SCRIPT_URL = process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL;
 const NEXT_PUBLIC_UMAMI_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 
-const AnimeLog: AppType<{ session: Session | null }> = ({
-    Component,
-    pageProps: { session, ...pageProps },
-}) => {
+const AnimeLog: AppType<{ session: Session | null }> = ({ Component, pageProps: { session, ...pageProps } }) => {
     return (
         <>
             {NEXT_PUBLIC_UMAMI_SCRIPT_URL && NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
@@ -25,7 +22,7 @@ const AnimeLog: AppType<{ session: Session | null }> = ({
                 />
             )}
             <SessionProvider session={session}>
-                <ThemeProvider attribute="class">
+                <ThemeProvider enableSystem={true} defaultTheme="system">
                     <Component {...pageProps} />
                 </ThemeProvider>
             </SessionProvider>
@@ -33,4 +30,4 @@ const AnimeLog: AppType<{ session: Session | null }> = ({
     );
 };
 
-export default api.withTRPC(AnimeLog);
+export default trpc.withTRPC(AnimeLog);

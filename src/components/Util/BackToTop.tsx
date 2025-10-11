@@ -1,5 +1,5 @@
-import { ChevronsUp } from "lucide-react";
-import { useState, type FC } from "react";
+import { ChevronsUp } from 'lucide-react';
+import { useState, type FC } from 'react';
 
 const BackToTop: FC = () => {
     const [visible, setVisible] = useState(false);
@@ -14,17 +14,17 @@ const BackToTop: FC = () => {
     function scrollToTop() {
         window.scrollTo({
             top: 0,
-            behavior: "smooth",
+            behavior: 'smooth',
         });
     }
 
-    window.addEventListener("scroll", toggleVisible);
+    window.addEventListener('scroll', toggleVisible);
 
     return (
         <button
             className={`${
-                visible ? "block" : "hidden"
-            } fixed bottom-5 right-5 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-orange-400 p-2 text-white shadow-md`}
+                visible ? 'block' : 'hidden'
+            } fixed right-5 bottom-5 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-orange-400 p-2 text-white shadow-md`}
             onClick={() => scrollToTop()}
             aria-label="Back to top"
         >

@@ -1,0 +1,15 @@
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
+    reactStrictMode: true,
+    output: process.env.BUILD_STANDALONE === 'true' ? 'standalone' : undefined,
+    i18n: {
+        locales: ['en'],
+        defaultLocale: 'en',
+    },
+    images: {
+        domains: ['cdn.discordapp.com', 'media.kitsu.app'],
+    },
+};
+
+export default nextConfig;

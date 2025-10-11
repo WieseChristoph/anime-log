@@ -12,8 +12,8 @@ export function isConsecutive(array: Array<number>): boolean {
 }
 
 export function getBaseUrl() {
-    if (typeof window !== "undefined") {
-        return "";
+    if (typeof window !== 'undefined') {
+        return '';
     }
     // reference for vercel.com
     if (process.env.VERCEL_URL) {
@@ -34,5 +34,5 @@ export function debounce<T extends (...args: Parameters<T>) => void>(callback: T
         timeoutId = window.setTimeout(() => {
             callback.call(null, ...args);
         }, wait);
-    }
+    };
 }

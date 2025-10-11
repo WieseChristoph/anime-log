@@ -11,19 +11,19 @@ import {
     Tooltip,
     Filler,
     Legend,
-} from "chart.js";
-import { logOptionsValidator, Order } from "@/types/LogOptions";
-import { api } from "@/utils/api";
-import dynamic from "next/dynamic";
+} from 'chart.js';
+import { type LogOptions, Order } from '@/types/LogOptions';
+import { trpc } from '@/utils/trpc';
+import dynamic from 'next/dynamic';
 
-import Head from "next/head";
-import AnimeRatingChart from "./AnimeRatingChart";
-import AnimeWeekdayChart from "./AnimeWeekdayChart";
-import ErrorAlert from "../Util/ErrorAlert";
-import AnimeWatchtypeChart from "./AnimeWatchtypeChart";
-import AnimeTitleLenghtTable from "./AnimeTitleLengthTable";
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
+import Head from 'next/head';
+import AnimeRatingChart from './AnimeRatingChart';
+import AnimeWeekdayChart from './AnimeWeekdayChart';
+import ErrorAlert from '../Util/ErrorAlert';
+import AnimeWatchtypeChart from './AnimeWatchtypeChart';
+import AnimeTitleLenghtTable from './AnimeTitleLengthTable';
+import Link from 'next/link';
+import { ChevronLeft } from 'lucide-react';
 
 ChartJS.register(
     BarElement,
@@ -36,7 +36,7 @@ ChartJS.register(
     ArcElement,
     Tooltip,
     Filler,
-    Legend
+    Legend,
 );
 
 interface Props {
@@ -44,33 +44,28 @@ interface Props {
 }
 
 // needs dynamic import without ssr because the chart zoom-plugin needs the window object
-const DynamicAnimeStartDateChart = dynamic(
-    () => import("./AnimeStartDateChart"),
-    { ssr: false }
-);
+const DynamicAnimeStartDateChart = dynamic(() => import('./AnimeStartDateChart'), { ssr: false });
 
 const StatsLayout: React.FC<Props> = ({ shareId }) => {
-    const logOptions = logOptionsValidator.parse(undefined);
-    logOptions.order = Order.START_DATE;
-    logOptions.asc = true;
+    const logOptions: LogOptions = {
+        order: Order.START_DATE,
+        asc: true,
+        searchTerm: '',
+        filter: {
+            anime: true,
+            manga: true,
+        },
+    };
 
-    const getAnime = api.anime.get.useQuery({ shareId: shareId, logOptions });
+    const getAnime = trpc.anime.get.useQuery({ shareId: shareId, logOptions });
 
-    const getUserByShareId = api.user.getByShareId.useQuery(
-        { shareId: shareId as string },
-        { enabled: !!shareId }
-    );
+    const getUserByShareId = trpc.user.getByShareId.useQuery({ shareId: shareId as string }, { enabled: !!shareId });
 
     // Error Alert
     if (getAnime.isError || getUserByShareId.isError)
         return (
             <div className="p-5">
-                <ErrorAlert
-                    message={
-                        getAnime.error?.message ||
-                        getUserByShareId.error?.message
-                    }
-                />
+                <ErrorAlert message={getAnime.error?.message || getUserByShareId.error?.message} />
             </div>
         );
 
@@ -87,16 +82,10 @@ const StatsLayout: React.FC<Props> = ({ shareId }) => {
             {getUserByShareId.data && (
                 <>
                     <Head>
-                        <title>
-                            {getUserByShareId.data.name}&apos;s Stats | Anime
-                            Log
-                        </title>
+                        <title>{getUserByShareId.data.name}&apos;s Stats | Anime Log</title>
                     </Head>
                     <div className="flex flex-row">
-                        <Link
-                            className="flex flex-row items-center space-x-2"
-                            href={`/${shareId ?? ""}`}
-                        >
+                        <Link className="flex flex-row items-center space-x-2" href={`/${shareId ?? ''}`}>
                             <ChevronLeft />
                             <span>Back to log</span>
                         </Link>
@@ -110,23 +99,17 @@ const StatsLayout: React.FC<Props> = ({ shareId }) => {
 
             <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="rounded border border-gray-300 bg-gray-200 p-4 dark:border-slate-700 dark:bg-slate-800">
-                    <span className="text-xl font-bold">
-                        Rating distribution
-                    </span>
+                    <span className="text-xl font-bold">Rating distribution</span>
                     <hr className="my-2 border-black dark:border-white" />
                     <AnimeRatingChart anime={getAnime.data} />
                 </div>
                 <div className="rounded border border-gray-300 bg-gray-200 p-4 dark:border-slate-700 dark:bg-slate-800">
-                    <span className="text-xl font-bold">
-                        Anime / Manga count by weekdays
-                    </span>
+                    <span className="text-xl font-bold">Anime / Manga count by weekdays</span>
                     <hr className="my-2 border-black dark:border-white" />
                     <AnimeWeekdayChart anime={getAnime.data} />
                 </div>
-                <div className="rounded border border-gray-300 bg-gray-200 p-4 dark:border-slate-700 dark:bg-slate-800 sm:col-span-2">
-                    <span className="text-xl font-bold">
-                        Anime / Manga count over time
-                    </span>
+                <div className="rounded border border-gray-300 bg-gray-200 p-4 sm:col-span-2 dark:border-slate-700 dark:bg-slate-800">
+                    <span className="text-xl font-bold">Anime / Manga count over time</span>
                     <hr className="my-2 border-black dark:border-white" />
                     <DynamicAnimeStartDateChart anime={getAnime.data} />
                 </div>
@@ -138,9 +121,7 @@ const StatsLayout: React.FC<Props> = ({ shareId }) => {
                     </div>
                 </div>
                 <div className="rounded border border-gray-300 bg-gray-200 p-4 dark:border-slate-700 dark:bg-slate-800">
-                    <span className="text-xl font-bold">
-                        Anime / Manga title length
-                    </span>
+                    <span className="text-xl font-bold">Anime / Manga title length</span>
                     <hr className="my-2 border-black dark:border-white" />
                     <AnimeTitleLenghtTable anime={getAnime.data} />
                 </div>

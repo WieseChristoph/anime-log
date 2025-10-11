@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 
 interface Props {
     index: number;
@@ -7,9 +7,7 @@ interface Props {
 const AnimeSkeleton: React.FC<Props> = ({ index }) => {
     return (
         <motion.div
-            className={`relative rounded border border-gray-300 bg-gray-200
-            shadow-md dark:border-slate-700
-			dark:bg-slate-800 dark:text-white`}
+            className={`relative rounded border border-gray-300 bg-gray-200 shadow-md dark:border-slate-700 dark:bg-slate-800 dark:text-white`}
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{
                 opacity: 1,
@@ -39,16 +37,14 @@ const AnimeSkeleton: React.FC<Props> = ({ index }) => {
                     </svg>
                 </div>
 
-                <div
-                    className={`sm:grid-rows-1] grid flex-1 grid-cols-1 grid-rows-2 py-2 sm:grid-cols-2`}
-                >
+                <div className={`sm:grid-rows-1] grid flex-1 grid-cols-1 grid-rows-2 py-2 sm:grid-cols-2`}>
                     {/* Title, rating and notes */}
                     <div className="flex flex-col overflow-hidden px-2">
                         <div>
                             {/* Rating */}
                             <div className="float-right mt-1 mr-2 h-4 w-[50px] rounded-full bg-gray-200 dark:bg-gray-700" />
                             {/* Title */}
-                            <div className="mb-2 mt-1 h-4  max-w-[200px] rounded-full bg-gray-200 dark:bg-gray-700" />
+                            <div className="mt-1 mb-2 h-4 max-w-[200px] rounded-full bg-gray-200 dark:bg-gray-700" />
                             {/* Start Date */}
                             <div className="mb-1 h-3 max-w-[100px] rounded-full bg-gray-200 dark:bg-gray-700" />
                             {/* Updated At */}
@@ -91,19 +87,19 @@ const AnimeSkeleton: React.FC<Props> = ({ index }) => {
                     </div>
 
                     {/* Season, Movie, OVA */}
-                    <div className="flex flex-col border-black px-2 dark:border-white sm:border-l">
+                    <div className="flex flex-col border-black px-2 sm:border-l dark:border-white">
                         <div className="basis-1/3">
-                            <div className="mb-2 mt-1 h-4 max-w-[100px] rounded-full bg-gray-200 dark:bg-gray-700" />
+                            <div className="mt-1 mb-2 h-4 max-w-[100px] rounded-full bg-gray-200 dark:bg-gray-700" />
                             <div className="h-4 rounded-full bg-gray-200 dark:bg-gray-700" />
                         </div>
                         <div className="basis-1/3">
                             <hr className="border-black dark:border-white" />
-                            <div className="mb-2 mt-1 h-4 max-w-[75px] rounded-full bg-gray-200 dark:bg-gray-700" />
+                            <div className="mt-1 mb-2 h-4 max-w-[75px] rounded-full bg-gray-200 dark:bg-gray-700" />
                             <div className="h-4 rounded-full bg-gray-200 dark:bg-gray-700" />
                         </div>
                         <div className="basis-1/3">
                             <hr className="border-black dark:border-white" />
-                            <div className="mb-2 mt-1 h-4 max-w-[50px] rounded-full bg-gray-200 dark:bg-gray-700" />
+                            <div className="mt-1 mb-2 h-4 max-w-[50px] rounded-full bg-gray-200 dark:bg-gray-700" />
                             <div className="h-4 rounded-full bg-gray-200 dark:bg-gray-700" />
                         </div>
                     </div>

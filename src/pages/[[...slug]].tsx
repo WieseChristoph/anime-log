@@ -1,13 +1,13 @@
-import { useRouter } from "next/router";
-import { type NextPage } from "next";
-import { useSession } from "next-auth/react";
+import { useRouter } from 'next/router';
+import { type NextPage } from 'next';
+import { useSession } from 'next-auth/react';
 
-import Head from "next/head";
-import Navbar from "@/components/Navbar/Navbar";
-import Log from "@/components/Log/Log";
-import Loading from "@/components/Util/Loading";
-import Snowfall from "react-snowfall";
-import ErrorAlert from "@/components/Util/ErrorAlert";
+import Head from 'next/head';
+import Navbar from '@/components/Navbar/Navbar';
+import Log from '@/components/Log/Log';
+import Loading from '@/components/Util/Loading';
+import Snowfall from 'react-snowfall';
+import ErrorAlert from '@/components/Util/ErrorAlert';
 
 const Home: NextPage = () => {
     const router = useRouter();
@@ -17,15 +17,8 @@ const Home: NextPage = () => {
     return (
         <>
             <Head>
-                {shareId ? (
-                    <title>Shared Log | Anime Log</title>
-                ) : (
-                    <title>Home | Anime Log</title>
-                )}
-                <meta
-                    name="description"
-                    content="Manage and share your watched Anime!"
-                />
+                {shareId ? <title>Shared Log | Anime Log</title> : <title>Home | Anime Log</title>}
+                <meta name="description" content="Manage and share your watched Anime!" />
                 <meta property="og:image" content="/torii-gate.png" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
@@ -41,8 +34,8 @@ const Home: NextPage = () => {
 
             <Navbar urlShareId={shareId} />
 
-            {status !== "loading" ? (
-                status === "authenticated" || shareId ? (
+            {status !== 'loading' ? (
+                status === 'authenticated' || shareId ? (
                     <Log shareId={shareId} />
                 ) : (
                     <div className="p-5">

@@ -1,23 +1,19 @@
-import { prisma } from "../db";
-import type { DiscordUser } from "@/types/Discord";
+import { prisma } from '../db';
+import type { DiscordUser } from '@/types/Discord';
 
 export async function updateAvatarURL(userId: string) {
-    if (!process.env.DISCORD_BOT_TOKEN)
-        throw new Error("Missing Discord bot token");
+    if (!process.env.DISCORD_BOT_TOKEN) throw new Error('Missing Discord bot token');
 
     const { providerAccountId } = await prisma.account.findFirstOrThrow({
         where: { userId: userId },
         select: { providerAccountId: true },
     });
 
-    const response = await fetch(
-        `https://discord.com/api/v10/users/${providerAccountId}`,
-        {
-            headers: new Headers({
-                Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-            }),
-        }
-    );
+    const response = await fetch(`https://discord.com/api/v10/users/${providerAccountId}`, {
+        headers: new Headers({
+            Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+        }),
+    });
 
     if (!response.ok) return;
 

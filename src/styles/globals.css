@@ -1,5 +1,7 @@
-@import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @layer base {
     html {
@@ -9,19 +11,24 @@
     body {
         @apply bg-white dark:bg-slate-900;
     }
+
+    button,
+    input[type='checkbox'],
+    input[type='date'] {
+        @apply cursor-pointer;
+    }
 }
 
 html,
 body {
     margin: 0;
 
-    font-family: "Montserrat", sans-serif !important;
+    font-family: 'Montserrat', sans-serif !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     height: 100vh;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-        monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
