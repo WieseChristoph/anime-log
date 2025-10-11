@@ -12,7 +12,7 @@ interface Props {
 }
 
 const ProfileDropdown: React.FC<Props> = ({ user }) => {
-    const ctx = trpc.useContext();
+    const ctx = trpc.useUtils();
 
     const getShareId = trpc.user.getShareId.useQuery();
 

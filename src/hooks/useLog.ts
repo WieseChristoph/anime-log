@@ -20,7 +20,7 @@ function useLog(shareId: string | undefined) {
         limit: 24,
     };
 
-    const ctx = trpc.useContext();
+    const ctx = trpc.useUtils();
 
     const getAnimeCount = trpc.anime.count.useQuery({
         shareId: shareId,

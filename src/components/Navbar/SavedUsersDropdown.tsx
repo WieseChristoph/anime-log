@@ -11,7 +11,7 @@ interface Props {
 }
 
 const SavedUsersDropdown: React.FC<Props> = ({ urlShareId }) => {
-    const ctx = trpc.useContext();
+    const ctx = trpc.useUtils();
 
     const getSavedUsers = trpc.savedUser.getAll.useQuery();
 

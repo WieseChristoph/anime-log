@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 
 const AdminUsers: FC = () => {
-    const ctx = trpc.useContext();
+    const ctx = trpc.useUtils();
     const getAllUsers = trpc.user.getAll.useQuery();
     const getAnimeMangaCount = trpc.anime.getCountByUser.useQuery();
     const getLastUpdated = trpc.anime.getLastUpdateByUser.useQuery();
