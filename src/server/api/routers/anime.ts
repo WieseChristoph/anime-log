@@ -91,7 +91,6 @@ export const animeRouter = createTRPCRouter({
 
             const items = await ctx.prisma.anime.findMany({
                 take: limit + 1, // get an extra item at the end which we'll use as next cursor
-                skip: cursor ? 1 : 0, // if we have a cursor, we need to skip the cursor item
                 where: {
                     user: {
                         ...(input.shareId ? { shareId: input.shareId } : { id: ctx.session?.user?.id }),
