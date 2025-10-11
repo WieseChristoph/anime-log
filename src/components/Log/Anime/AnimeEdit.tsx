@@ -37,7 +37,7 @@ const AnimeEdit: React.FC<Props> = ({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string>();
 
-    const [imageSearchTimeout, setimageSearchTimeout] = useState<
+    const [imageSearchTimeout, _setimageSearchTimeout] = useState<
         NodeJS.Timeout | undefined
     >();
 

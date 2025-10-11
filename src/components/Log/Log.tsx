@@ -45,9 +45,12 @@ const Log: React.FC<Props> = ({ shareId }) => {
 
     async function handleSaveButtonClick(anime: AnimeType) {
         try {
-            anime.id
-                ? await updateAnime.mutateAsync(anime)
-                : await addAnime.mutateAsync(anime);
+            if (anime.id) {
+                await updateAnime.mutateAsync(anime)
+            } else {
+                await addAnime.mutateAsync(anime);
+            }
+
             setShowEditAnime(false);
             setAnimeToEdit(undefined);
             return { success: true };
