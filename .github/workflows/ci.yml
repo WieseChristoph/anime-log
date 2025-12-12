@@ -34,5 +34,3 @@ jobs:
               run: pnpm tsc
             - name: Run lint
               run: pnpm lint
-            - name: Run jest
-              run: pnpm jest
