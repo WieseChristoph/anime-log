@@ -3,7 +3,20 @@
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { BookOpen, CalendarDays, Edit3, ExternalLink, FileText, Heart, PlayCircle, Tv, Trash2, X } from 'lucide-react';
+import {
+    BookOpen,
+    CalendarDays,
+    Edit3,
+    ExternalLink,
+    FileText,
+    Heart,
+    PlayCircle,
+    Sparkles,
+    Star,
+    Tv,
+    Trash2,
+    X,
+} from 'lucide-react';
 import { useState } from 'react';
 import type { AnimeType } from '@/types/anime';
 import DeleteButton from '@/components/util/delete-button';
@@ -30,8 +43,14 @@ const trackingSummary = (anime: AnimeType) => {
     return parts.length ? parts.join(' · ') : 'No tracking details yet';
 };
 
+const starPositions = ['first', 'second', 'third', 'fourth', 'fifth'] as const;
+
 export default function EntryCard({ anime, readOnly, onEdit, onDelete, onFavorite }: EntryCardPropsType) {
     const [noteOpen, setNoteOpen] = useState(false);
+    const isBeyondPerfect = anime.rating === 11;
+    const starRating = Math.min(anime.rating, 10) / 2;
+    const fullStars = Math.floor(starRating);
+    const hasHalfStar = starRating % 1 >= 0.5;
 
     return (
         <article className="group relative overflow-hidden rounded-2xl border border-(--border) bg-(--surface) shadow-sm transition hover:shadow-slate-950/10 hover:shadow-xl">
@@ -57,9 +76,6 @@ export default function EntryCard({ anime, readOnly, onEdit, onDelete, onFavorit
                                 />
                             )}
                             {anime.isManga ? 'Manga' : 'Anime'}
-                        </span>
-                        <span className="rounded-full bg-white/90 px-2.5 py-1 font-bold text-slate-900 text-xs">
-                            {anime.rating}/10
                         </span>
                     </div>
                     {anime.note && (
@@ -133,7 +149,55 @@ export default function EntryCard({ anime, readOnly, onEdit, onDelete, onFavorit
                     <h3 className="display-font line-clamp-2 font-bold text-lg leading-tight drop-shadow-md">
                         {anime.title}
                     </h3>
-                    <div className="mt-2 flex items-center gap-2 text-white/80 text-xs">
+                    <div className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-white/80 text-xs">
+                        <span
+                            className={cn(
+                                'inline-flex shrink-0 items-center gap-0.5',
+                                isBeyondPerfect && 'text-amber-200',
+                            )}
+                            role="img"
+                        >
+                            {starPositions.map((position, index) => {
+                                const isFull = index < fullStars;
+                                const isHalf = !isFull && index === fullStars && hasHalfStar;
+
+                                return (
+                                    <span
+                                        key={position}
+                                        className="relative inline-flex h-3.25 w-3.25"
+                                        aria-hidden="true"
+                                    >
+                                        <Star
+                                            size={13}
+                                            strokeWidth={2.5}
+                                            fill={isFull ? 'currentColor' : 'none'}
+                                            className={
+                                                isFull
+                                                    ? 'text-amber-300'
+                                                    : 'text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]'
+                                            }
+                                        />
+                                        {isHalf && (
+                                            <span className="absolute inset-y-0 left-0 w-[42%] overflow-hidden">
+                                                <Star
+                                                    size={13}
+                                                    strokeWidth={2.5}
+                                                    fill="currentColor"
+                                                    className="max-w-none text-amber-300"
+                                                />
+                                            </span>
+                                        )}
+                                    </span>
+                                );
+                            })}
+                            {isBeyondPerfect && (
+                                <Sparkles
+                                    size={13}
+                                    className="ml-0.5 text-amber-200"
+                                    aria-hidden="true"
+                                />
+                            )}
+                        </span>
                         <span className="inline-flex items-center gap-1">
                             <CalendarDays size={13} />
                             {anime.startDate ? dayjs(anime.startDate).format('MMM D, YYYY') : 'No start date'}
