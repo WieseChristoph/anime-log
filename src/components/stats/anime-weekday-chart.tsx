@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { useTheme } from 'next-themes';
 import type { Anime } from '@/types/anime';
 import type { ChartData, ChartOptions } from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';
@@ -9,12 +8,12 @@ type AnimeWeekdayChartPropsType = {
 };
 
 const AnimeWeekdayChart = ({ anime = [] }: AnimeWeekdayChartPropsType) => {
-    const { theme } = useTheme();
 
     const data = useMemo(() => {
         return anime.reduce<number[]>((prev, curr) => {
             if (curr.startDate) {
-                prev[curr.startDate.getDay()] = (prev[curr.startDate.getDay()] ?? 0) + 11;
+                const mondayFirstDay = (curr.startDate.getDay() + 6) % 7;
+                prev[mondayFirstDay] = (prev[mondayFirstDay] ?? 0) + 1;
             }
 
             return prev;
@@ -51,24 +50,20 @@ const AnimeWeekdayChart = ({ anime = [] }: AnimeWeekdayChartPropsType) => {
     };
 
     const options: ChartOptions<'bar'> = {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             x: {
                 title: {
                     display: true,
                     text: 'Weekday',
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.7)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.7)',
                 },
                 ticks: {
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.7)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.7)',
                 },
                 grid: {
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.3)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.3)',
                 },
             },
             y: {
@@ -76,20 +71,14 @@ const AnimeWeekdayChart = ({ anime = [] }: AnimeWeekdayChartPropsType) => {
                 title: {
                     display: true,
                     text: 'Anime / Manga count',
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.7)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.7)',
                 },
                 ticks: {
                     precision: 0,
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.7)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.7)',
                 },
                 grid: {
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.3)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.3)',
                 },
             },
         },
@@ -107,7 +96,7 @@ const AnimeWeekdayChart = ({ anime = [] }: AnimeWeekdayChartPropsType) => {
         },
     };
 
-    return <Bar data={chartData} options={options} />;
+    return <Bar className="chart-canvas" data={chartData} options={options} />;
 };
 
 export default AnimeWeekdayChart;

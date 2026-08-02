@@ -1,4 +1,5 @@
 import z from 'zod';
+import { AnimeStatusSchema } from '@/types/anime';
 
 export const OrderValues = {
     TITLE: 'title' as const,
@@ -16,6 +17,8 @@ export const LogOptionsSchema = z.object({
     filter: z.object({
         anime: z.boolean(),
         manga: z.boolean(),
+        favorites: z.boolean().default(false),
+        statuses: z.array(AnimeStatusSchema).default([]),
     }),
 });
 

@@ -32,7 +32,7 @@ const SavedUsersDropdown = ({ urlShareId }: SavedUsersDropdownPropsType) => {
         <Menu as="div" className="relative z-20 inline-block text-left">
             {({ open }) => (
                 <>
-                    <Menu.Button className="flex items-center text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white">
+                    <Menu.Button className="flex items-center rounded-xl px-3 py-2 text-sm font-semibold text-slate-300 hover:bg-white/10 hover:text-white">
                         Saved Logs
                         <ChevronDown className="ui-open:rotate-180 ml-1 h-5 w-5" />
                     </Menu.Button>
@@ -47,16 +47,16 @@ const SavedUsersDropdown = ({ urlShareId }: SavedUsersDropdownPropsType) => {
                         leaveFrom="transform scale-100 opacity-100"
                         leaveTo="transform scale-50 opacity-0"
                     >
-                        <Menu.Items className="absolute mt-2 w-52 divide-y divide-gray-300 rounded-md bg-gray-100 shadow-lg dark:divide-slate-500 dark:bg-slate-700 dark:text-white">
+                        <Menu.Items className="menu-panel absolute left-0 mt-2 w-64 divide-y divide-(--border) overflow-hidden outline-none">
                             {getSavedUsers.data && getSavedUsers.data.length > 0 ? (
                                 getSavedUsers.data.map((savedUserEntry) => (
                                     <Menu.Item key={savedUserEntry.savedUser.shareId}>
                                         <Link
                                             href={`/${savedUserEntry.savedUser.shareId || ''}`}
                                             legacyBehavior={false}
-                                            className={`flex gap-2 px-2 py-2 text-sm hover:underline ${
+                                            className={`menu-item flex gap-2 px-3 py-2.5 text-sm ${
                                                 urlShareId === savedUserEntry.savedUser.shareId
-                                                    ? 'bg-gray-300 dark:bg-slate-800'
+                                                    ? 'bg-(--accent-soft) text-(--accent-strong)'
                                                     : ''
                                             }`}
                                         >
@@ -79,7 +79,7 @@ const SavedUsersDropdown = ({ urlShareId }: SavedUsersDropdownPropsType) => {
                                 <Menu.Item
                                     key="noSavedLogs"
                                     as="div"
-                                    className="px-2 py-2 text-center text-sm hover:underline"
+                                    className="menu-item px-3 py-3 text-center text-sm"
                                 >
                                     No saved logs
                                 </Menu.Item>
@@ -91,7 +91,7 @@ const SavedUsersDropdown = ({ urlShareId }: SavedUsersDropdownPropsType) => {
                                 ) ? (
                                     <Menu.Item>
                                         <DeleteButton
-                                            className="flex w-full flex-row gap-2 px-2 py-2 text-sm hover:underline"
+                                            className="menu-item menu-item-danger flex w-full flex-row gap-2 px-3 py-2.5 text-sm"
                                             title="Delete current Saved-Log?"
                                             text="You can always save this log again."
                                             successTitle="Deleted!"
@@ -109,7 +109,7 @@ const SavedUsersDropdown = ({ urlShareId }: SavedUsersDropdownPropsType) => {
                                 ) : (
                                     <Menu.Item
                                         as="button"
-                                        className="flex w-full flex-row gap-2 px-2 py-2 text-sm hover:underline"
+                                        className="menu-item flex w-full flex-row gap-2 px-3 py-2.5 text-sm"
                                         onClick={() =>
                                             addSavedUser.mutate({
                                                 shareId: urlShareId,

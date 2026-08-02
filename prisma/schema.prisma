@@ -74,6 +74,8 @@ model Anime {
     movies         Int[]
     ovas           Int[]
     rating         Int       @default(0)
+    favorite       Boolean   @default(false)
+    status         String    @default("PLANNED")
     link           String?
     note           String?
     imageUrl       String?

@@ -7,7 +7,6 @@ import { httpBatchLink } from '@trpc/client';
 import superjson from 'superjson';
 import { useState } from 'react';
 import { trpc } from '@/utils/trpc';
-import { ThemeProvider } from '@/components/theme/theme-provider';
 
 type ProvidersProps = {
     children: React.ReactNode;
@@ -25,9 +24,7 @@ export default function Providers({ children, session }: ProvidersProps) {
     return (
         <SessionProvider session={session}>
             <trpc.Provider client={trpcClient} queryClient={queryClient}>
-                <QueryClientProvider client={queryClient}>
-                    <ThemeProvider>{children}</ThemeProvider>
-                </QueryClientProvider>
+                <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
             </trpc.Provider>
         </SessionProvider>
     );

@@ -1,5 +1,7 @@
 import { prisma } from '@/server/db';
-import type { DiscordUser } from '@/types/discord';
+import { z } from 'zod';
+
+const DiscordUserSchema = z.object({ avatar: z.string().nullable() }).passthrough();
 
 export async function updateAvatarURL(userId: string) {
     if (!process.env.DISCORD_BOT_TOKEN) throw new Error('Missing Discord bot token');
@@ -17,7 +19,9 @@ export async function updateAvatarURL(userId: string) {
 
     if (!response.ok) return;
 
-    const data = (await response.json()) as DiscordUser;
+    const result = DiscordUserSchema.safeParse(await response.json());
+    if (!result.success) return;
+    const data = result.data;
 
     if (!data.avatar) return;
 

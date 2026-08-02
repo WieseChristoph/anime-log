@@ -1,5 +1,23 @@
 import z from 'zod';
 
+export const AnimeStatusValues = {
+    PLANNED: 'PLANNED',
+    WATCHING: 'WATCHING',
+    COMPLETED: 'COMPLETED',
+    PAUSED: 'PAUSED',
+    DROPPED: 'DROPPED',
+} as const;
+
+export const AnimeStatusSchema = z.enum([
+    AnimeStatusValues.PLANNED,
+    AnimeStatusValues.WATCHING,
+    AnimeStatusValues.COMPLETED,
+    AnimeStatusValues.PAUSED,
+    AnimeStatusValues.DROPPED,
+]);
+
+export type AnimeStatus = z.infer<typeof AnimeStatusSchema>;
+
 export const AnimeSchema = z.object({
     id: z.string(),
     title: z.string().min(1),
@@ -8,6 +26,8 @@ export const AnimeSchema = z.object({
     movies: z.array(z.number()).default([]),
     ovas: z.array(z.number()).default([]),
     rating: z.number().min(0).max(11).default(5),
+    favorite: z.boolean().default(false),
+    status: z.string().default(AnimeStatusValues.PLANNED).refine((value) => AnimeStatusSchema.safeParse(value).success, 'Invalid anime status'),
     link: z.string().max(512).nullable(),
     note: z.string().nullable(),
     imageUrl: z.string().max(512).nullable(),
@@ -18,3 +38,9 @@ export const AnimeSchema = z.object({
 });
 
 export type Anime = z.infer<typeof AnimeSchema>;
+
+export type AnimeDraft = Omit<Anime, 'id' | 'createdAt' | 'updatedAt'> & {
+    id?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+};

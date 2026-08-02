@@ -1,5 +1,4 @@
 import type { Anime } from '@/types/anime';
-import { useTheme } from 'next-themes';
 import { useMemo } from 'react';
 import type { ChartData, ChartOptions } from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';
@@ -10,7 +9,6 @@ type AnimeRatingChartPropsType = {
 };
 
 const AnimeRatingChart = ({ anime = [] }: AnimeRatingChartPropsType) => {
-    const { theme } = useTheme();
     const mounted = useMounted();
 
     const data = useMemo(() => {
@@ -61,24 +59,20 @@ const AnimeRatingChart = ({ anime = [] }: AnimeRatingChartPropsType) => {
     };
 
     const options: ChartOptions<'bar'> = {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             x: {
                 title: {
                     display: true,
                     text: 'Rating',
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.7)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.7)',
                 },
                 ticks: {
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.7)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.7)',
                 },
                 grid: {
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.3)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.3)',
                 },
             },
             y: {
@@ -86,20 +80,14 @@ const AnimeRatingChart = ({ anime = [] }: AnimeRatingChartPropsType) => {
                 title: {
                     display: true,
                     text: 'Anime / Manga count',
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.7)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.7)',
                 },
                 ticks: {
                     precision: 0,
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.7)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.7)',
                 },
                 grid: {
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.3)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.3)',
                 },
             },
         },
@@ -125,7 +113,7 @@ const AnimeRatingChart = ({ anime = [] }: AnimeRatingChartPropsType) => {
         return null;
     }
 
-    return <Bar data={chartData} options={options} />;
+    return <Bar className="chart-canvas" data={chartData} options={options} />;
 };
 
 export default AnimeRatingChart;

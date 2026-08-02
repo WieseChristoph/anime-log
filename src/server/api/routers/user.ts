@@ -4,6 +4,12 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/
 import { TRPCError } from '@trpc/server';
 
 export const userRouter = createTRPCRouter({
+    me: protectedProcedure.query(({ ctx }) => {
+        return ctx.prisma.user.findUniqueOrThrow({
+            where: { id: ctx.session.user.id },
+            select: { id: true, name: true, email: true, image: true, role: true },
+        });
+    }),
     delete: protectedProcedure.input(z.object({ userId: z.string() })).mutation(async ({ ctx, input }) => {
         if (ctx.session.user.role !== 'ADMIN')
             throw new TRPCError({

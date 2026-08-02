@@ -1,166 +1,74 @@
-import { useState } from 'react';
+'use client';
+
+import Head from 'next/head';
 import { useInView } from 'react-intersection-observer';
-import type { Anime as AnimeType } from '@/types/anime';
+import { BookOpen, CheckCircle2, LibraryBig, Plus, Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import type { Anime, AnimeDraft } from '@/types/anime';
 import { trpc } from '@/utils/trpc';
 import useLog from '@/hooks/use-log';
-import SortAndSearch from '@/components/log/log-sort-and-search';
-import Head from 'next/head';
-import { motion } from 'framer-motion';
 import ErrorAlert from '@/components/util/error-alert';
-import Anime from '@/components/log/anime/anime';
-import AnimeEdit from '@/components/log/anime/anime-edit';
 import Loading from '@/components/util/loading';
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css';
-import BackToTop from '@/components/util/back-to-top';
-import { Plus } from 'lucide-react';
+import EntryCard from '@/components/log/entry-card';
+import EntryListRow from '@/components/log/entry-list-row';
+import EntryEditorDrawer, { createBlankAnime } from '@/components/log/entry-editor-drawer';
+import LogToolbar from '@/components/log/log-toolbar';
 
-type LogPropsType = {
-    shareId?: string;
-};
+type LogProps = { shareId?: string };
+type ViewMode = 'grid' | 'list';
 
-const Log = ({ shareId }: LogPropsType) => {
-    const [showEditAnime, setShowEditAnime] = useState(false);
-    const [animeToEdit, setAnimeToEdit] = useState<AnimeType>();
+export default function Log({ shareId }: LogProps) {
+    const [editorOpen, setEditorOpen] = useState(false);
+    const [animeToEdit, setAnimeToEdit] = useState<Anime | undefined>();
+    const [viewMode, setViewMode] = useState<ViewMode>('grid');
+    const { getAnime, addAnime, updateAnime, deleteAnime, getAnimeSummary, logOptions, setLogOptions } = useLog(shareId);
+    const getUserByShareId = trpc.user.getByShareId.useQuery({ shareId: shareId ?? '' }, { enabled: Boolean(shareId) });
+    const { ref: inViewRef } = useInView({ onChange: (inView) => inView && getAnime.hasNextPage && void getAnime.fetchNextPage() });
 
-    const { ref: inViewRef } = useInView({
-        onChange: (inView) => inView && void getAnime.fetchNextPage(),
-    });
+    useEffect(() => {
+        const saved = window.localStorage.getItem('anime-log-view');
+        if (saved === 'grid' || saved === 'list') setViewMode(saved);
+    }, []);
 
-    const { getAnime, addAnime, updateAnime, deleteAnime, getAnimeCount, logOptions, setLogOptions } = useLog(shareId);
+    const pages = getAnime.data?.pages.flatMap((page) => page.items) ?? [];
+    const displayName = getUserByShareId.data?.name || 'Shared library';
 
-    const getUserByShareId = trpc.user.getByShareId.useQuery({ shareId: shareId as string }, { enabled: !!shareId });
+    const changeView = (mode: ViewMode) => { setViewMode(mode); window.localStorage.setItem('anime-log-view', mode); };
+    const openCreate = () => { setAnimeToEdit(undefined); setEditorOpen(true); };
+    const openEdit = (anime: Anime) => { setAnimeToEdit(anime); setEditorOpen(true); };
 
-    async function handleSaveButtonClick(anime: AnimeType) {
+    async function saveEntry(draft: AnimeDraft) {
         try {
-            if (anime.id) {
-                await updateAnime.mutateAsync(anime);
+            if (draft.id && draft.createdAt && draft.updatedAt) {
+                await updateAnime.mutateAsync({ ...draft, id: draft.id, createdAt: draft.createdAt, updatedAt: draft.updatedAt });
             } else {
-                await addAnime.mutateAsync(anime);
+                const { id: _id, createdAt: _createdAt, updatedAt: _updatedAt, ...newEntry } = { ...createBlankAnime(), ...draft };
+                await addAnime.mutateAsync(newEntry);
             }
-
-            setShowEditAnime(false);
-            setAnimeToEdit(undefined);
             return { success: true };
         } catch (error) {
-            return {
-                success: false,
-                error: (error as Error).message,
-            };
+            return { success: false, error: error instanceof Error ? error.message : 'Could not save this entry.' };
         }
     }
 
-    // Error Alert
-    if (getAnime.isError || getUserByShareId.isError)
-        return (
-            <div className="p-5">
-                <ErrorAlert message={getAnime.error?.message || getUserByShareId.error?.message} />
-            </div>
-        );
+    const toggleFavorite = (anime: Anime) => { if (!shareId) void updateAnime.mutateAsync({ ...anime, favorite: !anime.favorite }); };
 
-    // Invalid share id alert
-    if (getUserByShareId.isFetched && !getUserByShareId.data)
-        return (
-            <div className="p-5">
-                <ErrorAlert message="No log with this id" />
-            </div>
-        );
+    if (getAnime.isError || getUserByShareId.isError) return <div className="page-frame py-8"><ErrorAlert message={getAnime.error?.message || getUserByShareId.error?.message} /></div>;
+    if (getUserByShareId.isFetched && !getUserByShareId.data) return <div className="page-frame py-8"><ErrorAlert message="No log with this id." /></div>;
 
-    return (
-        <div className="container mx-auto p-4">
-            {getUserByShareId.data && (
-                <Head>
-                    <title>{getUserByShareId.data.name}&apos;s Log | Anime Log</title>
-                </Head>
-            )}
-
-            <SortAndSearch logOptions={logOptions} onLogOptionsChange={setLogOptions} />
-
-            <div className="my-4 flex flex-row items-center">
-                {/* Anime count */}
-                <div className="rounded bg-linear-to-r from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
-                    {getAnimeCount.data}
-                    {logOptions.filter.anime && logOptions.filter.manga
-                        ? ' Anime / Manga '
-                        : logOptions.filter.anime
-                          ? ' Anime '
-                          : ' Manga '}
-                </div>
-                {/* Shared Log Username */}
-                {getUserByShareId.data && (
-                    <div className="ml-auto rounded bg-linear-to-r from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
-                        Log of
-                        <b> {getUserByShareId.data.name}</b>
-                    </div>
-                )}
-                {/* Add new Anime button */}
-                {!shareId && (
-                    <Tippy content="Add new Anime">
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setShowEditAnime(!showEditAnime);
-                            }}
-                            className="ml-auto rounded-full bg-linear-to-r from-pink-500 to-orange-400 p-2 text-center text-lg font-medium text-white"
-                            aria-label="Add new anime"
-                        >
-                            <Plus className="scale-125" />
-                        </button>
-                    </Tippy>
-                )}
-            </div>
-
-            {/* Anime Edit Form */}
-            <AnimeEdit
-                key={animeToEdit?.id}
-                isOpen={showEditAnime}
-                initialAnime={animeToEdit}
-                onCancelButtonClick={() => {
-                    setShowEditAnime(false);
-                    setAnimeToEdit(undefined);
-                }}
-                onSaveButtonClick={handleSaveButtonClick}
-            />
-
-            {/* Main log grid */}
-            {getAnime.isLoading ? (
-                <Loading />
-            ) : (
-                <>
-                    {/* Log */}
-                    <motion.div
-                        className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
-                        layout
-                    >
-                        {/* All entries */}
-                        {getAnime.data?.pages.map((page) =>
-                            page.items.map((anime, iIndex) => (
-                                <Anime
-                                    key={anime.id}
-                                    anime={anime}
-                                    onDeleteClick={(a) => deleteAnime.mutate(a)}
-                                    onEditClick={(a) => {
-                                        setAnimeToEdit(a);
-                                        setShowEditAnime(true);
-                                    }}
-                                    isSharedLog={shareId !== undefined}
-                                    index={iIndex}
-                                />
-                            )),
-                        )}
-                    </motion.div>
-
-                    {/* Loading spinner for infinite query */}
-                    <div ref={inViewRef} className={!getAnime.hasNextPage ? 'hidden' : ''}>
-                        <Loading />
-                    </div>
-
-                    {/* Back to top button */}
-                    <BackToTop />
-                </>
-            )}
+    return <>
+        {getUserByShareId.data && <Head><title>{displayName}&apos;s Log | Anime Log</title></Head>}
+        <div className="page-frame py-4 sm:py-6">
+            <section className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3">
+                <div className="surface rounded-xl px-3 py-2.5 sm:rounded-2xl sm:p-4"><div className="muted flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-wider"><LibraryBig size={14} /> Entries</div><p className="display-font mt-1 text-xl font-bold sm:mt-2 sm:text-2xl">{getAnimeSummary.data?.entries ?? '—'}</p></div>
+                <div className="surface rounded-xl px-3 py-2.5 sm:rounded-2xl sm:p-4"><div className="muted flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-wider"><CheckCircle2 size={14} /> Completed</div><p className="display-font mt-1 text-xl font-bold sm:mt-2 sm:text-2xl">{getAnimeSummary.data?.completed ?? '—'}</p></div>
+                <div className="surface rounded-xl px-3 py-2.5 sm:rounded-2xl sm:p-4"><div className="muted flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-wider"><Sparkles size={14} /> Watching</div><p className="display-font mt-1 text-xl font-bold sm:mt-2 sm:text-2xl">{getAnimeSummary.data?.watching ?? '—'}</p></div>
+                <div className="surface rounded-xl px-3 py-2.5 sm:rounded-2xl sm:p-4"><div className="muted flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-wider"><BookOpen size={14} /> Manga</div><p className="display-font mt-1 text-xl font-bold sm:mt-2 sm:text-2xl">{getAnimeSummary.data?.manga ?? '—'}</p></div>
+            </section>
+            <LogToolbar options={logOptions} onChange={setLogOptions} viewMode={viewMode} onViewModeChange={changeView} onAddEntry={shareId ? undefined : openCreate} />
+            <EntryEditorDrawer open={editorOpen} initialAnime={animeToEdit} onClose={() => { setEditorOpen(false); setAnimeToEdit(undefined); }} onSave={saveEntry} />
+            {getAnime.isLoading ? <Loading /> : pages.length === 0 ? <div className="surface mt-6 rounded-2xl px-6 py-16 text-center"><div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-(--accent-soft) text-(--accent-strong)"><LibraryBig /></div><h2 className="display-font mt-5 text-xl font-bold">Nothing here yet</h2><p className="muted mx-auto mt-2 max-w-md">Try changing your filters or add your first entry to start building your collection.</p>{!shareId && <button type="button" className="btn-primary mx-auto mt-5" onClick={openCreate}><Plus size={17} /> Add your first entry</button>}</div> : viewMode === 'grid' ? <div className="mt-6 grid items-start grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">{pages.map((anime) => <EntryCard key={anime.id} anime={anime} readOnly={Boolean(shareId)} onEdit={openEdit} onDelete={(entry) => deleteAnime.mutate(entry)} onFavorite={toggleFavorite} />)}</div> : <div className="surface mt-6 overflow-hidden rounded-2xl">{pages.map((anime) => <EntryListRow key={anime.id} anime={anime} readOnly={Boolean(shareId)} onEdit={openEdit} onDelete={(entry) => deleteAnime.mutate(entry)} onFavorite={toggleFavorite} />)}</div>}
+            <div ref={inViewRef} className={getAnime.hasNextPage ? 'py-6' : 'hidden'}><Loading /></div>
         </div>
-    );
-};
-
-export default Log;
+    </>;
+}

@@ -1,46 +1,12 @@
+import { BarChart3, Users } from 'lucide-react';
+
 export type AdminNavItemType = 'stats' | 'users';
 
-type AdminNavigationPropsType = {
-    active: AdminNavItemType;
-    onNavItemChange: (newActive: AdminNavItemType) => void;
-};
+type AdminNavigationProps = { active: AdminNavItemType; onNavItemChange: (newActive: AdminNavItemType) => void };
 
-const AdminNavigation = ({ active, onNavItemChange }: AdminNavigationPropsType) => {
-    return (
-        <div className="border-b border-gray-200 text-center font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
-            {/* Order buttons */}
-            <ul className="flex flex-wrap text-xs sm:text-base">
-                <li className="mr-2">
-                    <button
-                        type="button"
-                        onClick={() => onNavItemChange('stats')}
-                        className={`inline-block rounded-t-lg border-b-2 border-transparent p-4 ${
-                            active === 'stats'
-                                ? 'active border-blue-600 text-blue-600 dark:border-blue-500 dark:text-blue-500'
-                                : 'hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
-                        }`}
-                        aria-label="Statistics page"
-                    >
-                        Stats
-                    </button>
-                </li>
-                <li className="mr-2">
-                    <button
-                        type="button"
-                        onClick={() => onNavItemChange('users')}
-                        className={`inline-block rounded-t-lg border-b-2 border-transparent p-4 ${
-                            active === 'users'
-                                ? 'active border-blue-600 text-blue-600 dark:border-blue-500 dark:text-blue-500'
-                                : 'hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
-                        }`}
-                        aria-label="Users page"
-                    >
-                        Users
-                    </button>
-                </li>
-            </ul>
-        </div>
-    );
-};
-
-export default AdminNavigation;
+export default function AdminNavigation({ active, onNavItemChange }: AdminNavigationProps) {
+    return <nav className="surface flex w-full gap-1 rounded-2xl p-1" aria-label="Admin sections">
+        <button type="button" onClick={() => onNavItemChange('stats')} className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition ${active === 'stats' ? 'bg-(--accent) text-white' : 'muted hover:bg-(--surface-muted)'}`}><BarChart3 size={17} /> Overview</button>
+        <button type="button" onClick={() => onNavItemChange('users')} className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition ${active === 'users' ? 'bg-(--accent) text-white' : 'muted hover:bg-(--surface-muted)'}`}><Users size={17} /> Users</button>
+    </nav>;
+}

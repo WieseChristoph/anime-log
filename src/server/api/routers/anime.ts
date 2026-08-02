@@ -3,6 +3,7 @@ import { AnimeSchema } from '@/types/anime';
 import { LogOptionsSchema, OrderValues as Order } from '@/types/log-options';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { TRPCError } from '@trpc/server';
+import { AnimeStatusValues } from '@/types/anime';
 
 export const animeRouter = createTRPCRouter({
     get: publicProcedure
@@ -36,6 +37,10 @@ export const animeRouter = createTRPCRouter({
                                 equals: input.logOptions.filter.manga,
                             },
                         }),
+                    ...(input.logOptions?.filter?.favorites && { favorite: true }),
+                    ...(input.logOptions?.filter?.statuses?.length && {
+                        status: { in: input.logOptions.filter.statuses },
+                    }),
                 },
                 orderBy: {
                     [input.logOptions?.order ?? Order.TITLE]:
@@ -61,6 +66,8 @@ export const animeRouter = createTRPCRouter({
                     link: true,
                     note: true,
                     rating: true,
+                    favorite: true,
+                    status: true,
                     startDate: true,
                     seasons: true,
                     movies: true,
@@ -106,6 +113,10 @@ export const animeRouter = createTRPCRouter({
                                 equals: input.logOptions.filter.manga,
                             },
                         }),
+                    ...(input.logOptions?.filter?.favorites && { favorite: true }),
+                    ...(input.logOptions?.filter?.statuses?.length && {
+                        status: { in: input.logOptions.filter.statuses },
+                    }),
                 },
                 cursor: cursor ? { id: cursor } : undefined,
                 orderBy: {
@@ -132,6 +143,8 @@ export const animeRouter = createTRPCRouter({
                     link: true,
                     note: true,
                     rating: true,
+                    favorite: true,
+                    status: true,
                     startDate: true,
                     seasons: true,
                     movies: true,
@@ -180,8 +193,35 @@ export const animeRouter = createTRPCRouter({
                                 equals: input.logOptions.filter.manga,
                             },
                         }),
+                    ...(input.logOptions?.filter?.favorites && { favorite: true }),
+                    ...(input.logOptions?.filter?.statuses?.length && {
+                        status: { in: input.logOptions.filter.statuses },
+                    }),
                 },
             });
+        }),
+    summary: publicProcedure
+        .input(
+            z.object({
+                shareId: z.string().nullish(),
+            }),
+        )
+        .query(async ({ ctx, input }) => {
+            if (!input.shareId && !ctx.session)
+                throw new TRPCError({
+                    code: 'UNAUTHORIZED',
+                    message: 'Must be logged in to access own log.',
+                });
+
+            const user = input.shareId ? { shareId: input.shareId } : { id: ctx.session?.user?.id };
+            const [entries, completed, watching, manga] = await Promise.all([
+                ctx.prisma.anime.count({ where: { user } }),
+                ctx.prisma.anime.count({ where: { user, status: AnimeStatusValues.COMPLETED } }),
+                ctx.prisma.anime.count({ where: { user, status: AnimeStatusValues.WATCHING } }),
+                ctx.prisma.anime.count({ where: { user, isManga: true } }),
+            ]);
+
+            return { entries, completed, watching, manga };
         }),
     add: protectedProcedure
         .input(
@@ -201,7 +241,14 @@ export const animeRouter = createTRPCRouter({
                 },
             });
         }),
-    update: protectedProcedure.input(AnimeSchema.partial({ imageUrl: true })).mutation(({ ctx, input }) => {
+    update: protectedProcedure.input(AnimeSchema.partial({ imageUrl: true })).mutation(async ({ ctx, input }) => {
+        const ownedAnime = await ctx.prisma.anime.findFirst({
+            where: { id: input.id, userId: ctx.session.user.id },
+            select: { id: true },
+        });
+
+        if (!ownedAnime) throw new TRPCError({ code: 'NOT_FOUND', message: 'Entry not found.' });
+
         return ctx.prisma.anime.update({
             where: { id: input.id },
             data: {
@@ -211,7 +258,14 @@ export const animeRouter = createTRPCRouter({
             },
         });
     }),
-    delete: protectedProcedure.input(AnimeSchema).mutation(({ ctx, input }) => {
+    delete: protectedProcedure.input(AnimeSchema).mutation(async ({ ctx, input }) => {
+        const ownedAnime = await ctx.prisma.anime.findFirst({
+            where: { id: input.id, userId: ctx.session.user.id },
+            select: { id: true },
+        });
+
+        if (!ownedAnime) throw new TRPCError({ code: 'NOT_FOUND', message: 'Entry not found.' });
+
         return ctx.prisma.anime.delete({
             where: { id: input.id },
         });

@@ -1,59 +1,16 @@
+import { BookOpenText, LibraryBig, Tv, Users } from 'lucide-react';
 import { trpc } from '@/utils/trpc';
 import ErrorAlert from '@/components/util/error-alert';
-import { BookOpenText, Tv, Users } from 'lucide-react';
+import Loading from '@/components/util/loading';
 
-const AdminStats = () => {
+export default function AdminStats() {
     const getUserCount = trpc.user.getCount.useQuery();
     const getAnimeMangaCount = trpc.anime.getCountByType.useQuery();
+    if (getUserCount.isError || getAnimeMangaCount.isError) return <ErrorAlert message={getUserCount.error?.message || getAnimeMangaCount.error?.message} />;
+    if (getUserCount.isLoading || getAnimeMangaCount.isLoading) return <Loading />;
+    const animeCount = getAnimeMangaCount.data?.find((entry) => !entry.isManga)?._count._all ?? 0;
+    const mangaCount = getAnimeMangaCount.data?.find((entry) => entry.isManga)?._count._all ?? 0;
+    return <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"><AdminMetric icon={<Users />} label="Users" value={getUserCount.data ?? 0} /><AdminMetric icon={<LibraryBig />} label="Total entries" value={animeCount + mangaCount} /><AdminMetric icon={<Tv />} label="Anime" value={animeCount} /><AdminMetric icon={<BookOpenText />} label="Manga" value={mangaCount} /></div>;
+}
 
-    // Error Alert
-    if (getUserCount.isError || getAnimeMangaCount.isError)
-        return (
-            <div className="p-5">
-                <ErrorAlert message={getAnimeMangaCount.error?.message || getAnimeMangaCount.error?.message} />
-            </div>
-        );
-
-    return (
-        <div className="my-4 flex flex-row flex-wrap justify-around gap-2">
-            {/* User count */}
-            <div className="grow rounded-lg border border-gray-300 bg-gray-200 p-6 shadow dark:border-slate-700 dark:bg-slate-800">
-                <span className="flex flex-row items-center gap-4">
-                    <Users className="mb-2 h-10 w-10 text-gray-500 dark:text-gray-400" />
-                    <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                        User count
-                    </h5>
-                </span>
-                <p className="text-center text-6xl font-normal text-gray-500 dark:text-gray-400">{getUserCount.data}</p>
-            </div>
-
-            {/* Anime count */}
-            <div className="grow rounded-lg border border-gray-300 bg-gray-200 p-6 shadow dark:border-slate-700 dark:bg-slate-800">
-                <span className="flex flex-row items-center gap-4">
-                    <Tv className="mb-2 h-10 w-10 text-gray-500 dark:text-gray-400" />
-                    <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                        Anime count
-                    </h5>
-                </span>
-                <p className="text-center text-6xl font-normal text-gray-500 dark:text-gray-400">
-                    {getAnimeMangaCount.data?.find((e) => !e.isManga)?._count._all}
-                </p>
-            </div>
-
-            {/* Manga count */}
-            <div className="grow rounded-lg border border-gray-300 bg-gray-200 p-6 shadow dark:border-slate-700 dark:bg-slate-800">
-                <span className="flex flex-row items-center gap-4">
-                    <BookOpenText className="mb-2 h-10 w-10 text-gray-500 dark:text-gray-400" />
-                    <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                        Manga count
-                    </h5>
-                </span>
-                <p className="text-center text-6xl font-normal text-gray-500 dark:text-gray-400">
-                    {getAnimeMangaCount.data?.find((e) => e.isManga)?._count._all}
-                </p>
-            </div>
-        </div>
-    );
-};
-
-export default AdminStats;
+function AdminMetric({ icon, label, value }: { icon: React.ReactNode; label: string; value: number }) { return <div className="surface rounded-2xl p-5"><div className="muted flex items-center gap-3 text-sm font-bold"><span className="grid h-10 w-10 place-items-center rounded-xl bg-(--accent-soft) text-(--accent-strong)">{icon}</span>{label}</div><p className="display-font mt-6 text-4xl font-bold">{value}</p></div>; }

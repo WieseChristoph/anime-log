@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { useTheme } from 'next-themes';
 import type { ChartData, ChartOptions } from 'chart.js/auto';
 import '@/utils/chartjs-dayjs-adapter';
 import zoomPlugin from 'chartjs-plugin-zoom';
@@ -14,7 +13,6 @@ type AnimeStartDateChartPropsType = {
 };
 
 const AnimeStartDateChart = ({ anime = [] }: AnimeStartDateChartPropsType) => {
-    const { theme } = useTheme();
 
     const data = useMemo(() => {
         const dates: dayjs.Dayjs[] = [];
@@ -24,13 +22,12 @@ const AnimeStartDateChart = ({ anime = [] }: AnimeStartDateChartPropsType) => {
 
         // Anime array needs to be sorted by start date
         anime.forEach((a) => {
+            if (!a.startDate) return;
             count += 1;
-            if (a.startDate) {
-                const date = dayjs.utc(a.startDate).startOf('day');
-                dates.push(date);
-                counts.push(count);
-                titles.push(a.title);
-            }
+            const date = dayjs.utc(a.startDate).startOf('day');
+            dates.push(date);
+            counts.push(count);
+            titles.push(a.title);
         });
 
         return { dates, counts, titles };
@@ -51,28 +48,26 @@ const AnimeStartDateChart = ({ anime = [] }: AnimeStartDateChartPropsType) => {
     };
 
     const options: ChartOptions<'line'> = {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             x: {
+                min: data.dates.at(0)?.valueOf(),
+                max: data.dates.at(-1)?.valueOf(),
                 title: {
                     display: true,
                     text: 'Date',
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.7)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.7)',
                 },
                 ticks: {
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.7)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.7)',
                 },
                 type: 'time',
                 time: {
                     tooltipFormat: 'DD/MM/YYYY',
                 },
                 grid: {
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.3)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.3)',
                 },
             },
             y: {
@@ -80,20 +75,14 @@ const AnimeStartDateChart = ({ anime = [] }: AnimeStartDateChartPropsType) => {
                 title: {
                     display: true,
                     text: 'Anime / Manga count',
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.7)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.7)',
                 },
                 ticks: {
                     precision: 0,
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.7)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.7)',
                 },
                 grid: {
-                    ...(theme === 'dark' && {
-                        color: 'rgb(255, 255, 255, 0.3)',
-                    }),
+                    color: 'rgb(255, 255, 255, 0.3)',
                 },
             },
         },
@@ -128,7 +117,7 @@ const AnimeStartDateChart = ({ anime = [] }: AnimeStartDateChartPropsType) => {
         },
     };
 
-    return <Line data={chartData} options={options} plugins={[zoomPlugin]} />;
+    return <Line className="chart-canvas" data={chartData} options={options} plugins={[zoomPlugin]} />;
 };
 
 export default AnimeStartDateChart;

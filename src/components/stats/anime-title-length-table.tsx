@@ -5,30 +5,30 @@ type AnimeTitleLenghtTablePropsType = {
 };
 
 const AnimeTitleLenghtTable = ({ anime = [] }: AnimeTitleLenghtTablePropsType) => {
-    anime.sort((a, b) => b.title.length - a.title.length);
+    const longestTitles = [...anime].sort((a, b) => b.title.length - a.title.length);
 
     return (
-        <table className="mt-4 h-[90%] w-full text-center">
-            <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
+        <table className="w-full table-fixed text-center text-sm">
+            <thead className="muted text-xs uppercase">
                 <tr>
-                    <th className="bg-gray-50 px-6 py-3 dark:bg-gray-900">Rank</th>
-                    <th className="px-6 py-3">Title</th>
-                    <th className="bg-gray-50 px-6 py-3 dark:bg-gray-900">
+                    <th className="w-20 bg-(--surface-muted) px-3 py-2">Rank</th>
+                    <th className="px-3 py-2">Title</th>
+                    <th className="w-28 bg-(--surface-muted) px-3 py-2">
                         Length <br /> (characters)
                     </th>
                 </tr>
             </thead>
             <tbody>
-                {anime.slice(0, 5).map((a, i, array) => (
+                {longestTitles.slice(0, 5).map((a, i, array) => (
                     <tr
                         key={a.id}
-                        className={`${i !== array.length - 1 ? 'border-b border-gray-400 dark:border-gray-700' : ''}`}
+                        className={`${i !== array.length - 1 ? 'border-b border-(--border)' : ''}`}
                     >
-                        <th className="bg-gray-50 px-6 py-4 font-medium whitespace-nowrap text-gray-900 dark:bg-gray-900 dark:text-white">
+                        <th className="bg-(--surface-muted) px-3 py-3 font-medium whitespace-nowrap">
                             {i + 1}
                         </th>
-                        <td className="px-6 py-4">{a.title}</td>
-                        <td className="bg-gray-50 px-6 py-4 font-medium whitespace-nowrap text-gray-900 dark:bg-gray-900 dark:text-white">
+                        <td className="max-w-0 px-3 py-3"><span className="line-clamp-2">{a.title}</span></td>
+                        <td className="bg-(--surface-muted) px-3 py-3 font-medium whitespace-nowrap">
                             {a.title.length}
                         </td>
                     </tr>

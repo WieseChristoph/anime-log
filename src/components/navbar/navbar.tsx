@@ -1,71 +1,107 @@
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
-import ProfileDropdown from '@/components/navbar/profile-dropdown';
-import LoginButton from '@/components/navbar/login-button';
-import SavedUsersDropdown from '@/components/navbar/saved-users-dropdown';
-import DarkModeToggle from '@/components/navbar/dark-mode-toggle';
-import AboutDropdown from '@/components/navbar/about-dropdown';
-import { UserRoleValues } from '@/types/user';
+'use client';
 
-type PropsType = {
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { Menu, X } from 'lucide-react';
+import { useState } from 'react';
+import Image from 'next/image';
+import { UserRoleValues } from '@/types/user';
+import { trpc } from '@/utils/trpc';
+import LoginButton from '@/components/navbar/login-button';
+import ProfileDropdown from '@/components/navbar/profile-dropdown';
+import SavedUsersDropdown from '@/components/navbar/saved-users-dropdown';
+
+type NavbarProps = {
     urlShareId?: string;
 };
 
-const Navbar = ({ urlShareId }: PropsType) => {
+const links = [
+    { href: '/', label: 'My log', requiresLog: true },
+    { href: '/stats', label: 'Statistics', requiresLog: true },
+];
+
+const Navbar = ({ urlShareId }: NavbarProps) => {
+    const pathname = usePathname();
     const { data: session, status } = useSession();
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const currentUser = trpc.user.me.useQuery(undefined, { enabled: status === 'authenticated' });
+
+    const getHref = (href: string) => {
+        if (!urlShareId) return href;
+        return href === '/' ? `/${urlShareId}` : `${href}/${urlShareId}`;
+    };
 
     return (
-        <nav className="sticky top-0 z-40 flex-wrap bg-white px-3 py-2.5 shadow-lg sm:px-4 dark:bg-slate-900">
-            <div className="container mx-auto flex flex-wrap items-center">
-                <Link href="/" className="order-first mr-auto flex items-center sm:mr-8">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 512 512"
-                        role="img"
-                        aria-label="Anime Log icon"
-                        className="mr-3 h-7 w-7 dark:fill-white"
-                    >
-                        <title>Anime Log icon</title>
-                        <path d="M376.5 32h-240.9A303.2 303.2 0 0 1 0 0v96c0 17.7 14.3 32 32 32h32v64H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h48v240c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V256h256v240c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V256h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16h-48v-64h32c17.7 0 32-14.3 32-32V0a303.2 303.2 0 0 1 -135.6 32zM128 128h96v64h-96v-64zm256 64h-96v-64h96v64z" />
-                    </svg>
-                    <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-                        Anime Log
-                    </span>
+        <header className="sticky top-0 z-40 border-b border-white/10 bg-(--nav) text-(--nav-text) shadow-xl shadow-slate-950/10">
+            <div className="page-frame flex min-h-14 items-center gap-2 py-2">
+                <Link href="/" className="mr-auto flex items-center gap-3" onClick={() => setMobileOpen(false)}>
+                    <Image src="/torii-gate.png" alt="Anime Log" width={38} height={38} className="h-9 w-9 rounded-xl object-cover" priority />
+                    <span className="display-font text-base font-bold tracking-tight sm:text-lg">Anime Log</span>
                 </Link>
 
-                <ul className="order-last flex flex-row items-center sm:mr-auto sm:space-x-8 sm:text-sm sm:font-medium">
-                    {/* Only for logged in users */}
-                    {status === 'authenticated' && (
-                        <li className="block py-2 pr-4 sm:p-0">
-                            <SavedUsersDropdown urlShareId={urlShareId} />
-                        </li>
+                <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
+                    {status === 'authenticated' && <SavedUsersDropdown urlShareId={urlShareId} />}
+                    {(status === 'authenticated' || urlShareId) &&
+                        links.map((link) => {
+                            const href = getHref(link.href);
+                            const active = pathname === href;
+                            return (
+                                <Link
+                                    key={link.href}
+                                    href={href}
+                                    className={`rounded-xl px-3 py-2 text-sm font-semibold transition ${
+                                        active ? 'bg-white/12 text-white' : 'text-slate-300 hover:bg-white/8 hover:text-white'
+                                    }`}
+                                >
+                                    {link.label}
+                                </Link>
+                            );
+                        })}
+                    {currentUser.data?.role === UserRoleValues.ADMIN && (
+                        <Link
+                            href="/admin"
+                            className={`rounded-xl px-3 py-2 text-sm font-semibold transition ${
+                                pathname === '/admin' ? 'bg-white/12 text-white' : 'text-slate-300 hover:bg-white/8 hover:text-white'
+                            }`}
+                        >
+                            Admin
+                        </Link>
                     )}
-                    {/* Only for logged in users or when a shareId is present */}
-                    {(status === 'authenticated' || urlShareId) && (
-                        <li className="block py-2 pr-4 pl-3 text-gray-700 hover:text-black sm:p-0 dark:text-gray-300 dark:hover:text-white">
-                            <Link href={`/stats/${urlShareId ?? ''}`}>Stats</Link>
-                        </li>
-                    )}
-                    {/* Always visible */}
-                    <li className="block py-2 pr-4 pl-3 sm:p-0">
-                        <AboutDropdown />
-                    </li>
-                    {/* Visible to admins */}
-                    {status === 'authenticated' && session.user.role === UserRoleValues.ADMIN && (
-                        <li className="block py-2 pr-4 pl-3 text-gray-700 hover:text-black sm:p-0 dark:text-gray-300 dark:hover:text-white">
-                            <Link href="/admin">Admin Panel</Link>
-                        </li>
-                    )}
-                </ul>
+                    <Link href="https://github.com/WieseChristoph/anime-log" target="_blank" className="rounded-xl px-3 py-2 text-sm font-semibold text-slate-300 hover:bg-white/8 hover:text-white">
+                        About
+                    </Link>
+                </nav>
 
-                <div className="order-2 flex items-center sm:order-last">
-                    <DarkModeToggle />
-
-                    {status !== 'loading' &&
-                        (status === 'authenticated' ? <ProfileDropdown user={session.user} /> : <LoginButton />)}
-                </div>
+                <button
+                    type="button"
+                    className="grid h-9 w-9 place-items-center rounded-xl text-slate-300 hover:bg-white/10 hover:text-white lg:hidden"
+                    aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+                    aria-expanded={mobileOpen}
+                    onClick={() => setMobileOpen((open) => !open)}
+                >
+                    {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+                </button>
+                {status !== 'loading' && (status === 'authenticated' && session?.user ? <ProfileDropdown user={session.user} /> : <LoginButton />)}
             </div>
-        </nav>
+
+            {mobileOpen && (
+                <div className="border-t border-white/10 bg-(--nav) lg:hidden">
+                    <nav className="page-frame flex flex-col gap-1 py-3" aria-label="Mobile navigation">
+                        {status === 'authenticated' && <div className="px-3 py-2"><SavedUsersDropdown urlShareId={urlShareId} /></div>}
+                        {(status === 'authenticated' || urlShareId) && links.map((link) => (
+                            <Link key={link.href} href={getHref(link.href)} onClick={() => setMobileOpen(false)} className="rounded-xl px-3 py-3 text-sm font-semibold text-slate-200 hover:bg-white/10">
+                                {link.label}
+                            </Link>
+                        ))}
+                        {currentUser.data?.role === UserRoleValues.ADMIN && (
+                            <Link href="/admin" onClick={() => setMobileOpen(false)} className="rounded-xl px-3 py-3 text-sm font-semibold text-slate-200 hover:bg-white/10">Admin</Link>
+                        )}
+                        <Link href="https://github.com/WieseChristoph/anime-log" target="_blank" className="rounded-xl px-3 py-3 text-sm font-semibold text-slate-200 hover:bg-white/10">About</Link>
+                    </nav>
+                </div>
+            )}
+        </header>
     );
 };
 

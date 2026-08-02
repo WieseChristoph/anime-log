@@ -1,136 +1,38 @@
-import {
-    Chart as ChartJS,
-    BarElement,
-    CategoryScale,
-    LineElement,
-    LinearScale,
-    PointElement,
-    RadialLinearScale,
-    ArcElement,
-    TimeScale,
-    Tooltip,
-    Filler,
-    Legend,
-} from 'chart.js';
-import { type LogOptionsType as LogOptions, OrderValues as Order } from '@/types/log-options';
+'use client';
+
+import dynamic from 'next/dynamic';
+import 'chart.js/auto';
+import Link from 'next/link';
+import { ArrowLeft, BarChart3, BookOpen, LibraryBig, Star, Tv } from 'lucide-react';
 import type { Anime } from '@/types/anime';
 import { trpc } from '@/utils/trpc';
-import dynamic from 'next/dynamic';
-import Head from 'next/head';
+import { type LogOptionsType, OrderValues } from '@/types/log-options';
 import AnimeRatingChart from '@/components/stats/anime-rating-chart';
 import AnimeWeekdayChart from '@/components/stats/anime-weekday-chart';
-import ErrorAlert from '@/components/util/error-alert';
 import AnimeWatchtypeChart from '@/components/stats/anime-watchtype-chart';
 import AnimeTitleLenghtTable from '@/components/stats/anime-title-length-table';
-import Link from 'next/link';
-import { ChevronLeft } from 'lucide-react';
+import ErrorAlert from '@/components/util/error-alert';
+import Loading from '@/components/util/loading';
 
-ChartJS.register(
-    BarElement,
-    CategoryScale,
-    LinearScale,
-    RadialLinearScale,
-    LineElement,
-    PointElement,
-    TimeScale,
-    ArcElement,
-    Tooltip,
-    Filler,
-    Legend,
-);
+const DynamicAnimeStartDateChart = dynamic<{ anime?: Anime[] }>(() => import('@/components/stats/anime-start-date-chart'), { ssr: false });
 
-type StatsLayoutPropsType = {
-    shareId?: string;
-};
+export default function StatsLayout({ shareId }: { shareId?: string }) {
+    const logOptions: LogOptionsType = { order: OrderValues.START_DATE, asc: true, searchTerm: '', filter: { anime: true, manga: true, favorites: false, statuses: [] } };
+    const getAnime = trpc.anime.get.useQuery({ shareId, logOptions });
+    const getUser = trpc.user.getByShareId.useQuery({ shareId: shareId ?? '' }, { enabled: Boolean(shareId) });
+    const anime = getAnime.data ?? [];
+    const average = anime.length ? (anime.reduce((sum, entry) => sum + entry.rating, 0) / anime.length).toFixed(1) : '—';
 
-// needs dynamic import without ssr because the chart zoom-plugin needs the window object
-const DynamicAnimeStartDateChart = dynamic<{ anime?: Anime[] }>(
-    () => import('@/components/stats/anime-start-date-chart'),
-    { ssr: false },
-);
+    if (getAnime.isError || getUser.isError) return <div className="page-frame py-8"><ErrorAlert message={getAnime.error?.message || getUser.error?.message} /></div>;
+    if (getUser.isFetched && !getUser.data) return <div className="page-frame py-8"><ErrorAlert message="No stats with this id." /></div>;
+    if (getAnime.isLoading) return <Loading />;
 
-const StatsLayout = ({ shareId }: StatsLayoutPropsType) => {
-    const logOptions: LogOptions = {
-        order: Order.START_DATE,
-        asc: true,
-        searchTerm: '',
-        filter: {
-            anime: true,
-            manga: true,
-        },
-    };
+    return <div className="page-frame py-6 sm:py-8">
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div>{shareId && <Link href={`/${shareId}`} className="muted mb-3 inline-flex items-center gap-2 text-sm font-semibold hover:text-(--text)"><ArrowLeft size={16} /> Back to library</Link>}<div className="flex items-center gap-2 text-sm font-bold text-(--accent-strong)"><BarChart3 size={17} /> Collection insights</div><h1 className="display-font mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{shareId ? `${getUser.data?.name || 'Shared'}'s statistics` : 'Your statistics'}</h1><p className="muted mt-2">A visual snapshot of your collection and watching habits.</p></div></div>
+        <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4"><Metric icon={<LibraryBig size={17} />} label="Entries" value={anime.length} /><Metric icon={<Tv size={17} />} label="Anime" value={anime.filter((entry) => !entry.isManga).length} /><Metric icon={<BookOpen size={17} />} label="Manga" value={anime.filter((entry) => entry.isManga).length} /><Metric icon={<Star size={17} />} label="Average rating" value={average} /></div>
+        <div className="grid gap-4 lg:grid-cols-2"><ChartPanel title="Rating distribution"><AnimeRatingChart anime={anime} /></ChartPanel><ChartPanel title="Entries by weekday"><AnimeWeekdayChart anime={anime} /></ChartPanel><ChartPanel title="Collection over time" wide><DynamicAnimeStartDateChart anime={anime} /></ChartPanel><ChartPanel title="Watch type"><div className="mx-auto h-full max-w-sm"><AnimeWatchtypeChart anime={anime} /></div></ChartPanel><ChartPanel title="Longest titles" table><AnimeTitleLenghtTable anime={anime} /></ChartPanel></div>
+    </div>;
+}
 
-    const getAnime = trpc.anime.get.useQuery({ shareId: shareId, logOptions });
-
-    const getUserByShareId = trpc.user.getByShareId.useQuery({ shareId: shareId as string }, { enabled: !!shareId });
-
-    // Error Alert
-    if (getAnime.isError || getUserByShareId.isError)
-        return (
-            <div className="p-5">
-                <ErrorAlert message={getAnime.error?.message || getUserByShareId.error?.message} />
-            </div>
-        );
-
-    // Invalid share id alert
-    if (getUserByShareId.isFetched && !getUserByShareId.data)
-        return (
-            <div className="p-5">
-                <ErrorAlert message="No stats with this id" />
-            </div>
-        );
-
-    return (
-        <div className="container mx-auto px-2 py-4">
-            {getUserByShareId.data && (
-                <>
-                    <Head>
-                        <title>{getUserByShareId.data.name}&apos;s Stats | Anime Log</title>
-                    </Head>
-                    <div className="flex flex-row">
-                        <Link className="flex flex-row items-center space-x-2" href={`/${shareId ?? ''}`}>
-                            <ChevronLeft />
-                            <span>Back to log</span>
-                        </Link>
-                        <div className="ml-auto rounded bg-gradient-to-r from-pink-500 to-orange-400 px-2.5 py-0.5 text-sm font-bold text-white">
-                            Stats of
-                            <b> {getUserByShareId.data.name}</b>
-                        </div>
-                    </div>
-                </>
-            )}
-
-            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div className="rounded border border-gray-300 bg-gray-200 p-4 dark:border-slate-700 dark:bg-slate-800">
-                    <span className="text-xl font-bold">Rating distribution</span>
-                    <hr className="my-2 border-black dark:border-white" />
-                    <AnimeRatingChart anime={getAnime.data} />
-                </div>
-                <div className="rounded border border-gray-300 bg-gray-200 p-4 dark:border-slate-700 dark:bg-slate-800">
-                    <span className="text-xl font-bold">Anime / Manga count by weekdays</span>
-                    <hr className="my-2 border-black dark:border-white" />
-                    <AnimeWeekdayChart anime={getAnime.data} />
-                </div>
-                <div className="rounded border border-gray-300 bg-gray-200 p-4 sm:col-span-2 dark:border-slate-700 dark:bg-slate-800">
-                    <span className="text-xl font-bold">Anime / Manga count over time</span>
-                    <hr className="my-2 border-black dark:border-white" />
-                    <DynamicAnimeStartDateChart anime={getAnime.data} />
-                </div>
-                <div className="rounded border border-gray-300 bg-gray-200 p-4 dark:border-slate-700 dark:bg-slate-800">
-                    <span className="text-xl font-bold">Watchtype count</span>
-                    <hr className="my-2 border-black dark:border-white" />
-                    <div className="mx-auto w-2/3">
-                        <AnimeWatchtypeChart anime={getAnime.data} />
-                    </div>
-                </div>
-                <div className="rounded border border-gray-300 bg-gray-200 p-4 dark:border-slate-700 dark:bg-slate-800">
-                    <span className="text-xl font-bold">Anime / Manga title length</span>
-                    <hr className="my-2 border-black dark:border-white" />
-                    <AnimeTitleLenghtTable anime={getAnime.data} />
-                </div>
-            </div>
-        </div>
-    );
-};
-
-export default StatsLayout;
+function Metric({ icon, label, value }: { icon: React.ReactNode; label: string; value: React.ReactNode }) { return <div className="surface rounded-2xl p-4"><div className="muted flex items-center gap-2 text-xs font-bold uppercase tracking-widest">{icon}{label}</div><p className="display-font mt-2 text-2xl font-bold">{value}</p></div>; }
+function ChartPanel({ title, children, wide = false, table = false }: { title: string; children: React.ReactNode; wide?: boolean; table?: boolean }) { return <section className={`surface min-h-80 rounded-2xl p-4 sm:p-5 ${wide ? 'lg:col-span-2' : ''}`}><div className="mb-4 border-b border-(--border) pb-3"><h2 className="display-font text-lg font-bold">{title}</h2></div><div className={table ? 'min-h-0' : 'relative h-[min(62vw,360px)] min-h-60 w-full'}>{children}</div></section>; }

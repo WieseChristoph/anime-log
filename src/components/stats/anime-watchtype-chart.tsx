@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import type { ChartData, ChartOptions } from 'chart.js/auto';
 import type { Anime } from '@/types/anime';
-import { useTheme } from 'next-themes';
 import { Doughnut } from 'react-chartjs-2';
 
 type AnimeWatchtypeChartPropsType = {
@@ -9,7 +8,6 @@ type AnimeWatchtypeChartPropsType = {
 };
 
 const AnimeWatchtypeChart = ({ anime = [] }: AnimeWatchtypeChartPropsType) => {
-    const { theme } = useTheme();
 
     const data = useMemo(() => {
         return anime.reduce<number[]>((prev, curr) => {
@@ -34,9 +32,9 @@ const AnimeWatchtypeChart = ({ anime = [] }: AnimeWatchtypeChartPropsType) => {
     };
 
     const options: ChartOptions<'doughnut'> = {
-        ...(theme === 'dark' && {
-            color: 'rgb(255, 255, 255, 0.7)',
-        }),
+        responsive: true,
+        maintainAspectRatio: false,
+        color: 'rgb(255, 255, 255, 0.7)',
         plugins: {
             tooltip: {
                 callbacks: {
@@ -51,7 +49,7 @@ const AnimeWatchtypeChart = ({ anime = [] }: AnimeWatchtypeChartPropsType) => {
         },
     };
 
-    return <Doughnut data={chartData} options={options} />;
+    return <Doughnut className="chart-canvas" data={chartData} options={options} />;
 };
 
 export default AnimeWatchtypeChart;

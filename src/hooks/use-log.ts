@@ -11,6 +11,8 @@ function useLog(shareId: string | undefined) {
         filter: {
             anime: true,
             manga: true,
+            favorites: false,
+            statuses: [],
         },
     });
 
@@ -22,10 +24,7 @@ function useLog(shareId: string | undefined) {
 
     const ctx = trpc.useUtils();
 
-    const getAnimeCount = trpc.anime.count.useQuery({
-        shareId: shareId,
-        logOptions,
-    });
+    const getAnimeSummary = trpc.anime.summary.useQuery({ shareId });
 
     const getAnime = trpc.anime.infinite.useInfiniteQuery(queryInput, {
         getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -35,7 +34,7 @@ function useLog(shareId: string | undefined) {
         onMutate: async (addedAnime) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await ctx.anime.infinite.cancel(queryInput);
-            await ctx.anime.count.cancel({ shareId: shareId });
+            await ctx.anime.summary.cancel({ shareId: shareId });
 
             // Optimistically update to the new value
             ctx.anime.infinite.setInfiniteData(queryInput, (data) => {
@@ -46,22 +45,39 @@ function useLog(shareId: string | undefined) {
                     };
                 }
 
+                const optimisticEntry: Anime = {
+                    id: 'temp-id',
+                    title: addedAnime.title,
+                    isManga: addedAnime.isManga ?? false,
+                    seasons: addedAnime.seasons ?? [],
+                    movies: addedAnime.movies ?? [],
+                    ovas: addedAnime.ovas ?? [],
+                    rating: addedAnime.rating ?? 5,
+                    favorite: addedAnime.favorite ?? false,
+                    status: addedAnime.status ?? 'PLANNED',
+                    link: addedAnime.link ?? null,
+                    note: addedAnime.note ?? null,
+                    imageUrl: addedAnime.imageUrl ?? null,
+                    hasCustomImage: addedAnime.hasCustomImage ?? false,
+                    startDate: addedAnime.startDate ?? null,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                };
+
                 return {
                     ...data,
                     pages: data.pages.map((page) => ({
                         ...page,
-                        items: [{ ...addedAnime, id: 'temp-id' }, ...page.items] as Anime[],
+                        items: [optimisticEntry, ...page.items],
                     })),
                 };
             });
 
-            // Optimistically update anime count
-            ctx.anime.count.setData({ shareId: shareId }, (data) => (data ?? 0) + 1);
         },
         // Always refetch after error or success:
         onSettled: () => {
             void ctx.anime.infinite.invalidate(queryInput);
-            void ctx.anime.count.invalidate({ shareId: shareId });
+            void ctx.anime.summary.invalidate({ shareId: shareId });
         },
     });
 
@@ -69,6 +85,7 @@ function useLog(shareId: string | undefined) {
         onMutate: async (updatedAnime) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await ctx.anime.infinite.cancel(queryInput);
+            await ctx.anime.summary.cancel({ shareId: shareId });
 
             // Optimistically update to the new value
             ctx.anime.infinite.setInfiniteData(queryInput, (data) => {
@@ -85,10 +102,24 @@ function useLog(shareId: string | undefined) {
                         ...page,
                         items: page.items.map((a) =>
                             a.id === updatedAnime.id
-                                ? ({
-                                      ...updatedAnime,
+                                ? {
+                                      id: a.id,
+                                      title: updatedAnime.title ?? a.title,
+                                      isManga: updatedAnime.isManga ?? a.isManga,
+                                      seasons: updatedAnime.seasons ?? a.seasons,
+                                      movies: updatedAnime.movies ?? a.movies,
+                                      ovas: updatedAnime.ovas ?? a.ovas,
+                                      rating: updatedAnime.rating ?? a.rating,
+                                      favorite: updatedAnime.favorite ?? a.favorite,
+                                      status: updatedAnime.status ?? a.status,
+                                      link: updatedAnime.link ?? a.link,
+                                      note: updatedAnime.note ?? a.note,
+                                      imageUrl: updatedAnime.imageUrl ?? null,
+                                      hasCustomImage: updatedAnime.hasCustomImage ?? a.hasCustomImage,
+                                      startDate: updatedAnime.startDate ?? a.startDate,
+                                      createdAt: a.createdAt,
                                       updatedAt: new Date(),
-                                  } as Anime)
+                                  }
                                 : a,
                         ),
                     })),
@@ -98,6 +129,7 @@ function useLog(shareId: string | undefined) {
         // Always refetch after error or success:
         onSettled: () => {
             void ctx.anime.infinite.invalidate(queryInput);
+            void ctx.anime.summary.invalidate({ shareId: shareId });
         },
     });
 
@@ -105,7 +137,7 @@ function useLog(shareId: string | undefined) {
         onMutate: async (deletedAnime) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await ctx.anime.infinite.cancel(queryInput);
-            await ctx.anime.count.cancel({ shareId: shareId });
+            await ctx.anime.summary.cancel({ shareId: shareId });
 
             // Optimistically update to the new value
             ctx.anime.infinite.setInfiniteData(queryInput, (data) => {
@@ -124,13 +156,11 @@ function useLog(shareId: string | undefined) {
                     })),
                 };
             });
-            // Optimistically update anime count
-            ctx.anime.count.setData({ shareId: shareId }, (data) => (data ?? 0) - 1);
         },
         // Always refetch after error or success:
         onSettled: () => {
             void ctx.anime.infinite.invalidate(queryInput);
-            void ctx.anime.count.invalidate({ shareId: shareId });
+            void ctx.anime.summary.invalidate({ shareId: shareId });
         },
     });
 
@@ -139,7 +169,7 @@ function useLog(shareId: string | undefined) {
         addAnime,
         updateAnime,
         deleteAnime,
-        getAnimeCount,
+        getAnimeSummary,
         logOptions,
         setLogOptions,
     };
