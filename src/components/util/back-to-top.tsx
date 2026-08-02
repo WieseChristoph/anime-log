@@ -1,5 +1,6 @@
 import { ChevronsUp } from 'lucide-react';
-import { useState, } from 'react';
+import { useState } from 'react';
+import { cn } from '@/utils/helper';
 
 const BackToTop = () => {
     const [visible, setVisible] = useState(false);
@@ -7,8 +8,12 @@ const BackToTop = () => {
 
     function toggleVisible() {
         setScrollPosition(window.scrollY);
-        if (scrollPosition > 100 && !visible) setVisible(true);
-        else if (scrollPosition < 100) setVisible(false);
+
+        if (scrollPosition > 100 && !visible) {
+            setVisible(true);
+        } else if (scrollPosition < 100) {
+            setVisible(false);
+        }
     }
 
     function scrollToTop() {
@@ -23,9 +28,10 @@ const BackToTop = () => {
     return (
         <button
             type="button"
-            className={`${
-                visible ? 'block' : 'hidden'
-            } fixed right-5 bottom-5 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-orange-400 p-2 text-white shadow-md`}
+            className={cn(
+                'fixed right-5 bottom-5 flex items-center justify-center rounded-full bg-linear-to-r from-pink-500 to-orange-400 p-2 text-white shadow-md',
+                visible ? 'block' : 'hidden',
+            )}
             onClick={() => scrollToTop()}
             aria-label="Back to top"
         >

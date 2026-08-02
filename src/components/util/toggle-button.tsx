@@ -1,6 +1,6 @@
-
 import { useState } from 'react';
-import { Switch } from '@headlessui/react';
+import { Field, Label, Switch } from '@headlessui/react';
+import { cn } from '@/utils/helper';
 
 type ToggleButtonPropsType = {
     initialValue: boolean;
@@ -19,10 +19,8 @@ const ToggleButton = ({ initialValue = false, onValueChange, label, valueLeft, v
     }
 
     return (
-        <Switch.Group>
-            <Switch.Label className="mb-2 block text-sm font-medium text-(--text)">
-                {label}
-            </Switch.Label>
+        <Field>
+            <Label className="mb-2 block font-medium text-(--text) text-sm">{label}</Label>
             <div className="mb-4 flex items-center">
                 <Switch
                     checked={value}
@@ -30,13 +28,16 @@ const ToggleButton = ({ initialValue = false, onValueChange, label, valueLeft, v
                     className="relative inline-flex w-full items-center overflow-hidden rounded-lg border border-(--border) bg-(--surface-muted) text-center text-sm transition-colors focus:border-(--accent) focus:ring-(--accent) focus:ring-offset-(--bg)"
                 >
                     <span
-                        className={`${value ? 'translate-x-full' : 'translate-x-0'} absolute h-full w-1/2 transform bg-blue-600 transition-transform`}
+                        className={cn(
+                            'absolute h-full w-1/2 transform bg-blue-600 transition-transform',
+                            value ? 'translate-x-full' : 'translate-x-0',
+                        )}
                     />
-                    <Switch.Label className="z-10 w-full p-2.5 hover:cursor-pointer">{valueLeft}</Switch.Label>
-                    <Switch.Label className="z-10 w-full p-2.5 hover:cursor-pointer">{valueRight}</Switch.Label>
+                    <Label className="z-10 w-full p-2.5 hover:cursor-pointer">{valueLeft}</Label>
+                    <Label className="z-10 w-full p-2.5 hover:cursor-pointer">{valueRight}</Label>
                 </Switch>
             </div>
-        </Switch.Group>
+        </Field>
     );
 };
 

@@ -4,7 +4,9 @@ import { z } from 'zod';
 const DiscordUserSchema = z.object({ avatar: z.string().nullable() }).passthrough();
 
 export async function updateAvatarURL(userId: string) {
-    if (!process.env.DISCORD_BOT_TOKEN) throw new Error('Missing Discord bot token');
+    if (!process.env.DISCORD_BOT_TOKEN) {
+        throw new Error('Missing Discord bot token');
+    }
 
     const { providerAccountId } = await prisma.account.findFirstOrThrow({
         where: { userId: userId },
@@ -17,13 +19,19 @@ export async function updateAvatarURL(userId: string) {
         }),
     });
 
-    if (!response.ok) return;
+    if (!response.ok) {
+        return;
+    }
 
     const result = DiscordUserSchema.safeParse(await response.json());
-    if (!result.success) return;
+    if (!result.success) {
+        return;
+    }
     const data = result.data;
 
-    if (!data.avatar) return;
+    if (!data.avatar) {
+        return;
+    }
 
     prisma.user
         .update({

@@ -1,11 +1,11 @@
-import type { Anime } from '@/types/anime';
+import type { AnimeType } from '@/types/anime';
 import { useMemo } from 'react';
 import type { ChartData, ChartOptions } from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';
 import { useMounted } from '@/hooks/use-mounted';
 
 type AnimeRatingChartPropsType = {
-    anime?: Anime[];
+    anime?: AnimeType[];
 };
 
 const AnimeRatingChart = ({ anime = [] }: AnimeRatingChartPropsType) => {
@@ -113,7 +113,13 @@ const AnimeRatingChart = ({ anime = [] }: AnimeRatingChartPropsType) => {
         return null;
     }
 
-    return <Bar className="chart-canvas" data={chartData} options={options} />;
+    return (
+        <Bar
+            className="chart-canvas"
+            data={chartData}
+            options={options}
+        />
+    );
 };
 
 export default AnimeRatingChart;

@@ -1,6 +1,6 @@
 import type { UserRoleType } from '@/types/user';
 
-export type AppUser = {
+export type AppUserType = {
     id: string;
     role: UserRoleType;
     name?: string | null;
@@ -8,7 +8,7 @@ export type AppUser = {
     image?: string | null;
 };
 
-export type AppSession = {
+export type AppSessionType = {
     expires: string;
-    user: AppUser;
+    user: AppUserType;
 };

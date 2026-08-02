@@ -5,15 +5,14 @@ import zoomPlugin from 'chartjs-plugin-zoom';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
-import type { Anime } from '@/types/anime';
+import type { AnimeType } from '@/types/anime';
 import { Line } from 'react-chartjs-2';
 
 type AnimeStartDateChartPropsType = {
-    anime?: Anime[];
+    anime?: AnimeType[];
 };
 
 const AnimeStartDateChart = ({ anime = [] }: AnimeStartDateChartPropsType) => {
-
     const data = useMemo(() => {
         const dates: dayjs.Dayjs[] = [];
         const counts: number[] = [];
@@ -22,7 +21,9 @@ const AnimeStartDateChart = ({ anime = [] }: AnimeStartDateChartPropsType) => {
 
         // Anime array needs to be sorted by start date
         anime.forEach((a) => {
-            if (!a.startDate) return;
+            if (!a.startDate) {
+                return;
+            }
             count += 1;
             const date = dayjs.utc(a.startDate).startOf('day');
             dates.push(date);
@@ -117,7 +118,14 @@ const AnimeStartDateChart = ({ anime = [] }: AnimeStartDateChartPropsType) => {
         },
     };
 
-    return <Line className="chart-canvas" data={chartData} options={options} plugins={[zoomPlugin]} />;
+    return (
+        <Line
+            className="chart-canvas"
+            data={chartData}
+            options={options}
+            plugins={[zoomPlugin]}
+        />
+    );
 };
 
 export default AnimeStartDateChart;

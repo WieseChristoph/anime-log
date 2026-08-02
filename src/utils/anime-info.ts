@@ -2,29 +2,24 @@ import { z } from 'zod';
 
 const BASE_URL = 'https://kitsu.app/api/edge';
 
-const KitsuResponseSchema = z.object({
+const KitsuResponseSchema = z.looseObject({
     data: z.array(
-        z.object({
+        z.looseObject({
             id: z.string(),
-            attributes: z
-                .object({
-                    canonicalTitle: z.string().nullish(),
-                    titles: z
-                        .object({
-                            en: z.string().optional(),
-                            en_jp: z.string().optional(),
-                            ja_jp: z.string().optional(),
-                        })
-                        .passthrough(),
-                    posterImage: z.object({ small: z.string() }).nullable().optional(),
-                })
-                .passthrough(),
-        })
-        .passthrough(),
+            attributes: z.looseObject({
+                canonicalTitle: z.string().nullish(),
+                titles: z.looseObject({
+                    en: z.string().optional(),
+                    en_jp: z.string().optional(),
+                    ja_jp: z.string().optional(),
+                }),
+                posterImage: z.looseObject({ small: z.string() }).nullable().optional(),
+            }),
+        }),
     ),
-}).passthrough();
+});
 
-export type AnimeSearchResult = {
+export type AnimeSearchResultType = {
     id: string;
     title: string;
     imageUrl: string;
@@ -55,8 +50,14 @@ export async function getImageByTitle(title: string, isManga: boolean): Promise<
     return result?.data[0]?.attributes.posterImage?.small ?? '';
 }
 
-export async function searchTitles(title: string, isManga: boolean, signal?: AbortSignal): Promise<AnimeSearchResult[]> {
-    if (!title.trim()) return [];
+export async function searchTitles(
+    title: string,
+    isManga: boolean,
+    signal?: AbortSignal,
+): Promise<AnimeSearchResultType[]> {
+    if (!title.trim()) {
+        return [];
+    }
     const type = isManga ? 'manga' : 'anime';
     const result = await kitsuRequest(
         `${type}?fields[${type}]=posterImage,titles,canonicalTitle&page[limit]=5&filter[text]=${encodeURIComponent(title.trim())}`,

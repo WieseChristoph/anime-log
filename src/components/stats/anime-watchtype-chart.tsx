@@ -1,14 +1,13 @@
 import { useMemo } from 'react';
 import type { ChartData, ChartOptions } from 'chart.js/auto';
-import type { Anime } from '@/types/anime';
+import type { AnimeType } from '@/types/anime';
 import { Doughnut } from 'react-chartjs-2';
 
 type AnimeWatchtypeChartPropsType = {
-    anime?: Anime[];
+    anime?: AnimeType[];
 };
 
 const AnimeWatchtypeChart = ({ anime = [] }: AnimeWatchtypeChartPropsType) => {
-
     const data = useMemo(() => {
         return anime.reduce<number[]>((prev, curr) => {
             prev[0] = (prev[0] ?? 0) + curr.seasons.length;
@@ -49,7 +48,13 @@ const AnimeWatchtypeChart = ({ anime = [] }: AnimeWatchtypeChartPropsType) => {
         },
     };
 
-    return <Doughnut className="chart-canvas" data={chartData} options={options} />;
+    return (
+        <Doughnut
+            className="chart-canvas"
+            data={chartData}
+            options={options}
+        />
+    );
 };
 
 export default AnimeWatchtypeChart;

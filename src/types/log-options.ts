@@ -2,12 +2,11 @@ import z from 'zod';
 import { AnimeStatusSchema } from '@/types/anime';
 
 export const OrderValues = {
-    TITLE: 'title' as const,
-    START_DATE: 'startDate' as const,
-    RATING: 'rating' as const,
-    UPDATED_AT: 'updatedAt' as const,
-};
-
+    TITLE: 'title',
+    START_DATE: 'startDate',
+    RATING: 'rating',
+    UPDATED_AT: 'updatedAt',
+} as const;
 export type OrderType = (typeof OrderValues)[keyof typeof OrderValues];
 
 export const LogOptionsSchema = z.object({
@@ -21,5 +20,4 @@ export const LogOptionsSchema = z.object({
         statuses: z.array(AnimeStatusSchema).default([]),
     }),
 });
-
 export type LogOptionsType = z.infer<typeof LogOptionsSchema>;

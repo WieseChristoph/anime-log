@@ -19,10 +19,10 @@
 import type { CreateNextContextOptions } from '@trpc/server/adapters/next';
 import { getServerAuthSession } from '@/server/auth';
 import { prisma } from '@/server/db';
-import type { AppSession } from '@/types/session';
+import type { AppSessionType } from '@/types/session';
 
 type CreateContextOptions = {
-    session: AppSession | null;
+    session: AppSessionType | null;
 };
 
 /**

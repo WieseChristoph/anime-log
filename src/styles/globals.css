@@ -60,7 +60,8 @@ h4,
 
 .app-shell {
     min-height: 100vh;
-    background: radial-gradient(circle at 95% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 35rem),
+    background:
+        radial-gradient(circle at 95% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 35rem),
         var(--bg);
 }
 
@@ -91,7 +92,9 @@ h4,
 .menu-item {
     align-items: center;
     color: var(--text);
-    transition: background 160ms ease, color 160ms ease;
+    transition:
+        background 160ms ease,
+        color 160ms ease;
 }
 
 .menu-item:hover,
@@ -110,7 +113,9 @@ h4,
     background: var(--surface-muted);
     color: var(--text);
     padding: 0.7rem 0.85rem;
-    transition: border-color 160ms ease, background 160ms ease;
+    transition:
+        border-color 160ms ease,
+        background 160ms ease;
 }
 
 .field-compact {
@@ -149,7 +154,10 @@ h4,
     padding: 0.65rem 1rem;
     font-size: 0.9rem;
     font-weight: 700;
-    transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+    transition:
+        transform 160ms ease,
+        background 160ms ease,
+        color 160ms ease;
 }
 
 .btn-primary {
@@ -184,6 +192,48 @@ h4,
     color: var(--text-muted);
 }
 
+.rating-value-beyond {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #f7c76b;
+    text-shadow: 0 0 0.75rem rgba(247, 199, 107, 0.65);
+    animation: rating-beyond-glow 1.6s ease-in-out infinite;
+}
+
+.rating-beyond-sparkle {
+    animation: rating-beyond-sparkle 1.2s ease-in-out infinite;
+}
+
+.rating-slider-beyond {
+    accent-color: #f7c76b;
+    filter: drop-shadow(0 0 0.35rem rgba(247, 199, 107, 0.75));
+}
+
+@keyframes rating-beyond-glow {
+    0%,
+    100% {
+        filter: brightness(1);
+        transform: scale(1);
+    }
+
+    50% {
+        filter: brightness(1.18);
+        transform: scale(1.03);
+    }
+}
+
+@keyframes rating-beyond-sparkle {
+    0%,
+    100% {
+        transform: rotate(-12deg) scale(0.9);
+    }
+
+    50% {
+        transform: rotate(12deg) scale(1.2);
+    }
+}
+
 @media (max-width: 640px) {
     .page-frame {
         width: min(100% - 1rem, 1440px);
@@ -193,5 +243,10 @@ h4,
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
+    }
+
+    .rating-value-beyond,
+    .rating-beyond-sparkle {
+        animation: none;
     }
 }

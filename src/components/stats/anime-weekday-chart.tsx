@@ -1,14 +1,13 @@
 import { useMemo } from 'react';
-import type { Anime } from '@/types/anime';
+import type { AnimeType } from '@/types/anime';
 import type { ChartData, ChartOptions } from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';
 
 type AnimeWeekdayChartPropsType = {
-    anime?: Anime[];
+    anime?: AnimeType[];
 };
 
 const AnimeWeekdayChart = ({ anime = [] }: AnimeWeekdayChartPropsType) => {
-
     const data = useMemo(() => {
         return anime.reduce<number[]>((prev, curr) => {
             if (curr.startDate) {
@@ -96,7 +95,13 @@ const AnimeWeekdayChart = ({ anime = [] }: AnimeWeekdayChartPropsType) => {
         },
     };
 
-    return <Bar className="chart-canvas" data={chartData} options={options} />;
+    return (
+        <Bar
+            className="chart-canvas"
+            data={chartData}
+            options={options}
+        />
+    );
 };
 
 export default AnimeWeekdayChart;

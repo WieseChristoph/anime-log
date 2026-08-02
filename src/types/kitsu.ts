@@ -1,4 +1,4 @@
-type KitsuAnimeAttributes = {
+type KitsuAnimeAttributesType = {
     createdAt: string;
     updatedAt: string;
     slug: string;
@@ -76,7 +76,7 @@ type KitsuAnimeAttributes = {
     nsfw: boolean;
 };
 
-type KitsuMangaAttributes = {
+type KitsuMangaAttributesType = {
     createdAt: string;
     updatedAt: string;
     slug: string;
@@ -153,14 +153,14 @@ type KitsuMangaAttributes = {
     mangaType: 'doujin' | 'manga' | 'manhua' | 'manhwa' | 'novel' | 'oel' | 'oneshot';
 };
 
-export type KitsuResponse = {
+export type KitsuResponseType = {
     data: {
         id: string;
         type: string;
         links: {
             self: string;
         };
-        attributes: KitsuAnimeAttributes | KitsuMangaAttributes;
+        attributes: KitsuAnimeAttributesType | KitsuMangaAttributesType;
         relationships: unknown;
     }[];
     meta: {

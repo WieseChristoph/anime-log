@@ -19,7 +19,9 @@ export const savedUserRouter = createTRPCRouter({
                 where: { shareId: input.shareId },
             });
 
-            if (!savedUser) throw new Error('No user found with this share id');
+            if (!savedUser) {
+                throw new Error('No user found with this share id');
+            }
 
             return ctx.prisma.savedUser.create({
                 data: {
@@ -39,7 +41,9 @@ export const savedUserRouter = createTRPCRouter({
                 where: { shareId: input.shareId },
             });
 
-            if (!savedUser) throw new Error('No user found with this share id');
+            if (!savedUser) {
+                throw new Error('No user found with this share id');
+            }
 
             return ctx.prisma.savedUser.delete({
                 where: {

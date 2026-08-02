@@ -35,14 +35,18 @@ const ProfileDropdown = ({ user }: ProfileDropdownPropsType) => {
 
     function shareLinkToClipboard() {
         // if shareId is set, put link with shareId in clipboard
-        if (getShareId.data?.shareId)
+        if (getShareId.data?.shareId) {
             void navigator.clipboard.writeText(`${window.location.origin}/${getShareId.data.shareId}`);
+        }
     }
 
     const userImage = user?.image ?? fallbackAvatarUrl;
 
     return (
-        <Menu as="div" className="relative z-10 inline-block">
+        <Menu
+            as="div"
+            className="relative z-10 inline-block"
+        >
             {({ open }) => (
                 <>
                     <Menu.Button className="flex items-center">

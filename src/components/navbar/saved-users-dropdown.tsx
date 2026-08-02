@@ -4,6 +4,7 @@ import { Menu, Transition } from '@headlessui/react';
 import DeleteButton from '@/components/util/delete-button';
 import ImageWithFallback from '@/components/util/image-with-fallback';
 import { ChevronDown, Save, Trash } from 'lucide-react';
+import { cn } from '@/utils/helper';
 
 type SavedUsersDropdownPropsType = {
     urlShareId?: string;
@@ -29,12 +30,15 @@ const SavedUsersDropdown = ({ urlShareId }: SavedUsersDropdownPropsType) => {
     });
 
     return (
-        <Menu as="div" className="relative z-20 inline-block text-left">
+        <Menu
+            as="div"
+            className="relative z-20 inline-block text-left"
+        >
             {({ open }) => (
                 <>
-                    <Menu.Button className="flex items-center rounded-xl px-3 py-2 text-sm font-semibold text-slate-300 hover:bg-white/10 hover:text-white">
+                    <Menu.Button className="flex items-center rounded-xl px-3 py-2 font-semibold text-slate-300 text-sm hover:bg-white/10 hover:text-white">
                         Saved Logs
-                        <ChevronDown className="ui-open:rotate-180 ml-1 h-5 w-5" />
+                        <ChevronDown className="ml-1 h-5 w-5 ui-open:rotate-180" />
                     </Menu.Button>
 
                     {/* Dropdown menu */}
@@ -54,11 +58,11 @@ const SavedUsersDropdown = ({ urlShareId }: SavedUsersDropdownPropsType) => {
                                         <Link
                                             href={`/${savedUserEntry.savedUser.shareId || ''}`}
                                             legacyBehavior={false}
-                                            className={`menu-item flex gap-2 px-3 py-2.5 text-sm ${
-                                                urlShareId === savedUserEntry.savedUser.shareId
-                                                    ? 'bg-(--accent-soft) text-(--accent-strong)'
-                                                    : ''
-                                            }`}
+                                            className={cn(
+                                                'menu-item flex gap-2 px-3 py-2.5 text-sm',
+                                                urlShareId === savedUserEntry.savedUser.shareId &&
+                                                    'bg-(--accent-soft) text-(--accent-strong)',
+                                            )}
                                         >
                                             <ImageWithFallback
                                                 className="inline rounded-full"

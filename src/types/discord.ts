@@ -1,4 +1,4 @@
-export type DiscordUser = {
+export type DiscordUserType = {
     id: string;
     username: string;
     discriminator: string;

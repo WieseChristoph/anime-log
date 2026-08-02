@@ -14,11 +14,12 @@ export const animeRouter = createTRPCRouter({
             }),
         )
         .query(({ ctx, input }) => {
-            if (!input.shareId && !ctx.session)
+            if (!input.shareId && !ctx.session) {
                 throw new TRPCError({
                     code: 'UNAUTHORIZED',
                     message: 'Must be logged in to access own log.',
                 });
+            }
 
             return ctx.prisma.anime.findMany({
                 where: {
@@ -75,25 +76,25 @@ export const animeRouter = createTRPCRouter({
                 },
             });
         }),
-    // TODO: Some anime are doubled when fetching
     infinite: publicProcedure
         .input(
             z.object({
                 shareId: z.string().nullish(),
                 logOptions: LogOptionsSchema.nullish(),
                 limit: z.number().min(1).max(100).nullish(),
-                cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+                cursor: z.string().nullish(),
             }),
         )
         .query(async ({ ctx, input }) => {
             const limit = input.limit ?? 50;
             const { cursor } = input;
 
-            if (!input.shareId && !ctx.session)
+            if (!input.shareId && !ctx.session) {
                 throw new TRPCError({
                     code: 'UNAUTHORIZED',
                     message: 'Must be logged in to access own log.',
                 });
+            }
 
             const items = await ctx.prisma.anime.findMany({
                 take: limit + 1, // get an extra item at the end which we'll use as next cursor
@@ -157,6 +158,7 @@ export const animeRouter = createTRPCRouter({
                 const nextItem = items.pop();
                 nextCursor = nextItem?.id;
             }
+
             return {
                 items,
                 nextCursor,
@@ -170,11 +172,12 @@ export const animeRouter = createTRPCRouter({
             }),
         )
         .query(({ ctx, input }) => {
-            if (!input.shareId && !ctx.session)
+            if (!input.shareId && !ctx.session) {
                 throw new TRPCError({
                     code: 'UNAUTHORIZED',
                     message: 'Must be logged in to access own log.',
                 });
+            }
 
             return ctx.prisma.anime.count({
                 where: {
@@ -207,11 +210,12 @@ export const animeRouter = createTRPCRouter({
             }),
         )
         .query(async ({ ctx, input }) => {
-            if (!input.shareId && !ctx.session)
+            if (!input.shareId && !ctx.session) {
                 throw new TRPCError({
                     code: 'UNAUTHORIZED',
                     message: 'Must be logged in to access own log.',
                 });
+            }
 
             const user = input.shareId ? { shareId: input.shareId } : { id: ctx.session?.user?.id };
             const [entries, completed, watching, manga] = await Promise.all([
@@ -247,7 +251,9 @@ export const animeRouter = createTRPCRouter({
             select: { id: true },
         });
 
-        if (!ownedAnime) throw new TRPCError({ code: 'NOT_FOUND', message: 'Entry not found.' });
+        if (!ownedAnime) {
+            throw new TRPCError({ code: 'NOT_FOUND', message: 'Entry not found.' });
+        }
 
         return ctx.prisma.anime.update({
             where: { id: input.id },
@@ -264,18 +270,21 @@ export const animeRouter = createTRPCRouter({
             select: { id: true },
         });
 
-        if (!ownedAnime) throw new TRPCError({ code: 'NOT_FOUND', message: 'Entry not found.' });
+        if (!ownedAnime) {
+            throw new TRPCError({ code: 'NOT_FOUND', message: 'Entry not found.' });
+        }
 
         return ctx.prisma.anime.delete({
             where: { id: input.id },
         });
     }),
     getCountByType: protectedProcedure.query(({ ctx }) => {
-        if (ctx.session.user.role !== 'ADMIN')
+        if (ctx.session.user.role !== 'ADMIN') {
             throw new TRPCError({
                 code: 'UNAUTHORIZED',
                 message: 'Must be admin to access this path.',
             });
+        }
 
         return ctx.prisma.anime.groupBy({
             by: ['isManga'],
@@ -283,11 +292,12 @@ export const animeRouter = createTRPCRouter({
         });
     }),
     getCountByUser: protectedProcedure.query(({ ctx }) => {
-        if (ctx.session.user.role !== 'ADMIN')
+        if (ctx.session.user.role !== 'ADMIN') {
             throw new TRPCError({
                 code: 'UNAUTHORIZED',
                 message: 'Must be admin to access this path.',
             });
+        }
 
         return ctx.prisma.anime.groupBy({
             by: ['userId'],
@@ -295,11 +305,12 @@ export const animeRouter = createTRPCRouter({
         });
     }),
     getLastUpdateByUser: protectedProcedure.query(({ ctx }) => {
-        if (ctx.session.user.role !== 'ADMIN')
+        if (ctx.session.user.role !== 'ADMIN') {
             throw new TRPCError({
                 code: 'UNAUTHORIZED',
                 message: 'Must be admin to access this path.',
             });
+        }
 
         return ctx.prisma.anime.findMany({
             orderBy: {

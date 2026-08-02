@@ -19,7 +19,8 @@
             "semicolons": "always",
             "arrowParentheses": "always",
             "bracketSpacing": true,
-            "trailingCommas": "all"
+            "trailingCommas": "all",
+            "attributePosition": "multiline"
         }
     },
 
@@ -28,10 +29,36 @@
         "rules": {
             "preset": "recommended",
             "correctness": {
-                "noUnusedVariables": "warn"
+                "noUnusedFunctionParameters": "error",
+                "noUnusedVariables": "error",
+                "noUnusedImports": {
+                    "level": "error",
+                    "fix": "safe"
+                }
             },
             "style": {
-                "useImportType": "warn"
+                "useImportType": "warn",
+                "useBlockStatements": {
+                    "level": "error",
+                    "fix": "safe"
+                },
+                "noEnum": "error"
+            },
+            "suspicious": {
+                "noConsole": {
+                    "level": "error",
+                    "options": {
+                        "allow": ["error", "info", "warn"]
+                    }
+                },
+                "noDebugger": "error",
+                "useIterableCallbackReturn": "off"
+            },
+            "nursery": {
+                "useSortedClasses": {
+                    "level": "error",
+                    "fix": "safe"
+                }
             }
         }
     },
@@ -39,6 +66,14 @@
     "css": {
         "parser": {
             "tailwindDirectives": true
+        }
+    },
+
+    "assist": {
+        "actions": {
+            "source": {
+                "organizeImports": "on"
+            }
         }
     }
 }

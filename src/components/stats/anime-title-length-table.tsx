@@ -1,7 +1,8 @@
-import type { Anime } from '@/types/anime';
+import type { AnimeType } from '@/types/anime';
+import { cn } from '@/utils/helper';
 
 type AnimeTitleLenghtTablePropsType = {
-    anime?: Anime[];
+    anime?: AnimeType[];
 };
 
 const AnimeTitleLenghtTable = ({ anime = [] }: AnimeTitleLenghtTablePropsType) => {
@@ -22,13 +23,13 @@ const AnimeTitleLenghtTable = ({ anime = [] }: AnimeTitleLenghtTablePropsType) =
                 {longestTitles.slice(0, 5).map((a, i, array) => (
                     <tr
                         key={a.id}
-                        className={`${i !== array.length - 1 ? 'border-b border-(--border)' : ''}`}
+                        className={cn(i !== array.length - 1 && 'border-(--border) border-b')}
                     >
-                        <th className="bg-(--surface-muted) px-3 py-3 font-medium whitespace-nowrap">
-                            {i + 1}
-                        </th>
-                        <td className="max-w-0 px-3 py-3"><span className="line-clamp-2">{a.title}</span></td>
-                        <td className="bg-(--surface-muted) px-3 py-3 font-medium whitespace-nowrap">
+                        <th className="whitespace-nowrap bg-(--surface-muted) px-3 py-3 font-medium">{i + 1}</th>
+                        <td className="max-w-0 px-3 py-3">
+                            <span className="line-clamp-2">{a.title}</span>
+                        </td>
+                        <td className="whitespace-nowrap bg-(--surface-muted) px-3 py-3 font-medium">
                             {a.title.length}
                         </td>
                     </tr>

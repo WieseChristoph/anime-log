@@ -12,5 +12,22 @@ import { trpc } from '@/utils/trpc';
 export default function AdminPage() {
     const { status } = useSession();
     const currentUser = trpc.user.me.useQuery(undefined, { enabled: status === 'authenticated' });
-    return <AppShell><Head><title>Admin Panel | Anime Log</title></Head>{status === 'loading' || currentUser.isLoading ? <Loading /> : status === 'authenticated' && currentUser.data?.role === UserRoleValues.ADMIN ? <AdminLayout /> : <div className="page-frame py-8"><ErrorAlert message="You need administrator access to view this page." /></div>}</AppShell>;
+
+    return (
+        <AppShell>
+            <Head>
+                <title>Admin Panel | Anime Log</title>
+            </Head>
+
+            {status === 'loading' || currentUser.isLoading ? (
+                <Loading />
+            ) : status === 'authenticated' && currentUser.data?.role === UserRoleValues.ADMIN ? (
+                <AdminLayout />
+            ) : (
+                <div className="page-frame py-8">
+                    <ErrorAlert message="You need administrator access to view this page." />
+                </div>
+            )}
+        </AppShell>
+    );
 }

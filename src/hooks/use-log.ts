@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Anime } from '@/types/anime';
+import type { AnimeType } from '@/types/anime';
 import { type LogOptionsType as LogOptions, OrderValues as Order } from '@/types/log-options';
 import { trpc } from '@/utils/trpc';
 
@@ -45,7 +45,7 @@ function useLog(shareId: string | undefined) {
                     };
                 }
 
-                const optimisticEntry: Anime = {
+                const optimisticEntry: AnimeType = {
                     id: 'temp-id',
                     title: addedAnime.title,
                     isManga: addedAnime.isManga ?? false,
@@ -72,7 +72,6 @@ function useLog(shareId: string | undefined) {
                     })),
                 };
             });
-
         },
         // Always refetch after error or success:
         onSettled: () => {

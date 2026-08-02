@@ -4,9 +4,12 @@ type ErrorAlertPropsType = {
 
 const ErrorAlert = ({ message }: ErrorAlertPropsType) => {
     return (
-        <div className="mb-4 flex border-t-4 border-(--danger) bg-(--danger)/15 p-4" role="alert">
+        <div
+            className="mb-4 flex border-(--danger) border-t-4 bg-(--danger)/15 p-4"
+            role="alert"
+        >
             <svg
-                className="h-5 w-5 flex-shrink-0 text-(--danger)"
+                className="h-5 w-5 shrink-0 text-(--danger)"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +23,7 @@ const ErrorAlert = ({ message }: ErrorAlertPropsType) => {
                     clipRule="evenodd"
                 ></path>
             </svg>
-            <div className="ml-3 text-sm font-medium text-(--danger)">{message}</div>
+            <div className="ml-3 font-medium text-(--danger) text-sm">{message}</div>
         </div>
     );
 };

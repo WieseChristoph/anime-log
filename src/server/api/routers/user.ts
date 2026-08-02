@@ -11,11 +11,12 @@ export const userRouter = createTRPCRouter({
         });
     }),
     delete: protectedProcedure.input(z.object({ userId: z.string() })).mutation(async ({ ctx, input }) => {
-        if (ctx.session.user.role !== 'ADMIN')
+        if (ctx.session.user.role !== 'ADMIN') {
             throw new TRPCError({
                 code: 'UNAUTHORIZED',
                 message: 'Must be admin to access this path.',
             });
+        }
 
         return ctx.prisma.$transaction([
             // delete saved users
@@ -96,11 +97,12 @@ export const userRouter = createTRPCRouter({
             });
         }),
     getAll: protectedProcedure.query(({ ctx }) => {
-        if (ctx.session.user.role !== 'ADMIN')
+        if (ctx.session.user.role !== 'ADMIN') {
             throw new TRPCError({
                 code: 'UNAUTHORIZED',
                 message: 'Must be admin to access this path.',
             });
+        }
 
         return ctx.prisma.user.findMany({
             include: {
@@ -111,11 +113,12 @@ export const userRouter = createTRPCRouter({
         });
     }),
     getCount: protectedProcedure.query(({ ctx }) => {
-        if (ctx.session.user.role !== 'ADMIN')
+        if (ctx.session.user.role !== 'ADMIN') {
             throw new TRPCError({
                 code: 'UNAUTHORIZED',
                 message: 'Must be admin to access this path.',
             });
+        }
 
         return ctx.prisma.user.count();
     }),

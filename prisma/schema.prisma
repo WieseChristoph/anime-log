@@ -1,15 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql" // "postgresql", "mysql", "sqlite", "cockroachdb"
+    provider = "postgresql"
 }
 
-// needs to be all lower case
 // next-auth stuff
 model Account {
     id                String  @id @default(cuid())
@@ -46,7 +42,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    role          String   @default("USER")
+    role          String    @default("USER")
 
     anime        Anime[]
     shareId      String?     @unique
@@ -62,8 +58,7 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-// anime-log stuff
-
+// Anime Log stuff
 model Anime {
     id             String    @id @default(cuid())
     user           User      @relation(fields: [userId], references: [id])

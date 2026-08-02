@@ -21,12 +21,15 @@ const AboutDropdown = () => {
     }
 
     return (
-        <Menu as="div" className="relative z-10 inline-block text-left">
+        <Menu
+            as="div"
+            className="relative z-10 inline-block text-left"
+        >
             {({ open }) => (
                 <>
                     <MenuButton className="flex items-center text-(--text-muted) hover:text-(--text)">
                         About
-                        <ChevronDown className="ui-open:rotate-180 ml-1 h-5 w-5" />
+                        <ChevronDown className="ml-1 h-5 w-5 ui-open:rotate-180" />
                     </MenuButton>
 
                     {/* Dropdown menu */}

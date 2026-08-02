@@ -23,7 +23,10 @@ export default function Providers({ children, session }: ProvidersProps) {
 
     return (
         <SessionProvider session={session}>
-            <trpc.Provider client={trpcClient} queryClient={queryClient}>
+            <trpc.Provider
+                client={trpcClient}
+                queryClient={queryClient}
+            >
                 <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
             </trpc.Provider>
         </SessionProvider>
