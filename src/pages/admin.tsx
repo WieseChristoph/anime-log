@@ -1,11 +1,10 @@
-import { type NextPage } from 'next';
+import type { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
-import { user_role } from '@prisma/client';
-
-import AdminLayout from '@/components/Admin/AdminLayout';
-import ErrorAlert from '@/components/Util/ErrorAlert';
-import Navbar from '@/components/Navbar/Navbar';
+import AdminLayout from '@/components/admin/admin-layout';
+import ErrorAlert from '@/components/util/error-alert';
+import Navbar from '@/components/navbar/navbar';
 import Head from 'next/head';
+import { UserRoleValues } from '@/types/user';
 
 const Admin: NextPage = () => {
     const { status, data: session } = useSession();
@@ -21,7 +20,7 @@ const Admin: NextPage = () => {
 
             <Navbar />
 
-            {status === 'authenticated' && session.user.role === user_role.ADMIN ? (
+            {status === 'authenticated' && session.user.role === UserRoleValues.ADMIN ? (
                 <AdminLayout />
             ) : (
                 <div className="p-5">

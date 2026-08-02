@@ -1,5 +1,5 @@
-import { prisma } from '../db';
-import type { DiscordUser } from '@/types/Discord';
+import { prisma } from '@/server/db';
+import type { DiscordUser } from '@/types/discord';
 
 export async function updateAvatarURL(userId: string) {
     if (!process.env.DISCORD_BOT_TOKEN) throw new Error('Missing Discord bot token');

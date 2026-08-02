@@ -26,7 +26,7 @@ export function getBaseUrl() {
 
 // https://www.joshwcomeau.com/snippets/javascript/debounce/
 export function debounce<T extends (...args: Parameters<T>) => void>(callback: T, wait?: number) {
-    let timeoutId: number | undefined = undefined;
+    let timeoutId: number | undefined;
 
     return (...args: Parameters<T>) => {
         window.clearTimeout(timeoutId);

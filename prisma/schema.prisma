@@ -7,15 +7,9 @@ generator client {
 
 datasource db {
     provider = "postgresql" // "postgresql", "mysql", "sqlite", "cockroachdb"
-    url      = env("DATABASE_URL")
 }
 
 // needs to be all lower case
-enum user_role {
-    USER
-    ADMIN
-}
-
 // next-auth stuff
 model Account {
     id                String  @id @default(cuid())
@@ -52,7 +46,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    role          user_role @default(USER)
+    role          String   @default("USER")
 
     anime        Anime[]
     shareId      String?     @unique

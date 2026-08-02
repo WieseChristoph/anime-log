@@ -1,7 +1,7 @@
-import { createTRPCRouter } from './trpc';
-import { animeRouter } from './routers/anime';
-import { savedUserRouter } from './routers/savedUser';
-import { userRouter } from './routers/user';
+import { createTRPCRouter } from '@/server/api/trpc';
+import { animeRouter } from '@/server/api/routers/anime';
+import { savedUserRouter } from '@/server/api/routers/saved-user';
+import { userRouter } from '@/server/api/routers/user';
 
 /**
  * This is the primary router for your server.

@@ -1,12 +1,12 @@
-import { type GetServerSidePropsContext } from 'next';
-import { type NextAuthOptions, type DefaultSession } from 'next-auth';
+import type { GetServerSidePropsContext } from 'next';
+import type { NextAuthOptions, DefaultSession } from 'next-auth';
 import { getServerSession } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { prisma } from '@/server/db';
-import { log } from '@/server/utils/auditLog';
-import { type user_role } from '@prisma/client';
-import { updateAvatarURL } from './utils/discord';
+import { log } from '@/server/utils/audit-log';
+import type { UserRoleType } from '@/types/user';
+import { updateAvatarURL } from '@/server/utils/discord';
 
 /**
  * Module augmentation for `next-auth` types
@@ -21,12 +21,12 @@ declare module 'next-auth' {
     interface Session extends DefaultSession {
         user: {
             id: string;
-            role: user_role;
+            role: UserRoleType;
         } & DefaultSession['user'];
     }
 
     interface User {
-        role: user_role;
+        role: UserRoleType;
     }
 }
 
@@ -41,12 +41,12 @@ export const authOptions: NextAuthOptions = {
             // Save the user's ID in the session
             if (session.user) {
                 session.user.id = user.id;
-                session.user.role = user.role;
+                session.user.role = user.role as UserRoleType;
             }
 
             // update the user's avatar if needed
-            if (user.image)
-                fetch(user.image)
+            if ((user as { image?: string | null }).image)
+                fetch((user as { image?: string | null }).image as string)
                     .then((res) => {
                         if (!res.ok) updateAvatarURL(user.id).catch(console.error);
                     })
@@ -58,7 +58,7 @@ export const authOptions: NextAuthOptions = {
             log('auth', user.id, true, 'Login');
 
             // update the user's avatar
-            if (user.image) updateAvatarURL(user.id).catch(console.error);
+            if ((user as { image?: string | null }).image) updateAvatarURL(user.id).catch(console.error);
 
             return true;
         },

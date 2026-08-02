@@ -1,9 +1,8 @@
 import { z } from 'zod';
-import { animeValidator } from '@/types/Anime';
-import { LogOptionsSchema, Order } from '@/types/LogOptions';
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
+import { AnimeSchema } from '@/types/anime';
+import { LogOptionsSchema, OrderValues as Order } from '@/types/log-options';
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { TRPCError } from '@trpc/server';
-import { user_role } from '@prisma/client';
 
 export const animeRouter = createTRPCRouter({
     get: publicProcedure
@@ -140,7 +139,7 @@ export const animeRouter = createTRPCRouter({
                 },
             });
 
-            let nextCursor: typeof cursor | undefined = undefined;
+            let nextCursor: typeof cursor | undefined;
             if (items.length > limit) {
                 const nextItem = items.pop();
                 nextCursor = nextItem?.id;
@@ -186,7 +185,7 @@ export const animeRouter = createTRPCRouter({
         }),
     add: protectedProcedure
         .input(
-            animeValidator.omit({ id: true, updatedAt: true, createdAt: true }).partial({
+            AnimeSchema.omit({ id: true, updatedAt: true, createdAt: true }).partial({
                 startDate: true,
                 link: true,
                 note: true,
@@ -202,7 +201,7 @@ export const animeRouter = createTRPCRouter({
                 },
             });
         }),
-    update: protectedProcedure.input(animeValidator.partial({ imageUrl: true })).mutation(({ ctx, input }) => {
+    update: protectedProcedure.input(AnimeSchema.partial({ imageUrl: true })).mutation(({ ctx, input }) => {
         return ctx.prisma.anime.update({
             where: { id: input.id },
             data: {
@@ -212,13 +211,13 @@ export const animeRouter = createTRPCRouter({
             },
         });
     }),
-    delete: protectedProcedure.input(animeValidator).mutation(({ ctx, input }) => {
+    delete: protectedProcedure.input(AnimeSchema).mutation(({ ctx, input }) => {
         return ctx.prisma.anime.delete({
             where: { id: input.id },
         });
     }),
     getCountByType: protectedProcedure.query(({ ctx }) => {
-        if (ctx.session.user.role !== user_role.ADMIN)
+        if (ctx.session.user.role !== 'ADMIN')
             throw new TRPCError({
                 code: 'UNAUTHORIZED',
                 message: 'Must be admin to access this path.',
@@ -230,7 +229,7 @@ export const animeRouter = createTRPCRouter({
         });
     }),
     getCountByUser: protectedProcedure.query(({ ctx }) => {
-        if (ctx.session.user.role !== user_role.ADMIN)
+        if (ctx.session.user.role !== 'ADMIN')
             throw new TRPCError({
                 code: 'UNAUTHORIZED',
                 message: 'Must be admin to access this path.',
@@ -242,7 +241,7 @@ export const animeRouter = createTRPCRouter({
         });
     }),
     getLastUpdateByUser: protectedProcedure.query(({ ctx }) => {
-        if (ctx.session.user.role !== user_role.ADMIN)
+        if (ctx.session.user.role !== 'ADMIN')
             throw new TRPCError({
                 code: 'UNAUTHORIZED',
                 message: 'Must be admin to access this path.',

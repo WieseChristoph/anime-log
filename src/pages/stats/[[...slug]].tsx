@@ -1,13 +1,12 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { type NextPage } from 'next';
-
+import type { NextPage } from 'next';
 import Head from 'next/head';
-import Navbar from '@/components/Navbar/Navbar';
-import StatsLayout from '@/components/Stats/StatsLayout';
-import Loading from '@/components/Util/Loading';
+import Navbar from '@/components/navbar/navbar';
+import StatsLayout from '@/components/stats/stats-layout';
+import Loading from '@/components/util/loading';
 import Snowfall from 'react-snowfall';
-import ErrorAlert from '@/components/Util/ErrorAlert';
+import ErrorAlert from '@/components/util/error-alert';
 
 const Stats: NextPage = () => {
     const router = useRouter();

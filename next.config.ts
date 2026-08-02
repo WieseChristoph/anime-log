@@ -8,7 +8,10 @@ const nextConfig: NextConfig = {
         defaultLocale: 'en',
     },
     images: {
-        domains: ['cdn.discordapp.com', 'media.kitsu.app'],
+        remotePatterns: [new URL('https://cdn.discordapp.com/**'), new URL('https://media.kitsu.app/**')],
+    },
+    experimental: {
+        useTypeScriptCli: true,
     },
 };
 

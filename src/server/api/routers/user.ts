@@ -1,12 +1,11 @@
 import { z } from 'zod';
 import { createId } from '@paralleldrive/cuid2';
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
-import { user_role } from '@prisma/client';
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { TRPCError } from '@trpc/server';
 
 export const userRouter = createTRPCRouter({
     delete: protectedProcedure.input(z.object({ userId: z.string() })).mutation(async ({ ctx, input }) => {
-        if (ctx.session.user.role !== user_role.ADMIN)
+        if (ctx.session.user.role !== 'ADMIN')
             throw new TRPCError({
                 code: 'UNAUTHORIZED',
                 message: 'Must be admin to access this path.',
@@ -91,7 +90,7 @@ export const userRouter = createTRPCRouter({
             });
         }),
     getAll: protectedProcedure.query(({ ctx }) => {
-        if (ctx.session.user.role !== user_role.ADMIN)
+        if (ctx.session.user.role !== 'ADMIN')
             throw new TRPCError({
                 code: 'UNAUTHORIZED',
                 message: 'Must be admin to access this path.',
@@ -106,7 +105,7 @@ export const userRouter = createTRPCRouter({
         });
     }),
     getCount: protectedProcedure.query(({ ctx }) => {
-        if (ctx.session.user.role !== user_role.ADMIN)
+        if (ctx.session.user.role !== 'ADMIN')
             throw new TRPCError({
                 code: 'UNAUTHORIZED',
                 message: 'Must be admin to access this path.',
