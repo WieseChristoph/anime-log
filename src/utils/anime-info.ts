@@ -42,14 +42,6 @@ async function kitsuRequest(query: string, signal?: AbortSignal) {
     return undefined;
 }
 
-export async function getImageByTitle(title: string, isManga: boolean): Promise<string> {
-    const result = await kitsuRequest(
-        `${isManga ? 'manga' : 'anime'}?fields[${isManga ? 'manga' : 'anime'}]=posterImage&page[limit]=1&filter[text]=${encodeURI(title)}`,
-    );
-
-    return result?.data[0]?.attributes.posterImage?.small ?? '';
-}
-
 export async function searchTitles(
     title: string,
     isManga: boolean,
