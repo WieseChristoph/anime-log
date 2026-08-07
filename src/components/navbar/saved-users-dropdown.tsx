@@ -1,6 +1,6 @@
 import { trpc } from '@/utils/trpc';
 import Link from 'next/link';
-import { Menu, Transition } from '@headlessui/react';
+import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
 import DeleteButton from '@/components/util/delete-button';
 import ImageWithFallback from '@/components/util/image-with-fallback';
 import { ChevronDown, Save, Trash } from 'lucide-react';
@@ -36,10 +36,10 @@ const SavedUsersDropdown = ({ urlShareId }: SavedUsersDropdownPropsType) => {
         >
             {({ open }) => (
                 <>
-                    <Menu.Button className="flex items-center rounded-xl px-3 py-2 font-semibold text-slate-300 text-sm hover:bg-white/10 hover:text-white">
+                    <MenuButton className="flex items-center rounded-xl px-3 py-2 font-semibold text-slate-300 text-sm hover:bg-white/10 hover:text-white">
                         Saved Logs
                         <ChevronDown className="ml-1 h-5 w-5 ui-open:rotate-180" />
-                    </Menu.Button>
+                    </MenuButton>
 
                     {/* Dropdown menu */}
                     <Transition
@@ -51,10 +51,10 @@ const SavedUsersDropdown = ({ urlShareId }: SavedUsersDropdownPropsType) => {
                         leaveFrom="transform scale-100 opacity-100"
                         leaveTo="transform scale-50 opacity-0"
                     >
-                        <Menu.Items className="menu-panel absolute left-0 mt-2 w-64 divide-y divide-(--border) overflow-hidden outline-none">
+                        <MenuItems className="menu-panel absolute left-0 mt-2 w-64 divide-y divide-(--border) overflow-hidden outline-none">
                             {getSavedUsers.data && getSavedUsers.data.length > 0 ? (
                                 getSavedUsers.data.map((savedUserEntry) => (
-                                    <Menu.Item key={savedUserEntry.savedUser.shareId}>
+                                    <MenuItem key={savedUserEntry.savedUser.shareId}>
                                         <Link
                                             href={`/${savedUserEntry.savedUser.shareId || ''}`}
                                             legacyBehavior={false}
@@ -77,23 +77,23 @@ const SavedUsersDropdown = ({ urlShareId }: SavedUsersDropdownPropsType) => {
                                             />
                                             <b>{savedUserEntry.savedUser.name}</b>
                                         </Link>
-                                    </Menu.Item>
+                                    </MenuItem>
                                 ))
                             ) : (
-                                <Menu.Item
+                                <MenuItem
                                     key="noSavedLogs"
                                     as="div"
                                     className="menu-item px-3 py-3 text-center text-sm"
                                 >
                                     No saved logs
-                                </Menu.Item>
+                                </MenuItem>
                             )}
                             {urlShareId &&
                                 getSavedUsers.data &&
                                 (getSavedUsers.data.find(
                                     (savedUserEntry) => savedUserEntry.savedUser.shareId === urlShareId,
                                 ) ? (
-                                    <Menu.Item>
+                                    <MenuItem>
                                         <DeleteButton
                                             className="menu-item menu-item-danger flex w-full flex-row gap-2 px-3 py-2.5 text-sm"
                                             title="Delete current Saved-Log?"
@@ -109,9 +109,9 @@ const SavedUsersDropdown = ({ urlShareId }: SavedUsersDropdownPropsType) => {
                                             <Trash className="h-5 w-5" />
                                             <b>Delete current log</b>
                                         </DeleteButton>
-                                    </Menu.Item>
+                                    </MenuItem>
                                 ) : (
-                                    <Menu.Item
+                                    <MenuItem
                                         as="button"
                                         className="menu-item flex w-full flex-row gap-2 px-3 py-2.5 text-sm"
                                         onClick={() =>
@@ -122,9 +122,9 @@ const SavedUsersDropdown = ({ urlShareId }: SavedUsersDropdownPropsType) => {
                                     >
                                         <Save className="h-5 w-5" />
                                         <b>Save current log</b>
-                                    </Menu.Item>
+                                    </MenuItem>
                                 ))}
-                        </Menu.Items>
+                        </MenuItems>
                     </Transition>
                 </>
             )}

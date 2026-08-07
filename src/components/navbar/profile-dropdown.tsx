@@ -1,6 +1,6 @@
 import { signOut } from 'next-auth/react';
 import { trpc } from '@/utils/trpc';
-import { Menu, Transition } from '@headlessui/react';
+import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
 import DeleteButton from '@/components/util/delete-button';
 import ImageWithFallback from '@/components/util/image-with-fallback';
 import { Copy, LogOut, Share, Trash } from 'lucide-react';
@@ -49,7 +49,7 @@ const ProfileDropdown = ({ user }: ProfileDropdownPropsType) => {
         >
             {({ open }) => (
                 <>
-                    <Menu.Button className="flex items-center">
+                    <MenuButton className="flex items-center">
                         <ImageWithFallback
                             className="rounded-full"
                             src={userImage}
@@ -58,7 +58,7 @@ const ProfileDropdown = ({ user }: ProfileDropdownPropsType) => {
                             width={40}
                             height={40}
                         />
-                    </Menu.Button>
+                    </MenuButton>
                     {/* Dropdown menu */}
                     <Transition
                         show={open}
@@ -69,10 +69,10 @@ const ProfileDropdown = ({ user }: ProfileDropdownPropsType) => {
                         leaveFrom="transform scale-100 opacity-100"
                         leaveTo="transform scale-50 opacity-0"
                     >
-                        <Menu.Items className="menu-panel absolute right-0 mt-2 w-56 origin-top-right divide-y divide-(--border) overflow-hidden outline-none">
+                        <MenuItems className="menu-panel absolute right-0 mt-2 w-56 origin-top-right divide-y divide-(--border) overflow-hidden outline-none">
                             {getShareId.data?.shareId ? (
                                 <>
-                                    <Menu.Item>
+                                    <MenuItem>
                                         <DeleteButton
                                             title="Delete Share-Link?"
                                             text="You can always create a new one."
@@ -84,36 +84,36 @@ const ProfileDropdown = ({ user }: ProfileDropdownPropsType) => {
                                             <Trash className="h-5 w-5" />
                                             Delete Share-Link
                                         </DeleteButton>
-                                    </Menu.Item>
-                                    <Menu.Item
+                                    </MenuItem>
+                                    <MenuItem
                                         as="button"
                                         className="menu-item flex w-full flex-row gap-2 px-3 py-2.5 text-sm"
                                         onClick={() => shareLinkToClipboard()}
                                     >
                                         <Copy className="h-5 w-5" />
                                         Copy Share-Link
-                                    </Menu.Item>
+                                    </MenuItem>
                                 </>
                             ) : (
-                                <Menu.Item
+                                <MenuItem
                                     as="button"
                                     className="menu-item flex w-full flex-row gap-2 px-3 py-2.5 text-sm"
                                     onClick={() => addShareId.mutate()}
                                 >
                                     <Share className="h-5 w-5" />
                                     Create Share-Link
-                                </Menu.Item>
+                                </MenuItem>
                             )}
 
-                            <Menu.Item
+                            <MenuItem
                                 as="button"
                                 className="menu-item flex w-full flex-row gap-2 px-3 py-2.5 text-sm"
                                 onClick={() => void signOut()}
                             >
                                 <LogOut className="h-5 w-5" />
                                 Sign out
-                            </Menu.Item>
-                        </Menu.Items>
+                            </MenuItem>
+                        </MenuItems>
                     </Transition>
                 </>
             )}

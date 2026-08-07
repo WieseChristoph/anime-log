@@ -62,21 +62,19 @@ export default function EntryCard({ anime, readOnly, onEdit, onDelete, onFavorit
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-slate-950/75 via-transparent to-slate-950/10" />
                 <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5">
-                    <div className="flex items-center gap-2">
-                        <span className="rounded-full bg-slate-950/65 px-2.5 py-1 font-bold text-white text-xs backdrop-blur-md">
-                            {anime.isManga ? (
-                                <BookOpen
-                                    size={13}
-                                    className="mr-1 inline"
-                                />
-                            ) : (
-                                <Tv
-                                    size={13}
-                                    className="mr-1 inline"
-                                />
-                            )}
-                            {anime.isManga ? 'Manga' : 'Anime'}
-                        </span>
+                    <div className="flex items-center gap-2 rounded-full bg-slate-950/65 px-2.5 py-1 font-bold text-white text-xs backdrop-blur-md">
+                        {anime.isManga ? (
+                            <BookOpen
+                                size={13}
+                                className="inline"
+                            />
+                        ) : (
+                            <Tv
+                                size={13}
+                                className="-mt-0.5 inline"
+                            />
+                        )}
+                        <span>{anime.isManga ? 'Manga' : 'Anime'}</span>
                     </div>
                     {anime.note && (
                         <button
@@ -164,11 +162,11 @@ export default function EntryCard({ anime, readOnly, onEdit, onDelete, onFavorit
                                 return (
                                     <span
                                         key={position}
-                                        className="relative inline-flex h-3.25 w-3.25"
+                                        className="relative inline-flex"
                                         aria-hidden="true"
                                     >
                                         <Star
-                                            size={13}
+                                            size={16}
                                             strokeWidth={2.5}
                                             fill={isFull ? 'currentColor' : 'none'}
                                             className={
@@ -178,9 +176,9 @@ export default function EntryCard({ anime, readOnly, onEdit, onDelete, onFavorit
                                             }
                                         />
                                         {isHalf && (
-                                            <span className="absolute inset-y-0 left-0 w-[42%] overflow-hidden">
+                                            <span className="absolute inset-y-0 left-0 w-[50%] overflow-hidden">
                                                 <Star
-                                                    size={13}
+                                                    size={16}
                                                     strokeWidth={2.5}
                                                     fill="currentColor"
                                                     className="max-w-none text-amber-300"
@@ -205,7 +203,7 @@ export default function EntryCard({ anime, readOnly, onEdit, onDelete, onFavorit
                     </div>
                 </div>
                 {noteOpen && anime.note && (
-                    <div className="menu-panel absolute right-3 bottom-12 left-3 max-h-[calc(100%-3rem)] overflow-y-auto p-3 text-sm">
+                    <div className="menu-panel absolute right-3 bottom-24 left-3 max-h-[calc(100%-3rem)] overflow-y-auto p-3 text-sm">
                         <div className="mb-1 flex items-center justify-between gap-2">
                             <span className="font-bold text-white text-xs uppercase tracking-wider">Note</span>
                             <button
