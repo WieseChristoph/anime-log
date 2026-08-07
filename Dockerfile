@@ -9,7 +9,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies from the checked-in pnpm lockfile.
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./ ./
 RUN pnpm install --frozen-lockfile
 
 # Migration image. This intentionally contains the Prisma CLI and source
