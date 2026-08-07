@@ -41,7 +41,7 @@ ENV BUILD_STANDALONE=true
 ENV NEXT_PUBLIC_UMAMI_SCRIPT_URL=$NEXT_PUBLIC_UMAMI_SCRIPT_URL
 ENV NEXT_PUBLIC_UMAMI_WEBSITE_ID=$NEXT_PUBLIC_UMAMI_WEBSITE_ID
 
-RUN pnpm exec prisma generate
+RUN DATABASE_URL="postgres://dummy:dummy@dummy:5432/dummy" pnpm exec prisma generate
 RUN pnpm run build
 
 # Production image, copy all the files and run next
