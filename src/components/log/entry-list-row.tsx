@@ -1,17 +1,18 @@
 /* biome-ignore-all lint/performance/noImgElement: Entry images may be user-provided custom URLs. */
 'use client';
 
-import dayjs from 'dayjs';
 import { BookOpen, CalendarDays, Edit3, ExternalLink, Heart, PlayCircle, Trash2, Tv } from 'lucide-react';
 import DeleteButton from '@/components/util/delete-button';
 import type { AnimeType } from '@/types/anime';
+import { formatDateDisplayValue } from '@/utils/date';
+import { normalizeExternalUrl } from '@/utils/external-url';
 import { cn } from '@/utils/helper';
 
 type EntryListRowPropsType = {
     anime: AnimeType;
     readOnly: boolean;
     onEdit: (anime: AnimeType) => void;
-    onDelete: (anime: AnimeType) => void;
+    onDelete: (anime: AnimeType) => Promise<void>;
     onFavorite: (anime: AnimeType) => void;
 };
 
@@ -24,6 +25,8 @@ const statusLabels: Record<string, string> = {
 };
 
 export default function EntryListRow({ anime, readOnly, onEdit, onDelete, onFavorite }: EntryListRowPropsType) {
+    const safeLink = normalizeExternalUrl(anime.link);
+
     return (
         <article className="flex flex-col gap-4 border-(--border) border-b p-4 last:border-b-0 sm:flex-row sm:items-center">
             <img
@@ -59,15 +62,15 @@ export default function EntryListRow({ anime, readOnly, onEdit, onDelete, onFavo
                     </span>
                     <span className="inline-flex items-center gap-1">
                         <CalendarDays size={13} />
-                        {anime.startDate ? dayjs(anime.startDate).format('MMM D, YYYY') : 'No start date'}
+                        {formatDateDisplayValue(anime.startDate) || 'No start date'}
                     </span>
                 </div>
             </div>
-            {(!readOnly || anime.link) && (
+            {(!readOnly || safeLink) && (
                 <div className="flex shrink-0 flex-wrap items-center justify-end gap-2 rounded-xl border border-(--border) bg-(--surface-muted) p-1.5 sm:ml-auto">
-                    {anime.link && (
+                    {safeLink && (
                         <a
-                            href={anime.link}
+                            href={safeLink}
                             target="_blank"
                             rel="noreferrer"
                             className="btn-secondary h-11 min-h-11 px-3 text-sm"

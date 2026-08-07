@@ -8,6 +8,7 @@ import type { AnimeDraftType, AnimeType } from '@/types/anime';
 import { AnimeStatusValues } from '@/types/anime';
 import { type AnimeSearchResultType, searchTitles } from '@/utils/anime-info';
 import { animeStatusClasses, animeStatusLabels } from '@/utils/anime-status';
+import { formatDateInputValue, parseDateInputValue } from '@/utils/date';
 import { cn } from '@/utils/helper';
 
 type EntryEditorDrawerPropsType = {
@@ -603,18 +604,9 @@ export default function EntryEditorDrawer({ open, initialAnime, onClose, onSave 
                                                         id="start-date"
                                                         className="field"
                                                         type="date"
-                                                        value={
-                                                            anime.startDate
-                                                                ? new Date(anime.startDate).toISOString().slice(0, 10)
-                                                                : ''
-                                                        }
+                                                        value={formatDateInputValue(anime.startDate)}
                                                         onChange={(event) =>
-                                                            update(
-                                                                'startDate',
-                                                                event.target.value
-                                                                    ? new Date(`${event.target.value}T00:00:00`)
-                                                                    : null,
-                                                            )
+                                                            update('startDate', parseDateInputValue(event.target.value))
                                                         }
                                                     />
                                                 </div>

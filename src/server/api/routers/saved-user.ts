@@ -5,7 +5,18 @@ export const savedUserRouter = createTRPCRouter({
     getAll: protectedProcedure.query(({ ctx }) => {
         return ctx.prisma.savedUser.findMany({
             where: { user: { id: ctx.session.user.id } },
-            include: { savedUser: true },
+            select: {
+                id: true,
+                userId: true,
+                savedUserId: true,
+                savedUser: {
+                    select: {
+                        name: true,
+                        image: true,
+                        shareId: true,
+                    },
+                },
+            },
         });
     }),
     add: protectedProcedure

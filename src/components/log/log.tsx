@@ -194,7 +194,9 @@ export default function Log({ shareId }: LogPropsType) {
                                 anime={anime}
                                 readOnly={Boolean(shareId)}
                                 onEdit={openEdit}
-                                onDelete={(entry) => deleteAnime.mutate(entry)}
+                                onDelete={async (entry) => {
+                                    await deleteAnime.mutateAsync(entry);
+                                }}
                                 onFavorite={toggleFavorite}
                             />
                         ))}
@@ -207,7 +209,9 @@ export default function Log({ shareId }: LogPropsType) {
                                 anime={anime}
                                 readOnly={Boolean(shareId)}
                                 onEdit={openEdit}
-                                onDelete={(entry) => deleteAnime.mutate(entry)}
+                                onDelete={async (entry) => {
+                                    await deleteAnime.mutateAsync(entry);
+                                }}
                                 onFavorite={toggleFavorite}
                             />
                         ))}

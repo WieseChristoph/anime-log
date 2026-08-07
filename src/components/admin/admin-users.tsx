@@ -118,7 +118,9 @@ export default function AdminUsers() {
                                         text="This removes their account and all entries."
                                         successTitle="Deleted"
                                         successText="The user was removed."
-                                        onDeleteClick={() => deleteUser.mutate({ userId: user.id })}
+                                        onDeleteClick={async () => {
+                                            await deleteUser.mutateAsync({ userId: user.id });
+                                        }}
                                         className="btn-danger min-h-9 text-xs"
                                     >
                                         <Trash2 size={14} /> Delete user

@@ -1,37 +1,69 @@
-version: "3.3"
 services:
-  web:
-    container_name: anime_log_web
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-    networks:
-      - anime_log_network
-    environment:
-      - DATABASE_URL=postgres://anime_log:<DATABASE_PASSWORD>@db:5432/anime_log
-      - DISCORD_CLIENT_SECRET=
-      - DISCORD_CLIENT_ID=
-      - DISCORD_BOT_TOKEN=
-      - NEXTAUTH_SECRET=
-      - NEXTAUTH_URL=
-    restart: always
-    depends_on:
-      - db
   db:
-    container_name: anime_log_db
-    image: postgres:alpine
+    image: postgres:17-alpine
     environment:
-      POSTGRES_USER: anime_log
-      POSTGRES_PASSWORD: <DATABASE_PASSWORD>
-      POSTGRES_DB: anime_log
+      POSTGRES_USER: ${POSTGRES_USER:-anime_log}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ${POSTGRES_DB:-anime_log}
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ./postgres-data:/var/lib/postgresql/data/pgdata
     networks:
       - anime_log_network
     restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: migrator
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?DATABASE_URL is required}
+    networks:
+      - anime_log_network
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_UMAMI_SCRIPT_URL: ${NEXT_PUBLIC_UMAMI_SCRIPT_URL-}
+        NEXT_PUBLIC_UMAMI_WEBSITE_ID: ${NEXT_PUBLIC_UMAMI_WEBSITE_ID-}
+    ports:
+      - "80:80"
+    networks:
+      - anime_log_network
+    restart: always
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?DATABASE_URL is required}
+      DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET:?DISCORD_CLIENT_SECRET is required}
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID:?DISCORD_CLIENT_ID is required}
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN:?DISCORD_BOT_TOKEN is required}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:?NEXTAUTH_SECRET is required}
+      NEXTAUTH_URL: ${NEXTAUTH_URL:?NEXTAUTH_URL is required}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:80/').then((response) => { if (!response.ok) process.exit(1); }).catch(() => process.exit(1))"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
 networks:
   anime_log_network:

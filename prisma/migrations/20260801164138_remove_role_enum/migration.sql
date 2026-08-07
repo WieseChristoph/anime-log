@@ -1,12 +1,9 @@
-/*
-  Warnings:
+ALTER TABLE "User" ALTER COLUMN "role" DROP DEFAULT;
 
-  - The `role` column on the `User` table would be dropped and recreated. This will lead to data loss if there is data in the column.
+ALTER TABLE "User"
+    ALTER COLUMN "role" TYPE TEXT
+    USING "role"::text;
 
-*/
--- AlterTable
-ALTER TABLE "User" DROP COLUMN "role",
-ADD COLUMN     "role" TEXT NOT NULL DEFAULT 'USER';
+ALTER TABLE "User" ALTER COLUMN "role" SET DEFAULT 'USER';
 
--- DropEnum
 DROP TYPE "user_role";

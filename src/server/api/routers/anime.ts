@@ -1,8 +1,26 @@
+import type { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { AnimeSchema, AnimeStatusValues } from '@/types/anime';
-import { LogOptionsSchema, OrderValues as Order } from '@/types/log-options';
+import { LogOptionsSchema, type LogOptionsType, OrderValues as Order } from '@/types/log-options';
+
+function getAnimeOrderBy(options?: LogOptionsType): Prisma.AnimeOrderByWithRelationInput[] {
+    const direction = options?.asc ? 'asc' : 'desc';
+    const order = options?.order ?? Order.TITLE;
+
+    const primaryOrder: Prisma.AnimeOrderByWithRelationInput =
+        order === Order.START_DATE
+            ? {
+                  startDate: {
+                      sort: direction,
+                      nulls: options?.asc ? 'first' : 'last',
+                  },
+              }
+            : { [order]: direction };
+
+    return [primaryOrder, { id: direction }];
+}
 
 export const animeRouter = createTRPCRouter({
     get: publicProcedure
@@ -42,17 +60,7 @@ export const animeRouter = createTRPCRouter({
                         status: { in: input.logOptions.filter.statuses },
                     }),
                 },
-                orderBy: {
-                    [input.logOptions?.order ?? Order.TITLE]:
-                        input.logOptions?.order === Order.START_DATE
-                            ? {
-                                  sort: input.logOptions?.asc ? 'asc' : 'desc',
-                                  nulls: input.logOptions?.asc ? 'first' : 'last',
-                              }
-                            : input.logOptions?.asc
-                              ? 'asc'
-                              : 'desc',
-                },
+                orderBy: getAnimeOrderBy(input.logOptions ?? undefined),
                 select: {
                     id: true,
                     user: false,
@@ -119,17 +127,7 @@ export const animeRouter = createTRPCRouter({
                     }),
                 },
                 cursor: cursor ? { id: cursor } : undefined,
-                orderBy: {
-                    [input.logOptions?.order ?? Order.TITLE]:
-                        input.logOptions?.order === Order.START_DATE
-                            ? {
-                                  sort: input.logOptions?.asc ? 'asc' : 'desc',
-                                  nulls: input.logOptions?.asc ? 'first' : 'last',
-                              }
-                            : input.logOptions?.asc
-                              ? 'asc'
-                              : 'desc',
-                },
+                orderBy: getAnimeOrderBy(input.logOptions ?? undefined),
                 select: {
                     id: true,
                     isManga: true,

@@ -75,7 +75,7 @@ The server will listen on `localhost:3000`.
 # Docker production
 
 - Copy `docker-compose.yml.example` to `docker-compose.yml`
-- Set all environment variables in the `docker-compose.yml`
-- Set a database password in the `docker-compose.yml`
-- Run `docker compose up -d`
+- Create a local `.env` file with the required values; do not commit it
+- Set `DATABASE_URL` to use the Compose hostname `db`, for example `postgresql://anime_log:<password>@db:5432/anime_log`
+- Run `docker compose up -d --build`; migrations run as a separate one-shot service before the web service starts
 - The server will listen on `localhost:80`

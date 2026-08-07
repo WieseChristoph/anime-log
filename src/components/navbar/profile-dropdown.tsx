@@ -78,7 +78,9 @@ const ProfileDropdown = ({ user }: ProfileDropdownPropsType) => {
                                             text="You can always create a new one."
                                             successTitle="Deleted!"
                                             successText="Share-Link has been deleted."
-                                            onDeleteClick={() => deleteShareId.mutate()}
+                                            onDeleteClick={async () => {
+                                                await deleteShareId.mutateAsync();
+                                            }}
                                             className="menu-item menu-item-danger flex w-full flex-row gap-2 px-3 py-2.5 text-sm"
                                         >
                                             <Trash className="h-5 w-5" />

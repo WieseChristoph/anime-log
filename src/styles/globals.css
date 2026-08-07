@@ -106,6 +106,70 @@ h4,
     color: var(--danger);
 }
 
+.anime-log-swal-container {
+    --swal2-backdrop: rgba(2, 6, 23, 0.78);
+    --swal2-outline: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.anime-log-swal-popup {
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    background: var(--surface);
+    color: var(--text);
+    font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+    box-shadow: 0 24px 60px rgba(2, 6, 23, 0.45);
+}
+
+.anime-log-swal-title {
+    color: var(--text);
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
+.anime-log-swal-text {
+    color: var(--text-muted);
+}
+
+.anime-log-swal-actions {
+    gap: 0.75rem;
+}
+
+.anime-log-swal-confirm,
+.anime-log-swal-cancel {
+    min-height: 2.75rem;
+    border: 0;
+    border-radius: 0.8rem;
+    padding: 0.65rem 1rem;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition:
+        transform 160ms ease,
+        background 160ms ease;
+}
+
+.anime-log-swal-confirm {
+    background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+    color: white;
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+.anime-log-swal-cancel {
+    border: 1px solid var(--border);
+    background: var(--surface-muted);
+    color: var(--text);
+}
+
+.anime-log-swal-confirm:hover,
+.anime-log-swal-cancel:hover {
+    transform: translateY(-1px);
+}
+
+.anime-log-swal-confirm:focus-visible,
+.anime-log-swal-cancel:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent);
+    outline-offset: 2px;
+}
+
 .field {
     width: 100%;
     border: 1px solid var(--border);

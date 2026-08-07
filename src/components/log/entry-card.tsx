@@ -21,6 +21,8 @@ import { useState } from 'react';
 import DeleteButton from '@/components/util/delete-button';
 import type { AnimeType } from '@/types/anime';
 import { animeStatusClasses, animeStatusLabels } from '@/utils/anime-status';
+import { formatDateDisplayValue } from '@/utils/date';
+import { normalizeExternalUrl } from '@/utils/external-url';
 import { cn } from '@/utils/helper';
 
 dayjs.extend(relativeTime);
@@ -29,7 +31,7 @@ type EntryCardPropsType = {
     anime: AnimeType;
     readOnly: boolean;
     onEdit: (anime: AnimeType) => void;
-    onDelete: (anime: AnimeType) => void;
+    onDelete: (anime: AnimeType) => Promise<void>;
     onFavorite: (anime: AnimeType) => void;
 };
 
@@ -48,6 +50,7 @@ const starPositions = ['first', 'second', 'third', 'fourth', 'fifth'] as const;
 export default function EntryCard({ anime, readOnly, onEdit, onDelete, onFavorite }: EntryCardPropsType) {
     const [noteOpen, setNoteOpen] = useState(false);
     const isBeyondPerfect = anime.rating === 11;
+    const safeLink = normalizeExternalUrl(anime.link);
     const starRating = Math.min(anime.rating, 10) / 2;
     const fullStars = Math.floor(starRating);
     const hasHalfStar = starRating % 1 >= 0.5;
@@ -89,11 +92,11 @@ export default function EntryCard({ anime, readOnly, onEdit, onDelete, onFavorit
                         </button>
                     )}
                 </div>
-                {(!readOnly || anime.link) && (
+                {(!readOnly || safeLink) && (
                     <div className="absolute top-3 right-3 flex flex-col items-center gap-1.5">
-                        {anime.link && (
+                        {safeLink && (
                             <a
-                                href={anime.link}
+                                href={safeLink}
                                 target="_blank"
                                 rel="noreferrer"
                                 aria-label={`Open link for ${anime.title}`}
@@ -198,7 +201,7 @@ export default function EntryCard({ anime, readOnly, onEdit, onDelete, onFavorit
                         </span>
                         <span className="inline-flex items-center gap-1">
                             <CalendarDays size={13} />
-                            {anime.startDate ? dayjs(anime.startDate).format('MMM D, YYYY') : 'No start date'}
+                            {formatDateDisplayValue(anime.startDate) || 'No start date'}
                         </span>
                     </div>
                 </div>

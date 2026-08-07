@@ -94,6 +94,10 @@ export const userRouter = createTRPCRouter({
         .query(({ ctx, input }) => {
             return ctx.prisma.user.findUnique({
                 where: { shareId: input.shareId },
+                select: {
+                    name: true,
+                    image: true,
+                },
             });
         }),
     getAll: protectedProcedure.query(({ ctx }) => {
@@ -105,10 +109,18 @@ export const userRouter = createTRPCRouter({
         }
 
         return ctx.prisma.user.findMany({
-            include: {
-                savedUsers: true,
-                savedByUsers: true,
-                sessions: true,
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+                role: true,
+                shareId: true,
+                sessions: {
+                    select: {
+                        expires: true,
+                    },
+                },
             },
         });
     }),

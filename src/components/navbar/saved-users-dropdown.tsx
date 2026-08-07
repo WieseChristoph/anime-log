@@ -100,11 +100,11 @@ const SavedUsersDropdown = ({ urlShareId }: SavedUsersDropdownPropsType) => {
                                             text="You can always save this log again."
                                             successTitle="Deleted!"
                                             successText="Current Saved-Log has been deleted."
-                                            onDeleteClick={() =>
-                                                deleteSavedUser.mutate({
+                                            onDeleteClick={async () => {
+                                                await deleteSavedUser.mutateAsync({
                                                     shareId: urlShareId,
-                                                })
-                                            }
+                                                });
+                                            }}
                                         >
                                             <Trash className="h-5 w-5" />
                                             <b>Delete current log</b>

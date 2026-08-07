@@ -11,7 +11,7 @@ const AnimeWeekdayChart = ({ anime = [] }: AnimeWeekdayChartPropsType) => {
     const data = useMemo(() => {
         return anime.reduce<number[]>((prev, curr) => {
             if (curr.startDate) {
-                const mondayFirstDay = (curr.startDate.getDay() + 6) % 7;
+                const mondayFirstDay = (curr.startDate.getUTCDay() + 6) % 7;
                 prev[mondayFirstDay] = (prev[mondayFirstDay] ?? 0) + 1;
             }
 

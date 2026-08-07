@@ -1,3 +1,4 @@
+import { createId } from '@paralleldrive/cuid2';
 import { useState } from 'react';
 import type { AnimeType } from '@/types/anime';
 import { type LogOptionsType as LogOptions, OrderValues as Order } from '@/types/log-options';
@@ -32,21 +33,17 @@ function useLog(shareId: string | undefined) {
 
     const addAnime = trpc.anime.add.useMutation({
         onMutate: async (addedAnime) => {
-            // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await ctx.anime.infinite.cancel(queryInput);
             await ctx.anime.summary.cancel({ shareId: shareId });
+            const previous = ctx.anime.infinite.getInfiniteData(queryInput);
 
-            // Optimistically update to the new value
             ctx.anime.infinite.setInfiniteData(queryInput, (data) => {
                 if (!data) {
-                    return {
-                        pages: [],
-                        pageParams: [],
-                    };
+                    return data;
                 }
 
                 const optimisticEntry: AnimeType = {
-                    id: 'temp-id',
+                    id: `optimistic-${createId()}`,
                     title: addedAnime.title,
                     isManga: addedAnime.isManga ?? false,
                     seasons: addedAnime.seasons ?? [],
@@ -66,14 +63,23 @@ function useLog(shareId: string | undefined) {
 
                 return {
                     ...data,
-                    pages: data.pages.map((page) => ({
-                        ...page,
-                        items: [optimisticEntry, ...page.items],
-                    })),
+                    pages: data.pages.map((page, index) =>
+                        index === 0
+                            ? {
+                                  ...page,
+                                  items: [optimisticEntry, ...page.items],
+                              }
+                            : page,
+                    ),
                 };
             });
+            return { previous };
         },
-        // Always refetch after error or success:
+        onError: (_error, _input, context) => {
+            if (context?.previous) {
+                ctx.anime.infinite.setInfiniteData(queryInput, context.previous);
+            }
+        },
         onSettled: () => {
             void ctx.anime.infinite.invalidate(queryInput);
             void ctx.anime.summary.invalidate({ shareId: shareId });
@@ -82,17 +88,13 @@ function useLog(shareId: string | undefined) {
 
     const updateAnime = trpc.anime.update.useMutation({
         onMutate: async (updatedAnime) => {
-            // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await ctx.anime.infinite.cancel(queryInput);
             await ctx.anime.summary.cancel({ shareId: shareId });
+            const previous = ctx.anime.infinite.getInfiniteData(queryInput);
 
-            // Optimistically update to the new value
             ctx.anime.infinite.setInfiniteData(queryInput, (data) => {
                 if (!data) {
-                    return {
-                        pages: [],
-                        pageParams: [],
-                    };
+                    return data;
                 }
 
                 return {
@@ -111,11 +113,13 @@ function useLog(shareId: string | undefined) {
                                       rating: updatedAnime.rating ?? a.rating,
                                       favorite: updatedAnime.favorite ?? a.favorite,
                                       status: updatedAnime.status ?? a.status,
-                                      link: updatedAnime.link ?? a.link,
-                                      note: updatedAnime.note ?? a.note,
-                                      imageUrl: updatedAnime.imageUrl ?? null,
+                                      link: updatedAnime.link !== undefined ? updatedAnime.link : a.link,
+                                      note: updatedAnime.note !== undefined ? updatedAnime.note : a.note,
+                                      imageUrl:
+                                          updatedAnime.imageUrl !== undefined ? updatedAnime.imageUrl : a.imageUrl,
                                       hasCustomImage: updatedAnime.hasCustomImage ?? a.hasCustomImage,
-                                      startDate: updatedAnime.startDate ?? a.startDate,
+                                      startDate:
+                                          updatedAnime.startDate !== undefined ? updatedAnime.startDate : a.startDate,
                                       createdAt: a.createdAt,
                                       updatedAt: new Date(),
                                   }
@@ -124,8 +128,13 @@ function useLog(shareId: string | undefined) {
                     })),
                 };
             });
+            return { previous };
         },
-        // Always refetch after error or success:
+        onError: (_error, _input, context) => {
+            if (context?.previous) {
+                ctx.anime.infinite.setInfiniteData(queryInput, context.previous);
+            }
+        },
         onSettled: () => {
             void ctx.anime.infinite.invalidate(queryInput);
             void ctx.anime.summary.invalidate({ shareId: shareId });
@@ -134,17 +143,13 @@ function useLog(shareId: string | undefined) {
 
     const deleteAnime = trpc.anime.delete.useMutation({
         onMutate: async (deletedAnime) => {
-            // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await ctx.anime.infinite.cancel(queryInput);
             await ctx.anime.summary.cancel({ shareId: shareId });
+            const previous = ctx.anime.infinite.getInfiniteData(queryInput);
 
-            // Optimistically update to the new value
             ctx.anime.infinite.setInfiniteData(queryInput, (data) => {
                 if (!data) {
-                    return {
-                        pages: [],
-                        pageParams: [],
-                    };
+                    return data;
                 }
 
                 return {
@@ -155,8 +160,13 @@ function useLog(shareId: string | undefined) {
                     })),
                 };
             });
+            return { previous };
         },
-        // Always refetch after error or success:
+        onError: (_error, _input, context) => {
+            if (context?.previous) {
+                ctx.anime.infinite.setInfiniteData(queryInput, context.previous);
+            }
+        },
         onSettled: () => {
             void ctx.anime.infinite.invalidate(queryInput);
             void ctx.anime.summary.invalidate({ shareId: shareId });
