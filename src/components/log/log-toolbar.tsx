@@ -2,8 +2,8 @@
 
 import { LayoutGrid, List, Plus, SlidersHorizontal, Star, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { type AnimeStatusType, AnimeStatusValues } from '@/types/anime';
 import { type LogOptionsType, OrderValues } from '@/types/log-options';
-import { AnimeStatusValues, type AnimeStatusType } from '@/types/anime';
 import { animeStatusClasses, animeStatusLabels } from '@/utils/anime-status';
 import { cn } from '@/utils/helper';
 

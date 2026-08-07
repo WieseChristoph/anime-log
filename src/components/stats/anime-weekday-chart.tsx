@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
-import type { AnimeType } from '@/types/anime';
 import type { ChartData, ChartOptions } from 'chart.js/auto';
+import { useMemo } from 'react';
 import { Bar } from 'react-chartjs-2';
+import type { AnimeType } from '@/types/anime';
 
 type AnimeWeekdayChartPropsType = {
     anime?: AnimeType[];

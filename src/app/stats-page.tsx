@@ -3,8 +3,8 @@
 import { useSession } from 'next-auth/react';
 import AppShell from '@/components/layout/app-shell';
 import StatsLayout from '@/components/stats/stats-layout';
-import Loading from '@/components/util/loading';
 import ErrorAlert from '@/components/util/error-alert';
+import Loading from '@/components/util/loading';
 
 export default function StatsPage({ shareId }: { shareId?: string }) {
     const { status } = useSession();

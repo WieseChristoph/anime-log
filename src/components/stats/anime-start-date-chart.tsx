@@ -1,12 +1,14 @@
-import { useMemo } from 'react';
 import type { ChartData, ChartOptions } from 'chart.js/auto';
+import { useMemo } from 'react';
 import '@/utils/chartjs-dayjs-adapter';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+
 dayjs.extend(utc);
-import type { AnimeType } from '@/types/anime';
+
 import { Line } from 'react-chartjs-2';
+import type { AnimeType } from '@/types/anime';
 
 type AnimeStartDateChartPropsType = {
     anime?: AnimeType[];

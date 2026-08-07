@@ -1,7 +1,7 @@
 import { BookOpenText, LibraryBig, Tv, Users } from 'lucide-react';
-import { trpc } from '@/utils/trpc';
 import ErrorAlert from '@/components/util/error-alert';
 import Loading from '@/components/util/loading';
+import { trpc } from '@/utils/trpc';
 
 export default function AdminStats() {
     const getUserCount = trpc.user.getCount.useQuery();

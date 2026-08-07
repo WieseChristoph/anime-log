@@ -1,8 +1,8 @@
-import type { AnimeType } from '@/types/anime';
-import { useMemo } from 'react';
 import type { ChartData, ChartOptions } from 'chart.js/auto';
+import { useMemo } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { useMounted } from '@/hooks/use-mounted';
+import type { AnimeType } from '@/types/anime';
 
 type AnimeRatingChartPropsType = {
     anime?: AnimeType[];

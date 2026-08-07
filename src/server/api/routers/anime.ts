@@ -1,9 +1,8 @@
-import { z } from 'zod';
-import { AnimeSchema } from '@/types/anime';
-import { LogOptionsSchema, OrderValues as Order } from '@/types/log-options';
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { TRPCError } from '@trpc/server';
-import { AnimeStatusValues } from '@/types/anime';
+import { z } from 'zod';
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
+import { AnimeSchema, AnimeStatusValues } from '@/types/anime';
+import { LogOptionsSchema, OrderValues as Order } from '@/types/log-options';
 
 export const animeRouter = createTRPCRouter({
     get: publicProcedure

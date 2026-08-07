@@ -1,14 +1,14 @@
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import type { GetServerSidePropsContext } from 'next';
 import type { NextAuthOptions } from 'next-auth';
 import { getServerSession } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { z } from 'zod';
 import { prisma } from '@/server/db';
 import { log } from '@/server/utils/audit-log';
-import { UserRoleSchema } from '@/types/user';
 import { updateAvatarURL } from '@/server/utils/discord';
 import type { AppSessionType } from '@/types/session';
-import { z } from 'zod';
+import { UserRoleSchema } from '@/types/user';
 
 const SessionUserIdSchema = z.object({ id: z.string() });
 

@@ -2,8 +2,8 @@
 
 import Head from 'next/head';
 import { useSession } from 'next-auth/react';
-import AppShell from '@/components/layout/app-shell';
 import AdminLayout from '@/components/admin/admin-layout';
+import AppShell from '@/components/layout/app-shell';
 import ErrorAlert from '@/components/util/error-alert';
 import Loading from '@/components/util/loading';
 import { UserRoleValues } from '@/types/user';

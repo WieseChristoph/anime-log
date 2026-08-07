@@ -1,7 +1,7 @@
-import { z } from 'zod';
 import { createId } from '@paralleldrive/cuid2';
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
 
 export const userRouter = createTRPCRouter({
     me: protectedProcedure.query(({ ctx }) => {

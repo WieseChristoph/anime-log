@@ -64,8 +64,8 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  * transformer
  */
 import { initTRPC, TRPCError } from '@trpc/server';
-import { log } from '@/server/utils/audit-log';
 import superjson from 'superjson';
+import { log } from '@/server/utils/audit-log';
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
     transformer: superjson,

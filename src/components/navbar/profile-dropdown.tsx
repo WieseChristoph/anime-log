@@ -1,9 +1,9 @@
-import { signOut } from 'next-auth/react';
-import { trpc } from '@/utils/trpc';
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
+import { Copy, LogOut, Share, Trash } from 'lucide-react';
+import { signOut } from 'next-auth/react';
 import DeleteButton from '@/components/util/delete-button';
 import ImageWithFallback from '@/components/util/image-with-fallback';
-import { Copy, LogOut, Share, Trash } from 'lucide-react';
+import { trpc } from '@/utils/trpc';
 
 const fallbackAvatarUrl = 'https://cdn.discordapp.com/embed/avatars/1.png';
 

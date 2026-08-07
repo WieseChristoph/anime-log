@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
 import { ChevronDown } from 'lucide-react';
+import Link from 'next/link';
 import { useMounted } from '@/hooks/use-mounted';
 
 const AboutDropdown = () => {

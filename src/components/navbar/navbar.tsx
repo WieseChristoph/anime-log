@@ -1,17 +1,17 @@
 'use client';
 
+import { Menu, X } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
-import Image from 'next/image';
-import { UserRoleValues } from '@/types/user';
-import { trpc } from '@/utils/trpc';
 import LoginButton from '@/components/navbar/login-button';
 import ProfileDropdown from '@/components/navbar/profile-dropdown';
 import SavedUsersDropdown from '@/components/navbar/saved-users-dropdown';
+import { UserRoleValues } from '@/types/user';
 import { cn } from '@/utils/helper';
+import { trpc } from '@/utils/trpc';
 
 type NavbarPropsType = {
     urlShareId?: string;

@@ -1,5 +1,5 @@
-import Swal from 'sweetalert2';
 import type { ButtonHTMLAttributes } from 'react';
+import Swal from 'sweetalert2';
 
 type DeleteButtonPropsType = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'title'> & {
     title: string;

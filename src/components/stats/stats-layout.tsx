@@ -2,18 +2,18 @@
 
 import dynamic from 'next/dynamic';
 import 'chart.js/auto';
-import Link from 'next/link';
 import { ArrowLeft, BarChart3, BookOpen, LibraryBig, Star, Tv } from 'lucide-react';
-import type { AnimeType } from '@/types/anime';
-import { trpc } from '@/utils/trpc';
-import { type LogOptionsType, OrderValues } from '@/types/log-options';
+import Link from 'next/link';
 import AnimeRatingChart from '@/components/stats/anime-rating-chart';
-import AnimeWeekdayChart from '@/components/stats/anime-weekday-chart';
-import AnimeWatchtypeChart from '@/components/stats/anime-watchtype-chart';
 import AnimeTitleLenghtTable from '@/components/stats/anime-title-length-table';
+import AnimeWatchtypeChart from '@/components/stats/anime-watchtype-chart';
+import AnimeWeekdayChart from '@/components/stats/anime-weekday-chart';
 import ErrorAlert from '@/components/util/error-alert';
 import Loading from '@/components/util/loading';
+import type { AnimeType } from '@/types/anime';
+import { type LogOptionsType, OrderValues } from '@/types/log-options';
 import { cn } from '@/utils/helper';
+import { trpc } from '@/utils/trpc';
 
 const DynamicAnimeStartDateChartType = dynamic<{ anime?: AnimeType[] }>(
     () => import('@/components/stats/anime-start-date-chart'),

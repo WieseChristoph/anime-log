@@ -3,8 +3,8 @@
 
 import dayjs from 'dayjs';
 import { BookOpen, CalendarDays, Edit3, ExternalLink, Heart, PlayCircle, Trash2, Tv } from 'lucide-react';
-import type { AnimeType } from '@/types/anime';
 import DeleteButton from '@/components/util/delete-button';
+import type { AnimeType } from '@/types/anime';
 import { cn } from '@/utils/helper';
 
 type EntryListRowPropsType = {

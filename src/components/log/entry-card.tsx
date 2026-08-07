@@ -13,13 +13,13 @@ import {
     PlayCircle,
     Sparkles,
     Star,
-    Tv,
     Trash2,
+    Tv,
     X,
 } from 'lucide-react';
 import { useState } from 'react';
-import type { AnimeType } from '@/types/anime';
 import DeleteButton from '@/components/util/delete-button';
+import type { AnimeType } from '@/types/anime';
 import { animeStatusClasses, animeStatusLabels } from '@/utils/anime-status';
 import { cn } from '@/utils/helper';
 

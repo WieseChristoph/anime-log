@@ -1,5 +1,5 @@
-import { prisma } from '@/server/db';
 import { z } from 'zod';
+import { prisma } from '@/server/db';
 
 const DiscordUserSchema = z.object({ avatar: z.string().nullable() }).passthrough();
 

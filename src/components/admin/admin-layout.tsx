@@ -3,8 +3,8 @@
 import { ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
 import AdminNavigation, { type AdminNavItemType } from '@/components/admin/admin-navigation';
-import AdminUsers from '@/components/admin/admin-users';
 import AdminStats from '@/components/admin/admin-stats';
+import AdminUsers from '@/components/admin/admin-users';
 
 export default function AdminLayout() {
     const [activePage, setActivePage] = useState<AdminNavItemType>('stats');

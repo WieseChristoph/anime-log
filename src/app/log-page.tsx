@@ -3,8 +3,8 @@
 import { useSession } from 'next-auth/react';
 import AppShell from '@/components/layout/app-shell';
 import Log from '@/components/log/log';
-import Loading from '@/components/util/loading';
 import ErrorAlert from '@/components/util/error-alert';
+import Loading from '@/components/util/loading';
 
 export default function LogPage({ shareId }: { shareId?: string }) {
     const { status } = useSession();

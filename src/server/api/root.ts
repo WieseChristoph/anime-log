@@ -1,7 +1,7 @@
-import { createTRPCRouter } from '@/server/api/trpc';
 import { animeRouter } from '@/server/api/routers/anime';
 import { savedUserRouter } from '@/server/api/routers/saved-user';
 import { userRouter } from '@/server/api/routers/user';
+import { createTRPCRouter } from '@/server/api/trpc';
 
 export const appRouter = createTRPCRouter({
     anime: animeRouter,

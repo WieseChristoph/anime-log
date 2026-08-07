@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
 import type { ChartData, ChartOptions } from 'chart.js/auto';
-import type { AnimeType } from '@/types/anime';
+import { useMemo } from 'react';
 import { Doughnut } from 'react-chartjs-2';
+import type { AnimeType } from '@/types/anime';
 
 type AnimeWatchtypeChartPropsType = {
     anime?: AnimeType[];

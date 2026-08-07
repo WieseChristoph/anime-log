@@ -1,19 +1,19 @@
 'use client';
 
-import Head from 'next/head';
-import { useInView } from 'react-intersection-observer';
 import { BookOpen, CheckCircle2, LibraryBig, Plus, Sparkles } from 'lucide-react';
+import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import type { AnimeType, AnimeDraftType } from '@/types/anime';
-import { trpc } from '@/utils/trpc';
-import useLog from '@/hooks/use-log';
+import { useInView } from 'react-intersection-observer';
+import EntryCard from '@/components/log/entry-card';
+import EntryEditorDrawer, { createBlankAnime } from '@/components/log/entry-editor-drawer';
+import EntryListRow from '@/components/log/entry-list-row';
+import LogToolbar from '@/components/log/log-toolbar';
 import ErrorAlert from '@/components/util/error-alert';
 import Loading from '@/components/util/loading';
-import EntryCard from '@/components/log/entry-card';
-import EntryListRow from '@/components/log/entry-list-row';
-import EntryEditorDrawer, { createBlankAnime } from '@/components/log/entry-editor-drawer';
-import LogToolbar from '@/components/log/log-toolbar';
+import useLog from '@/hooks/use-log';
+import type { AnimeDraftType, AnimeType } from '@/types/anime';
 import { cn } from '@/utils/helper';
+import { trpc } from '@/utils/trpc';
 
 type LogPropsType = { shareId?: string };
 type ViewModeType = 'grid' | 'list';

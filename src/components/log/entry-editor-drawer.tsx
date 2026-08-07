@@ -4,9 +4,9 @@
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
 import { Check, ImagePlus, LoaderCircle, Plus, Sparkles, Star, X } from 'lucide-react';
 import { Fragment, useEffect, useMemo, useState } from 'react';
-import type { AnimeType, AnimeDraftType } from '@/types/anime';
+import type { AnimeDraftType, AnimeType } from '@/types/anime';
 import { AnimeStatusValues } from '@/types/anime';
-import { searchTitles, type AnimeSearchResultType } from '@/utils/anime-info';
+import { type AnimeSearchResultType, searchTitles } from '@/utils/anime-info';
 import { animeStatusClasses, animeStatusLabels } from '@/utils/anime-status';
 import { cn } from '@/utils/helper';
 
