@@ -23,6 +23,7 @@ Set environment variables:
 ```
 NEXTAUTH_SECRET=<use [openssl rand -hex 32] to generate a 32 bytes value>
 NEXTAUTH_URL=<http://YOUR_DOMAIN> (must not be set when deploying to vercel)
+NEXT_PUBLIC_SITE_URL=<https://YOUR_DOMAIN> (used for canonical and social metadata)
 ```
 
 ## Discord Authentication
@@ -77,5 +78,7 @@ The server will listen on `localhost:3000`.
 - Copy `docker-compose.yml.example` to `docker-compose.yml`
 - Create a local `.env` file with the required values; do not commit it
 - Set `DATABASE_URL` to use the Compose hostname `db`, for example `postgresql://anime_log:<password>@db:5432/anime_log`
+- Set `POSTGRES_PASSWORD` in `.env`; the Compose file uses it to initialize the database and requires it to be non-empty.
+- Set `NEXT_PUBLIC_SITE_URL` to the public HTTPS origin; Compose passes it into the Next.js build so canonical and social metadata use the correct host.
 - Run `docker compose up -d --build`; migrations run as a separate one-shot service before the web service starts
 - The server will listen on `localhost:80`
