@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import Providers from '@/app/providers';
 import '@/styles/globals.css';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? '';
-const socialImageUrl = new URL('/torii-gate.png', siteUrl).toString();
-const faviconUrl = new URL('/favicon.ico', siteUrl).toString();
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || undefined;
+const metadataBase = siteUrl ? new URL(siteUrl) : undefined;
+const socialImageUrl = siteUrl ? new URL('/torii-gate.png', siteUrl).toString() : '/torii-gate.png';
+const faviconUrl = siteUrl ? new URL('/favicon.ico', siteUrl).toString() : '/favicon.ico';
 
 export const metadata: Metadata = {
-    metadataBase: new URL(siteUrl),
+    metadataBase,
     title: {
         default: 'Anime Log',
         template: '%s | Anime Log',
@@ -15,10 +16,10 @@ export const metadata: Metadata = {
     description: 'Manage and share your watched anime and manga.',
     applicationName: 'Anime Log',
     keywords: ['anime tracker', 'manga tracker', 'anime log', 'watchlist'],
-    alternates: { canonical: siteUrl },
+    alternates: siteUrl ? { canonical: siteUrl } : undefined,
     openGraph: {
+        ...(siteUrl ? { url: siteUrl } : {}),
         type: 'website',
-        url: siteUrl,
         siteName: 'Anime Log',
         title: 'Anime Log',
         description: 'Manage and share your watched anime and manga.',
