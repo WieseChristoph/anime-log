@@ -40,15 +40,6 @@ DISCORD_BOT_TOKEN=<YOUR_BOT_TOKEN>
 
 Set environment variable `DATABASE_URL` with an [CockroachDB](https://www.cockroachlabs.com/) database URL. Alternatively you can use a Postgres database URL, but you need to change the datasource provider in `prisma/schema.prisma` from `cockroach` to `postgresql`.
 
-## Umami Analytics
-
-Set environment variables (when using docker, these variables must be set before building the image):
-
-```
-NEXT_PUBLIC_UMAMI_SCRIPT_URL
-NEXT_PUBLIC_UMAMI_WEBSITE_ID
-```
-
 # Developement Run
 
 ```bash
@@ -82,3 +73,14 @@ The server will listen on `localhost:3000`.
 - Set `NEXT_PUBLIC_SITE_URL` to the public HTTPS origin; Compose passes it into the Next.js build so canonical and social metadata use the correct host.
 - Run `docker compose up -d --build`; migrations run as a separate one-shot service before the web service starts
 - The server will listen on `localhost:80`
+
+# Releases
+
+Push a new version tag to a commit to create a GitHub release and build and publish the Docker image:
+
+```bash
+git tag v1.2.3
+git push origin v1.2.3
+```
+
+The image is available at `ghcr.io/wiesechristoph/anime-log`.
