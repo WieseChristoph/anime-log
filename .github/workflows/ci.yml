@@ -32,6 +32,11 @@ jobs:
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
 
+            - name: Generate Prisma client
+              run: pnpm run prisma:generate
+              env:
+                  DATABASE_URL: postgres://dummy:dummy@dummy:5432/dummy
+
             - name: Run Biome checks
               run: pnpm run check
 
